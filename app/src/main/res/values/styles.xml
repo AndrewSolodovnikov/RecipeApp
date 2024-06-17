@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="StyleTitle14" parent="TextAppearance.AppCompat">
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">@dimen/textSize_navButton</item>
         <item name="android:fontFamily">@font/montserrat_alternates</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">@color/white_color</item>
     </style>
     
     <style name="StyleNavButton" parent="Widget.Material3.Button">
         <item name="android:textAppearance">@style/StyleTitle14</item>
-        <item name="android:paddingVertical">10dp</item>
-        <item name="cornerRadius">8dp</item>
+        <item name="android:paddingVertical">@dimen/paddingVertical_navButton</item>
+        <item name="cornerRadius">@dimen/cornerRadius_navButton</item>
     </style>
 </resources>
