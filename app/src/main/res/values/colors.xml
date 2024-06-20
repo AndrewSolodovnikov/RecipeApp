@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black_color">#FF000000</color>
+    <color name="white_color">#FFFFFFFF</color>
+    <color name="background_main_color">#F4FAFF</color>
+    <color name="navigation_button_category_color">#525DC0</color>
+    <color name="navigation_button_favorites_color">#E13E3E</color>
 </resources>
