@@ -18,6 +18,6 @@ class CategoriesListFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentListCategoriesBinding.inflate(inflater, container, false)
         val view = binding.root
-        return inflater.inflate(R.layout.fragment_list_categories, container, false)
+        return view
     }
 }
