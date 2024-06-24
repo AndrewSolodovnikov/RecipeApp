@@ -1,6 +1,6 @@
 package com.sol.recipeapp
 
-data class Ingredient(
+data class Ingredients(
     val quantity: String,
     val unitOfMeasure: String,
     val description: String,

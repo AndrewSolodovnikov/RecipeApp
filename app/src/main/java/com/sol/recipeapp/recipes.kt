@@ -16,7 +16,5 @@ object STUB {
             "Хрустящий калейдоскоп под соусом вдохновения", "salad.png"),
     )
 
-    fun getCategories(): List<Category> {
-        return categories
-    }
+    fun getCategories(): List<Category> = categories
 }
