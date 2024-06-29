@@ -4,4 +4,5 @@
     <string name="navigation_button_favorites">ИЗБРАННОЕ</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">CategoryListFragment</string>
+    <string name="category">Категории</string>
 </resources>
