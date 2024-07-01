@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">RecipeApp</string>
-    <string name="navigation_button_category">КАТЕГОРИИ</string>
-    <string name="navigation_button_favorites">ИЗБРАННОЕ</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">CategoryListFragment</string>
-    <string name="category">Категории</string>
+
+    <string name="title_category">категории</string>
+    <string name="title_favorites">избранное</string>
 </resources>

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginVertical="@dimen/margin_half"
     android:layout_marginHorizontal="@dimen/margin_half"
     android:clickable="true"
@@ -22,7 +23,7 @@
         <ImageView
             android:id="@+id/item_category_image"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="@dimen/rv_item_image_height"
             android:background="@drawable/ic_launcher_background" />
 
         <!-- TODO: edit attribute text -->
@@ -31,9 +32,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_half"
             android:fontFamily="@font/montserrat_alternates"
-            android:text="Бургеры"
+            tools:text="Бургеры"
+            android:textAllCaps="true"
+            android:textFontWeight="600"
             android:textColor="@color/title_text_color"
-            android:textSize="@dimen/item_title_text_size" />
+            android:textSize="@dimen/title_text_size_xx" />
 
         <!-- TODO: edit attribute text -->
         <TextView
@@ -43,7 +46,8 @@
             android:layout_marginEnd="@dimen/margin_half"
             android:layout_marginBottom="@dimen/margin_half"
             android:fontFamily="@font/montserrat_medium"
-            android:text="Рецепты всех популярных видов бургеров"
+            android:textFontWeight="500"
+            tools:text="Рецепты всех популярных видов бургеров"
             android:textSize="@dimen/item_description_text_size" />
 
     </LinearLayout>

@@ -20,21 +20,6 @@ class CategoriesListFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentListCategoriesBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        placeHeaderImage()
-
         return view
-    }
-
-    fun placeHeaderImage() {
-        val assetManager = requireContext().assets
-        try {
-            val inputStream = assetManager.open("bcg_categories.png")
-            val bitmap = BitmapFactory.decodeStream(inputStream)
-            binding.categoryHeaderImage.setImageBitmap(bitmap)
-            inputStream.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
     }
 }
