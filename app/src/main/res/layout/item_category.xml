@@ -47,6 +47,7 @@
             android:layout_marginBottom="@dimen/margin_half"
             android:fontFamily="@font/montserrat_medium"
             android:textFontWeight="500"
+            android:textColor="@color/item_description_text_color"
             tools:text="Рецепты всех популярных видов бургеров"
             android:textSize="@dimen/item_description_text_size" />
 
