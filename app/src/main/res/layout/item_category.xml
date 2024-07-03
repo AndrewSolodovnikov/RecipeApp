@@ -28,6 +28,7 @@
 
         <!-- TODO: edit attribute text -->
         <TextView
+            android:id="@+id/item_category_title_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_half"
@@ -40,6 +41,7 @@
 
         <!-- TODO: edit attribute text -->
         <TextView
+            android:id="@+id/item_category_description_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_half"
