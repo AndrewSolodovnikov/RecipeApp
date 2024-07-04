@@ -29,9 +29,14 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
             }
         }
 
-        val inputStream: InputStream? = viewHolder.itemView.context?.assets?.open(dataSet[position].imageUrl)
-        val drawable = Drawable.createFromStream(inputStream, null)
-        viewHolder.binding.itemCategoryImage.setImageDrawable(drawable)
+        try {
+            val inputStream: InputStream? = viewHolder.itemView.context?.assets?.open(dataSet[position].imageUrl)
+            val drawable = Drawable.createFromStream(inputStream, null)
+            viewHolder.binding.itemCategoryImage.setImageDrawable(drawable)
+        } catch (e: Exception) {
+            Log.e("MyLogError", "Image ${dataSet[position].imageUrl} not found")
+        }
+
     }
 
     override fun getItemCount(): Int {

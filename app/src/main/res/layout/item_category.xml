@@ -33,7 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_half"
-            android:fontFamily="@font/montserrat_alternates"
+            android:fontFamily="@font/montserrat_alternates_semi_bold"
             tools:text="Бургеры"
             android:textAllCaps="true"
             android:textFontWeight="600"
