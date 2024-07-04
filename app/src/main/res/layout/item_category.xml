@@ -24,6 +24,7 @@
             android:id="@+id/item_category_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/rv_item_image_height"
+            android:scaleType="centerCrop"
             android:background="@drawable/ic_launcher_background" />
 
         <!-- TODO: edit attribute text -->

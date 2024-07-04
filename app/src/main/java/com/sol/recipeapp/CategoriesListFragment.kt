@@ -31,6 +31,12 @@ class CategoriesListFragment : Fragment() {
             Category(4, "Супы", "От классики до экзотики: мир в одной тарелке", "soup.png"),
             Category(5, "Салаты", "Хрустящий калейдоскоп под соусом вдохновения", "salad.png"),
         )
+
+        initRecycler(dataset)
+
+    }
+
+    private fun initRecycler(dataset: List<Category>) {
         val customAdapter = CategoriesListAdapter(dataset)
 
         binding.rvCategory.layoutManager = GridLayoutManager(context, 2)
