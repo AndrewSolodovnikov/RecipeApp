@@ -37,7 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/navigation_button_category_color"
-            android:text="@string/navigation_button_category" />
+            android:text="@string/title_category"
+            android:textAllCaps="true"/>
 
         <Button
             android:id="@+id/navigation_button_favorites"
@@ -47,7 +48,8 @@
             android:layout_marginStart="@dimen/margin_half"
             android:layout_weight="1"
             android:backgroundTint="@color/navigation_button_favorites_color"
-            android:text="@string/navigation_button_favorites"
+            android:text="@string/title_favorites"
+            android:textAllCaps="true"
             app:icon="@drawable/ic_heart_empty"
             app:iconGravity="textEnd" />
 
