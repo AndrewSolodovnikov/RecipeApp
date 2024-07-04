@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sol.recipeapp.databinding.ItemCategoryBinding
-import java.io.IOException
 import java.io.InputStream
 
 

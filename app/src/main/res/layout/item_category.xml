@@ -25,7 +25,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/rv_item_image_height"
             android:scaleType="centerCrop"
-            android:background="@drawable/ic_launcher_background" />
+            android:background="@drawable/ic_launcher_background"
+            android:contentDescription="@string/category_item_image"/>
 
         <!-- TODO: edit attribute text -->
         <TextView
