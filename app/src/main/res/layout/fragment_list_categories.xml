@@ -34,7 +34,7 @@
             android:padding="@dimen/padding_text"
             android:text="@string/title_category"
             android:textAllCaps="true"
-            android:fontFamily="@font/montserrat_alternates"
+            android:fontFamily="@font/montserrat_alternates_semi_bold"
             android:textSize="@dimen/title_text_size_x"
             android:textFontWeight="600"
             android:textColor="@color/title_text_color"/>
