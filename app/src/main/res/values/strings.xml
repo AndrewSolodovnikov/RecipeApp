@@ -6,5 +6,5 @@
 
     <string name="title_category">категории</string>
     <string name="title_favorites">избранное</string>
-    <string name="category_item_image">Category item image</string>
+    <string name="category_item_image">Изображение категории</string>
 </resources>

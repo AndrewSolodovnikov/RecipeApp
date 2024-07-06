@@ -20,11 +20,14 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
         return ViewHolder(binding)
     }
 
+
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         with(viewHolder){
             with(dataSet[position]){
                 binding.itemCategoryTitleText.text = this.title
                 binding.itemCategoryDescriptionText.text = this.description
+                binding.itemCategoryImage.contentDescription = viewHolder.itemView.context
+                    .getString(R.string.category_item_image) + this.title
             }
         }
 
