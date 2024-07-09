@@ -27,7 +27,7 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
                 binding.itemCategoryTitleText.text = this.title
                 binding.itemCategoryDescriptionText.text = this.description
                 binding.itemCategoryImage.contentDescription = viewHolder.itemView.context
-                    .getString(R.string.category_item_image) + this.title
+                    .getString(R.string.category_item_image) + " " + this.title
             }
         }
 

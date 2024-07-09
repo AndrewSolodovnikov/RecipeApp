@@ -23,11 +23,11 @@ class CategoriesListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initRecycler(STUB.getCategories())
+        initRecycler()
     }
 
-    private fun initRecycler(dataset: List<Category>) {
-        val customAdapter = CategoriesListAdapter(dataset)
+    private fun initRecycler() {
+        val customAdapter = CategoriesListAdapter(STUB.getCategories())
 
         binding.rvCategory.layoutManager = GridLayoutManager(context, 2)
         binding.rvCategory.adapter = customAdapter
