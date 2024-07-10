@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sol.recipeapp.databinding.FragmentListCategoriesBinding
 
@@ -31,6 +33,19 @@ class CategoriesListFragment : Fragment() {
 
         binding.rvCategory.layoutManager = GridLayoutManager(context, 2)
         binding.rvCategory.adapter = customAdapter
+
+        customAdapter.setOnItemClickListener(object : CategoriesListAdapter.OnItemClickListener {
+            override fun onItemClick() {
+                openRecipesByCategoryId()
+            }
+        })
     }
 
+    fun openRecipesByCategoryId() {
+        parentFragmentManager.commit {
+            replace<RecipesListFragment>(R.id.mainContainer)
+            setReorderingAllowed(true)
+            addToBackStack("Categories list fragment")
+        }
+    }
 }

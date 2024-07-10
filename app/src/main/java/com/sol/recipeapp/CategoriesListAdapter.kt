@@ -11,8 +11,17 @@ import java.io.InputStream
 
 class CategoriesListAdapter(private val dataSet: List<Category>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
-
     inner class ViewHolder(val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root)
+
+    interface OnItemClickListener {
+        fun onItemClick()
+    }
+
+    var itemClickListener: OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        itemClickListener = listener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemCategoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -28,6 +37,7 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
                 binding.itemCategoryDescriptionText.text = this.description
                 binding.itemCategoryImage.contentDescription = viewHolder.itemView.context
                     .getString(R.string.category_item_image) + " " + this.title
+                binding.itemCategory.setOnClickListener { itemClickListener?.onItemClick() }
             }
         }
 
