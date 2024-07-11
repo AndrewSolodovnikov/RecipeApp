@@ -13,14 +13,14 @@
         android:id="@+id/mainContainer"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/navigation_button_box"
+        app:layout_constraintBottom_toTopOf="@+id/navigationButtonBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
     <LinearLayout
-        android:id="@+id/navigation_button_box"
+        android:id="@+id/navigationButtonBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_main"
@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/navigation_button_category"
+            android:id="@+id/navigationButtonCategory"
             style="@style/StyleNavButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:textAllCaps="true"/>
 
         <Button
-            android:id="@+id/navigation_button_favorites"
+            android:id="@+id/navigationButtonFavorites"
             style="@style/StyleNavButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

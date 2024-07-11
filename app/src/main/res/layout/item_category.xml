@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/item_category"
+    android:id="@+id/itemCategory"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -15,14 +15,14 @@
     app:cardMaxElevation="@dimen/margin_half">
 
     <LinearLayout
-        android:id="@+id/item_category_description"
+        android:id="@+id/itemCategoryDescription"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/item_category_image"
+            android:id="@+id/itemCategoryImage"
             android:layout_width="match_parent"
             android:layout_height="@dimen/rv_item_image_height"
             android:scaleType="centerCrop"
@@ -31,7 +31,7 @@
 
         <!-- TODO: edit attribute text -->
         <TextView
-            android:id="@+id/item_category_title_text"
+            android:id="@+id/itemCategoryTitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_half"
@@ -44,7 +44,7 @@
 
         <!-- TODO: edit attribute text -->
         <TextView
-            android:id="@+id/item_category_description_text"
+            android:id="@+id/itemCategoryDescriptionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_half"
