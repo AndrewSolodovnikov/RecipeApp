@@ -9,13 +9,13 @@
     tools:context=".CategoriesListFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/category_header"
+        android:id="@+id/categoryHeader"
         android:layout_width="match_parent"
         android:layout_height="@dimen/header_layout_height"
         android:layout_marginBottom="@dimen/margin_half">
 
         <ImageView
-            android:id="@+id/category_header_image"
+            android:id="@+id/categoryHeaderImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bcg_categories"
@@ -23,7 +23,7 @@
             android:scaleType="centerCrop"/>
 
         <TextView
-            android:id="@+id/category_header_title"
+            android:id="@+id/categoryHeaderTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
