@@ -9,17 +9,19 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sol.recipeapp.databinding.FragmentListCategoriesBinding
+import com.sol.recipeapp.databinding.FragmentRecipesListBinding
+
+const val ARG_CATEGORY_ID = "category id"
+const val ARG_CATEGORY_NAME = "category name"
+const val ARG_CATEGORY_IMAGE_URL = "category image url"
 
 class CategoriesListFragment : Fragment() {
-    private var _binding: FragmentListCategoriesBinding? = null
-    private val binding get() = _binding!!
+    private val binding by lazy { FragmentListCategoriesBinding.inflate(layoutInflater) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        _binding = FragmentListCategoriesBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
     }
@@ -35,17 +37,28 @@ class CategoriesListFragment : Fragment() {
         binding.rvCategory.adapter = customAdapter
 
         customAdapter.setOnItemClickListener(object : CategoriesListAdapter.OnItemClickListener {
-            override fun onItemClick() {
-                openRecipesByCategoryId()
+            override fun onItemClick(categoryId: Int) {
+                openRecipesByCategoryId(categoryId)
             }
         })
     }
 
-    fun openRecipesByCategoryId() {
+    fun openRecipesByCategoryId(categoryId: Int) {
+        val category = STUB.getCategories().find { it.id == categoryId }
+        val categoryName = category?.title
+        val categoryImageUrl = category?.imageUrl
+
+        val bundle = Bundle().apply {
+            putInt(ARG_CATEGORY_ID, categoryId)
+            putString(ARG_CATEGORY_NAME, categoryName)
+            putString(ARG_CATEGORY_IMAGE_URL, categoryImageUrl)
+        }
+
         parentFragmentManager.commit {
-            replace<RecipesListFragment>(R.id.mainContainer)
+            replace<RecipesListFragment>(R.id.mainContainer, args = bundle)
             setReorderingAllowed(true)
             addToBackStack("Categories list fragment")
         }
+
     }
 }
