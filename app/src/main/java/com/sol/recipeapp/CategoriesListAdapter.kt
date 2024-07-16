@@ -14,7 +14,7 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
     inner class ViewHolder(val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root)
 
     interface OnItemClickListener {
-        fun onItemClick()
+        fun onItemClick(categoryId: Int)
     }
 
     var itemClickListener: OnItemClickListener? = null
@@ -29,7 +29,6 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
         return ViewHolder(binding)
     }
 
-
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         with(viewHolder){
             with(dataSet[position]){
@@ -37,7 +36,7 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
                 binding.itemCategoryDescriptionText.text = this.description
                 binding.itemCategoryImage.contentDescription = viewHolder.itemView.context
                     .getString(R.string.category_item_image) + " " + this.title
-                binding.itemCategory.setOnClickListener { itemClickListener?.onItemClick() }
+                binding.itemCategory.setOnClickListener { itemClickListener?.onItemClick(this.id) }
             }
         }
 
