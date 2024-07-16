@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sol.recipeapp.databinding.ItemCategoryBinding
 import com.sol.recipeapp.databinding.ItemRecipeBinding
 import java.io.InputStream
 
@@ -36,7 +35,7 @@ class RecipesListAdapter(private val dataSet: List<Category>) :
                 binding.itemRecipeTitleText.text = this.title
                 binding.itemRecipeImage.contentDescription = viewHolder.itemView.context
                     .getString(R.string.category_item_image) + " " + this.title
-                binding.itemCategory.setOnClickListener { itemClickListener?.onItemClick(this.id) }
+                binding.itemCategoryRecipe.setOnClickListener { itemClickListener?.onItemClick(this.id) }
             }
         }
 

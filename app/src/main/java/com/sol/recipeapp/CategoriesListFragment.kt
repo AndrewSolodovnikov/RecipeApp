@@ -9,7 +9,6 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sol.recipeapp.databinding.FragmentListCategoriesBinding
-import com.sol.recipeapp.databinding.FragmentRecipesListBinding
 
 const val ARG_CATEGORY_ID = "category id"
 const val ARG_CATEGORY_NAME = "category name"
@@ -57,7 +56,7 @@ class CategoriesListFragment : Fragment() {
         parentFragmentManager.commit {
             replace<RecipesListFragment>(R.id.mainContainer, args = bundle)
             setReorderingAllowed(true)
-            addToBackStack("Categories list fragment")
+            addToBackStack("categories_list_fragment")
         }
 
     }

@@ -5,7 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sol.recipeapp.databinding.FragmentRecipesListBinding
 
@@ -35,10 +36,23 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initRecycler() {
-        val customAdapter = CategoriesListAdapter(STUB.getCategories())
+        val customAdapter = RecipesListAdapter(STUB.getCategories())
 
         binding.rvCategory.layoutManager = LinearLayoutManager(context)
         binding.rvCategory.adapter = customAdapter
+
+        customAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
+            override fun onItemClick(recipeId: Int) {
+                openRecipesByRecipeId(recipeId)
+            }
+        })
     }
 
+    fun openRecipesByRecipeId(recipeId: Int) {
+        parentFragmentManager.commit {
+            replace<RecipeFragment>(R.id.mainContainer)
+            setReorderingAllowed(true)
+            addToBackStack("recipes_list_fragment")
+        }
+    }
 }
