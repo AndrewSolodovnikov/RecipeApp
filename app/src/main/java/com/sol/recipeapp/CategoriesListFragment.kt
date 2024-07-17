@@ -5,14 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sol.recipeapp.databinding.FragmentListCategoriesBinding
-
-const val ARG_CATEGORY_ID = "category id"
-const val ARG_CATEGORY_NAME = "category name"
-const val ARG_CATEGORY_IMAGE_URL = "category image url"
 
 class CategoriesListFragment : Fragment() {
     private val binding by lazy { FragmentListCategoriesBinding.inflate(layoutInflater) }
@@ -47,11 +44,10 @@ class CategoriesListFragment : Fragment() {
         val categoryName = category?.title
         val categoryImageUrl = category?.imageUrl
 
-        val bundle = Bundle().apply {
-            putInt(ARG_CATEGORY_ID, categoryId)
-            putString(ARG_CATEGORY_NAME, categoryName)
-            putString(ARG_CATEGORY_IMAGE_URL, categoryImageUrl)
-        }
+        val bundle = bundleOf(
+            ARG_CATEGORY_ID to categoryId,
+            ARG_CATEGORY_NAME to categoryName,
+            ARG_CATEGORY_IMAGE_URL to categoryImageUrl)
 
         parentFragmentManager.commit {
             replace<RecipesListFragment>(R.id.mainContainer, args = bundle)
