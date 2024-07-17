@@ -1,54 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:background="@color/background_main_color"
-android:orientation="vertical"
-tools:context=".RecipesListFragment">
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/recipesHeader"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/header_layout_height"
-    android:layout_marginBottom="@dimen/margin_half">
-
-    <ImageView
-        android:id="@+id/recipesHeaderImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bcg_recipes_list"
-        android:contentDescription="@string/title_category"
-        android:scaleType="centerCrop"/>
-
-    <TextView
-        android:id="@+id/recipesHeaderTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginBottom="@dimen/margin_main"
-        android:layout_marginStart="@dimen/margin_main"
-        android:background="@drawable/shape_rounded_title"
-        android:padding="@dimen/padding_text"
-        android:text="бургеры"
-        android:textAllCaps="true"
-        android:fontFamily="@font/montserrat_alternates_semi_bold"
-        android:textSize="@dimen/title_text_size_x"
-        android:textFontWeight="600"
-        android:textColor="@color/title_text_color"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/rvCategory"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="@dimen/margin_half"
-    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-    app:spanCount="1"
-    tools:itemCount="8"
-    tools:listitem="@layout/item_recipe" />
+    android:background="@color/background_main_color"
+    android:orientation="vertical"
+    tools:context=".RecipesListFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/recipesHeader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/header_layout_height"
+        android:layout_marginBottom="@dimen/margin_half">
+
+        <ImageView
+            android:id="@+id/recipesHeaderImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bcg_recipes_list"
+            android:contentDescription="@string/title_category"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/recipesHeaderTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_main"
+            android:layout_marginBottom="@dimen/margin_main"
+            android:background="@drawable/shape_rounded_title"
+            android:fontFamily="@font/montserrat_alternates_semi_bold"
+            android:padding="@dimen/padding_text"
+            android:text="бургеры"
+            android:textAllCaps="true"
+            android:textColor="@color/title_text_color"
+            android:textFontWeight="600"
+            android:textSize="@dimen/title_text_size_x"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCategory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/margin_half"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="8"
+        tools:listitem="@layout/item_recipe" />
 
 </LinearLayout>

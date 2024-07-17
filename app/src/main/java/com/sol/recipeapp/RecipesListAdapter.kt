@@ -9,7 +9,7 @@ import com.sol.recipeapp.databinding.ItemRecipeBinding
 import java.io.InputStream
 
 
-class RecipesListAdapter(private val dataSet: List<Category>) :
+class RecipesListAdapter(private val dataSet: List<Recipe>) :
     RecyclerView.Adapter<RecipesListAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemRecipeBinding) : RecyclerView.ViewHolder(binding.root)
 

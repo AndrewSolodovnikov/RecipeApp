@@ -13,22 +13,22 @@ import com.sol.recipeapp.databinding.FragmentRecipesListBinding
 class RecipesListFragment : Fragment() {
     private val binding by lazy { FragmentRecipesListBinding.inflate(layoutInflater) }
 
-    private val categoryId: Int? = null
-    private val categoryName: String? = null
-    private val categoryImageUrl: String? = null
+    private var categoryId: Int? = null
+    private var categoryName: String? = null
+    private var categoryImageUrl: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = binding.root
-        return view
-
         arguments.let {
             categoryId = it?.getInt(ARG_CATEGORY_ID)
             categoryName = it?.getString(ARG_CATEGORY_NAME)
             categoryImageUrl = it?.getString(ARG_CATEGORY_IMAGE_URL)
         }
+
+        val view = binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,12 +36,13 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initRecycler() {
-        val customAdapter = RecipesListAdapter(STUB.getCategories())
+        val customAdapter = categoryId?.let { STUB.getRecipesByCategoryId(it) }
+            ?.let { RecipesListAdapter(it) }
 
         binding.rvCategory.layoutManager = LinearLayoutManager(context)
         binding.rvCategory.adapter = customAdapter
 
-        customAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
+        customAdapter?.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
             override fun onItemClick(recipeId: Int) {
                 openRecipesByRecipeId(recipeId)
             }
