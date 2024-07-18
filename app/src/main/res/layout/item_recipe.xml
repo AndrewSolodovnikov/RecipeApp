@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemCategoryRecipe"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginVertical="@dimen/margin_half"
+    android:layout_marginHorizontal="@dimen/margin_half"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardCornerRadius="@dimen/margin_half"
+    android:layout_margin="@dimen/margin_half"
+    app:cardElevation="@dimen/margin_quarter"
+    app:cardMaxElevation="@dimen/margin_half">
+
+    <LinearLayout
+        android:id="@+id/itemRecipeDescription"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/itemRecipeImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/rv_item_image_height"
+            android:scaleType="centerCrop"
+            android:background="@drawable/ic_launcher_background"
+            android:contentDescription="@string/recipes_item_image"/>
+
+        <!-- TODO: edit attribute text -->
+        <TextView
+            android:id="@+id/itemRecipeTitleText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_half"
+            android:fontFamily="@font/montserrat_alternates_semi_bold"
+            tools:text="Бургеры"
+            android:textAllCaps="true"
+            android:textFontWeight="600"
+            android:textColor="@color/title_text_color"
+            android:textSize="@dimen/title_text_size_xx" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
