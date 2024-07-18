@@ -34,7 +34,7 @@ class RecipesListAdapter(private val dataSet: List<Recipe>) :
             with(dataSet[position]){
                 binding.itemRecipeTitleText.text = this.title
                 binding.itemRecipeImage.contentDescription = viewHolder.itemView.context
-                    .getString(R.string.category_item_image) + " " + this.title
+                    .getString(R.string.recipes_item_image) + " " + this.title
                 binding.itemCategoryRecipe.setOnClickListener { itemClickListener?.onItemClick(this.id) }
             }
         }
