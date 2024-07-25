@@ -1,16 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_main_color"
+    android:orientation="vertical"
     tools:context=".RecipeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/recipeTitleText"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/recipeHeader"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="RecipeFragment" />
+        android:layout_height="@dimen/header_layout_height"
+        android:layout_marginBottom="@dimen/margin_half">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/recipesHeaderImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bcg_recipes_list"
+            android:contentDescription="@string/title_category"
+            android:scaleType="centerCrop" />
+
+
+
+        <TextView
+            android:id="@+id/recipesHeaderTitle"
+            android:layout_width="@dimen/_242dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_main"
+            android:layout_marginBottom="@dimen/margin_main"
+            android:background="@drawable/shape_rounded_title"
+            android:fontFamily="@font/montserrat_alternates_semi_bold"
+            android:padding="@dimen/padding_text"
+            android:text="Бургер с грибами и сыром"
+            android:textAllCaps="true"
+            android:textColor="@color/title_text_color"
+            android:textFontWeight="600"
+            android:textSize="@dimen/title_text_size_x"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_alternates_semi_bold"
+                android:padding="@dimen/margin_main"
+                android:text="Ингредиенты"
+                android:textAllCaps="true"
+                android:textColor="@color/title_text_color"
+                android:textFontWeight="600"
+                android:textSize="@dimen/title_text_size_x" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvIngredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_half"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:background="@drawable/shape_rounded_rv_cooking"
+                tools:itemCount="6"
+                tools:listitem="@layout/item_ingredient" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_alternates_semi_bold"
+                android:padding="@dimen/margin_main"
+                android:text="Способ приготовления"
+                android:textAllCaps="true"
+                android:textColor="@color/title_text_color"
+                android:textFontWeight="600"
+                android:textSize="@dimen/title_text_size_x" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMethod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_half"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:background="@color/white_color"
+                tools:itemCount="8"
+                tools:listitem="@layout/item_method" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
