@@ -37,10 +37,10 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRecycler()
-        loadHeader()
+        initUI()
     }
 
-    private fun loadHeader() {
+    private fun initUI() {
         try {
             val inputStream: InputStream? = categoryImageUrl?.let { context?.assets?.open(it) }
             val drawable = Drawable.createFromStream(inputStream, null)

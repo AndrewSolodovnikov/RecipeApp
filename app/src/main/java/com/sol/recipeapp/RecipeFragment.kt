@@ -34,10 +34,10 @@ class RecipeFragment : Fragment() {
         }
 
         initRecycler()
-        loadHeader()
+        initUI()
     }
 
-    private fun loadHeader() {
+    private fun initUI() {
         try {
             val inputStream: InputStream? = recipe?.imageUrl?.let { context?.assets?.open(it) }
             val drawable = Drawable.createFromStream(inputStream, null)
