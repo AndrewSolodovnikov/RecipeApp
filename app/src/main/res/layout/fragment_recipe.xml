@@ -15,17 +15,15 @@
         android:layout_marginBottom="@dimen/margin_half">
 
         <ImageView
-            android:id="@+id/recipesHeaderImage"
+            android:id="@+id/ivRecipesHeaderImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bcg_recipes_list"
             android:contentDescription="@string/title_category"
             android:scaleType="centerCrop" />
 
-
-
         <TextView
-            android:id="@+id/recipesHeaderTitle"
+            android:id="@+id/tvRecipesHeaderTitle"
             android:layout_width="@dimen/_242dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_main"
@@ -68,8 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_half"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:background="@drawable/shape_rounded_rv_cooking"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="6"
                 tools:listitem="@layout/item_ingredient" />
 
@@ -89,8 +87,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_half"
+                android:background="@drawable/shape_rounded_rv_cooking"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                android:background="@color/white_color"
                 tools:itemCount="8"
                 tools:listitem="@layout/item_method" />
 

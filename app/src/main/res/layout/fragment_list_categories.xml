@@ -15,7 +15,7 @@
         android:layout_marginBottom="@dimen/margin_half">
 
         <ImageView
-            android:id="@+id/categoryHeaderImage"
+            android:id="@+id/ivCategoryHeaderImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bcg_categories"
@@ -23,7 +23,7 @@
             android:scaleType="centerCrop"/>
 
         <TextView
-            android:id="@+id/categoryHeaderTitle"
+            android:id="@+id/tvCategoryHeaderTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

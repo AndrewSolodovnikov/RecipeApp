@@ -15,7 +15,7 @@
         android:layout_marginBottom="@dimen/margin_half">
 
         <ImageView
-            android:id="@+id/recipesListHeaderImage"
+            android:id="@+id/ivRecipesListHeaderImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bcg_recipes_list"
@@ -23,7 +23,7 @@
             android:scaleType="centerCrop" />
 
         <TextView
-            android:id="@+id/recipesListHeaderTitle"
+            android:id="@+id/tvRecipesListHeaderTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_main"
