@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
@@ -16,13 +17,13 @@ import java.io.InputStream
 class RecipeFragment : Fragment() {
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private var recipe: Recipe? = null
+    private lateinit var ingredientsAdapter: IngredientsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,6 +36,7 @@ class RecipeFragment : Fragment() {
 
         initRecycler()
         initUI()
+        initSeekBar()
     }
 
     private fun initUI() {
@@ -50,24 +52,36 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initRecycler() {
-        binding.rvIngredients.adapter = recipe?.let { IngredientsAdapter(it.ingredients) }
-        binding.rvIngredients.layoutManager = LinearLayoutManager(context)
+        recipe?.let {
+            ingredientsAdapter = IngredientsAdapter(it.ingredients)
+            binding.rvIngredients.adapter = ingredientsAdapter
+            binding.rvIngredients.layoutManager = LinearLayoutManager(context)
 
-        val divider =
-            MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
+            val divider = MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
                 isLastItemDecorated = false
                 dividerInsetStart = resources.getDimensionPixelSize(R.dimen.padding_text_12)
                 dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.padding_text_12)
                 dividerColor = resources.getColor(R.color.divider_color)
             }
-        divider.dividerThickness = 2
-        binding.rvIngredients.addItemDecoration(divider)
-        binding.rvMethod.addItemDecoration(divider)
+            divider.dividerThickness = 2
+            binding.rvIngredients.addItemDecoration(divider)
+            binding.rvMethod.addItemDecoration(divider)
+        }
 
-        binding.rvIngredients.adapter = recipe?.let { IngredientsAdapter(it.ingredients) }
-        binding.rvIngredients.layoutManager = LinearLayoutManager(context)
+        recipe?.let {
+            binding.rvMethod.adapter = MethodAdapter(it.method)
+            binding.rvMethod.layoutManager = LinearLayoutManager(context)
+        }
+    }
 
-        binding.rvMethod.adapter = recipe?.let { MethodAdapter(it.method) }
-        binding.rvMethod.layoutManager = LinearLayoutManager(context)
+    private fun initSeekBar() {
+        binding.seekbarRecipe.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                binding.tvNumberOfServings.text = progress.toString()
+                ingredientsAdapter.updateIngredients(progress)
+            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
     }
 }
