@@ -1,6 +1,8 @@
 package com.sol.recipeapp
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sol.recipeapp.databinding.FragmentRecipesListBinding
+import java.io.InputStream
 
 class RecipesListFragment : Fragment() {
     private val binding by lazy { FragmentRecipesListBinding.inflate(layoutInflater) }
@@ -34,6 +37,19 @@ class RecipesListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initRecycler()
+        initUI()
+    }
+
+    private fun initUI() {
+        try {
+            val inputStream: InputStream? = categoryImageUrl?.let { context?.assets?.open(it) }
+            val drawable = Drawable.createFromStream(inputStream, null)
+            binding.ivRecipesListHeaderImage.setImageDrawable(drawable)
+        } catch (e: Exception) {
+            Log.e("MyLogError", "Image $categoryImageUrl not found")
+        }
+
+        binding.tvRecipesListHeaderTitle.text = categoryName
     }
 
     private fun initRecycler() {
