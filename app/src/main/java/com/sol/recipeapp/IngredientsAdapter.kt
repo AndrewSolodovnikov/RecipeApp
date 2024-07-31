@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sol.recipeapp.databinding.ItemIngredientBinding
+import java.math.BigDecimal
 
 class IngredientsAdapter(private val dataSet: List<Ingredient>) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
@@ -25,8 +26,8 @@ class IngredientsAdapter(private val dataSet: List<Ingredient>) :
             tvItemCookingIngredientDescription.text = ingredient.description
             tvItemCookingIngredientDescriptionUnitOfMeasure.text = ingredient.unitOfMeasure
 
-            val newQuantity = ingredient.quantity.toFloat() * quantity
-            val quantityText = if (newQuantity % 1 == 0f) {
+            val newQuantity = BigDecimal(ingredient.quantity).multiply(BigDecimal(quantity))
+            val quantityText = if (newQuantity.remainder(BigDecimal.ONE) == BigDecimal.ZERO) {
                 newQuantity.toInt().toString()
             } else {
                 String.format("%.1f", newQuantity)

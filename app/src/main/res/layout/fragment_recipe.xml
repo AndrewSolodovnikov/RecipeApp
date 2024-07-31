@@ -53,15 +53,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_alternates_semi_bold"
-                android:paddingTop="@dimen/margin_half"
-                android:paddingStart="@dimen/margin_main"
                 android:paddingVertical="@dimen/padding_text_6"
-                android:text="Ингредиенты"
-                android:textAllCaps="true"
-                android:textColor="@color/title_text_color"
-                android:textFontWeight="600"
-                android:textSize="@dimen/title_text_size_x" />
+                android:paddingStart="@dimen/margin_main"
+                android:paddingTop="@dimen/margin_half"
+                android:text="@string/ingredients"
+                android:textAppearance="@style/CookingH1" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -73,18 +69,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_alternates_semi_bold"
-                    android:text="Порции:"
-                    android:textColor="@color/servings_txt_color"/>
+                    android:text="@string/services"
+                    android:textAppearance="@style/Services" />
 
                 <TextView
                     android:id="@+id/tvNumberOfServings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_alternates_semi_bold"
                     android:paddingStart="@dimen/padding_text_6"
                     android:text="1"
-                    android:textColor="@color/servings_txt_color"/>
+                    android:textAppearance="@style/Services" />
 
             </LinearLayout>
 
@@ -92,9 +86,10 @@
                 android:id="@+id/seekbarRecipe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/margin_main"
+                android:max="5"
                 android:min="1"
-                android:max="5"/>
+                android:paddingVertical="@dimen/margin_main"
+                android:paddingBottom="@dimen/margin_main" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvIngredients"
@@ -109,13 +104,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_alternates_semi_bold"
                 android:padding="@dimen/margin_main"
-                android:text="Способ приготовления"
-                android:textAllCaps="true"
-                android:textColor="@color/title_text_color"
-                android:textFontWeight="600"
-                android:textSize="@dimen/title_text_size_x" />
+                android:text="@string/cooking_method"
+                android:textAppearance="@style/CookingH1" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvMethod"
