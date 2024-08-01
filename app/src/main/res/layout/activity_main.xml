@@ -8,7 +8,6 @@
     android:background="@color/background_main_color"
     tools:context=".MainActivity">
 
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainContainer"
         android:layout_width="0dp"
@@ -37,8 +36,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/navigation_button_category_color"
+            android:padding="0dp"
             android:text="@string/title_category"
-            android:textAllCaps="true"/>
+            android:textAllCaps="true" />
 
         <Button
             android:id="@+id/navigationButtonFavorites"
@@ -48,6 +48,7 @@
             android:layout_marginStart="@dimen/margin_half"
             android:layout_weight="1"
             android:backgroundTint="@color/navigation_button_favorites_color"
+            android:padding="0dp"
             android:text="@string/title_favorites"
             android:textAllCaps="true"
             app:icon="@drawable/ic_heart_empty"

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/itemCategory"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/itemCategory"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginVertical="@dimen/margin_half"
+    android:layout_margin="@dimen/margin_half"
     android:layout_marginHorizontal="@dimen/margin_half"
+    android:layout_marginVertical="@dimen/margin_half"
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="@dimen/margin_half"
-    android:layout_margin="@dimen/margin_half"
     app:cardElevation="@dimen/margin_quarter"
     app:cardMaxElevation="@dimen/margin_half">
 
@@ -25,24 +25,18 @@
             android:id="@+id/itemCategoryImage"
             android:layout_width="match_parent"
             android:layout_height="@dimen/rv_item_image_height"
-            android:scaleType="centerCrop"
             android:background="@drawable/ic_launcher_background"
-            android:contentDescription="@string/category_item_image"/>
+            android:contentDescription="@string/category_item_image"
+            android:scaleType="centerCrop" />
 
-        <!-- TODO: edit attribute text -->
         <TextView
             android:id="@+id/itemCategoryTitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_half"
-            android:fontFamily="@font/montserrat_alternates_semi_bold"
-            tools:text="Бургеры"
-            android:textAllCaps="true"
-            android:textFontWeight="600"
-            android:textColor="@color/title_text_color"
-            android:textSize="@dimen/title_text_size_xx" />
+            android:textAppearance="@style/ItemTitle"
+            tools:text="Бургеры" />
 
-        <!-- TODO: edit attribute text -->
         <TextView
             android:id="@+id/itemCategoryDescriptionText"
             android:layout_width="match_parent"
@@ -50,11 +44,8 @@
             android:layout_marginStart="@dimen/margin_half"
             android:layout_marginEnd="@dimen/margin_half"
             android:layout_marginBottom="@dimen/margin_half"
-            android:fontFamily="@font/montserrat_medium"
-            android:textFontWeight="500"
-            android:textColor="@color/item_description_text_color"
-            tools:text="Рецепты всех популярных видов бургеров"
-            android:textSize="@dimen/item_description_text_size" />
+            android:textAppearance="@style/CategoryItemTxt"
+            tools:text="Рецепты всех популярных видов бургеров" />
 
     </LinearLayout>
 

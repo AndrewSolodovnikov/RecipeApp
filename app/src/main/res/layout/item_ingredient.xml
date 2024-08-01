@@ -12,7 +12,7 @@
         android:id="@+id/tvItemCookingIngredientDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/ItemCookingIngredient"
+        android:textAppearance="@style/CookingItemIngredient"
         app:layout_constraintStart_toStartOf="@+id/CookingIngredients"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Подсолнечное масло" />
@@ -21,7 +21,7 @@
         android:id="@+id/tvItemCookingIngredientQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/ItemCookingIngredient"
+        android:textAppearance="@style/CookingItemIngredient"
         app:layout_constraintEnd_toStartOf="@+id/tvItemCookingIngredientDescriptionUnitOfMeasure"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="2" />
@@ -30,7 +30,7 @@
         android:id="@+id/tvItemCookingIngredientDescriptionUnitOfMeasure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/ItemCookingIngredient"
+        android:textAppearance="@style/CookingItemIngredient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="ложки" />
