@@ -1,47 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/CookingIngredients"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:paddingHorizontal="@dimen/padding_text_12"
-    android:paddingVertical="@dimen/margin_half"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/CookingIngredients">
+    android:paddingVertical="@dimen/margin_half">
 
     <TextView
-        android:id="@+id/itemCookingIngredientDescription"
+        android:id="@+id/tvItemCookingIngredientDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/CookingItemIngredient"
         app:layout_constraintStart_toStartOf="@+id/CookingIngredients"
         app:layout_constraintTop_toTopOf="parent"
-        android:fontFamily="@font/montserrat_regular"
-        android:textAllCaps="true"
-        android:textColor="@color/item_description_text_color"
-        android:textSize="14sp"
-        tools:text="Подсолнечное масло"/>
+        tools:text="Подсолнечное масло" />
 
     <TextView
-        android:id="@+id/itemCookingIngredientQuantity"
+        android:id="@+id/tvItemCookingIngredientQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/itemCookingIngredientDescriptionUnitOfMeasure"
+        android:textAppearance="@style/CookingItemIngredient"
+        app:layout_constraintEnd_toStartOf="@+id/tvItemCookingIngredientDescriptionUnitOfMeasure"
         app:layout_constraintTop_toTopOf="parent"
-        android:fontFamily="@font/montserrat_regular"
-        android:textAllCaps="true"
-        android:textColor="@color/item_description_text_color"
-        android:textSize="14sp"
-        tools:text="2 "/>
+        tools:text="2" />
 
     <TextView
-        android:id="@+id/itemCookingIngredientDescriptionUnitOfMeasure"
+        android:id="@+id/tvItemCookingIngredientDescriptionUnitOfMeasure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/CookingItemIngredient"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:fontFamily="@font/montserrat_regular"
-        android:textAllCaps="true"
-        android:textColor="@color/item_description_text_color"
-        android:textSize="14sp"
-        tools:text="ложки"/>
+        tools:text="ложки" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

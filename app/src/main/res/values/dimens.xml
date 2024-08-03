@@ -5,6 +5,7 @@
     <dimen name="title_text_size_x">20sp</dimen>
 
     <dimen name="margin_quarter">4dp</dimen>
+    <dimen name="padding_text_6">6dp</dimen>
     <dimen name="margin_half">8dp</dimen>
     <dimen name="padding_text">10dp</dimen>
     <dimen name="padding_text_12">12dp</dimen>

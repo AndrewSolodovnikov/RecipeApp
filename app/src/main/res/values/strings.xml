@@ -8,4 +8,7 @@
     <string name="title_favorites">избранное</string>
     <string name="category_item_image">Изображение категории</string>
     <string name="recipes_item_image">Изображение рецепта</string>
+    <string name="ingredients">Ингредиенты</string>
+    <string name="services">Порции:</string>
+    <string name="cooking_method">Способ приготовления</string>
 </resources>
