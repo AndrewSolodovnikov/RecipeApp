@@ -58,4 +58,9 @@
         <item name="android:paddingVertical">@dimen/padding_text</item>
         <item name="cornerRadius">@dimen/margin_half</item>
     </style>
+    
+    <style name="styleSeekBar">
+        <item name="android:thumb">@drawable/shape_seekbar_thumb</item>
+        <item name="android:progressDrawable">@drawable/shape_seekbar_progress</item>
+    </style>
 </resources>

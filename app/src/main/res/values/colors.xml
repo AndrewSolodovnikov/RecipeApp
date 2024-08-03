@@ -9,4 +9,5 @@
     <color name="item_description_text_color">#666666</color>
     <color name="divider_color">#F5F5F5</color>
     <color name="servings_txt_color">#626466</color>
+    <color name="seekbar_progress">#A1A9F9</color>
 </resources>
