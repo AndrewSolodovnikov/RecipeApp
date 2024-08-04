@@ -18,6 +18,7 @@ class RecipeFragment : Fragment() {
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private var recipe: Recipe? = null
     private lateinit var ingredientsAdapter: IngredientsAdapter
+    private var isFavorite = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +49,16 @@ class RecipeFragment : Fragment() {
             Log.e("MyLogError", "Image ${recipe?.imageUrl} not found")
         }
 
+        binding.btnFavorite.setOnClickListener {
+            isFavorite = !isFavorite
+            val favoriteImage = if (isFavorite) {
+                R.drawable.ic_heart
+            } else {
+                R.drawable.ic_heart_empty
+            }
+            binding.btnFavorite.setImageResource(favoriteImage)
+        }
+
         binding.tvRecipesHeaderTitle.text = recipe?.title
     }
 
@@ -57,7 +68,10 @@ class RecipeFragment : Fragment() {
             binding.rvIngredients.adapter = ingredientsAdapter
             binding.rvIngredients.layoutManager = LinearLayoutManager(context)
 
-            val divider = MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL).apply {
+            val divider = MaterialDividerItemDecoration(
+                requireContext(),
+                LinearLayoutManager.VERTICAL
+            ).apply {
                 isLastItemDecorated = false
                 dividerInsetStart = resources.getDimensionPixelSize(R.dimen.padding_text_12)
                 dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.padding_text_12)
@@ -80,6 +94,7 @@ class RecipeFragment : Fragment() {
                 binding.tvNumberOfServings.text = progress.toString()
                 ingredientsAdapter.updateIngredients(progress)
             }
+
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })

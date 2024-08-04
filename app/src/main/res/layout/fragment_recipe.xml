@@ -22,6 +22,18 @@
             android:contentDescription="@string/title_category"
             android:scaleType="centerCrop" />
 
+        <ImageButton
+            android:id="@+id/btnFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_main"
+            android:layout_marginEnd="@dimen/margin_main"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_heart_empty"
+            app:layout_constraintEnd_toEndOf="@+id/recipeHeader"
+            app:layout_constraintTop_toTopOf="@+id/recipeHeader"
+            tools:src="@drawable/ic_heart" />
+
         <TextView
             android:id="@+id/tvRecipesHeaderTitle"
             android:layout_width="@dimen/_242dp"
@@ -29,11 +41,11 @@
             android:layout_marginStart="@dimen/margin_main"
             android:layout_marginBottom="@dimen/margin_main"
             android:background="@drawable/shape_rounded_title"
-            android:textAppearance="@style/HeaderTitle"
             android:padding="@dimen/padding_text"
-            tools:text="Бургер с грибами и сыром"
+            android:textAppearance="@style/HeaderTitle"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="Бургер с грибами и сыром" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -80,13 +92,13 @@
 
             <SeekBar
                 android:id="@+id/seekbarRecipe"
+                style="@style/styleSeekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:max="5"
                 android:min="1"
                 android:paddingVertical="@dimen/margin_main"
-                android:paddingBottom="@dimen/margin_main"
-                style="@style/styleSeekBar"/>
+                android:paddingBottom="@dimen/margin_main" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvIngredients"
