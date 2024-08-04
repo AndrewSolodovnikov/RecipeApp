@@ -11,4 +11,5 @@
     <string name="ingredients">Ингредиенты</string>
     <string name="services">Порции:</string>
     <string name="cooking_method">Способ приготовления</string>
+    <string name="seekbar_progress">1</string>
 </resources>
