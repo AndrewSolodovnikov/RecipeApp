@@ -19,8 +19,13 @@ import java.io.InputStream
 class RecipeFragment : Fragment() {
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private var recipe: Recipe? = null
-    private lateinit var ingredientsAdapter: IngredientsAdapter
-    private lateinit var sharedPref: SharedPreferences
+    private val ingredientsAdapter by lazy { recipe?.ingredients?.let { IngredientsAdapter(it) } }
+    private val sharedPref by lazy {
+        requireActivity().getSharedPreferences(
+            ARG_FAVORITES_SHARED_PREF,
+            Context.MODE_PRIVATE
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,11 +41,6 @@ class RecipeFragment : Fragment() {
         } else {
             arguments?.getParcelable(ARG_RECIPE)
         }
-
-        sharedPref = requireActivity().getSharedPreferences(
-            getString(R.string.favorites_shared_pref),
-            Context.MODE_PRIVATE
-        )
 
         initRecycler()
         initUI()
@@ -67,7 +67,7 @@ class RecipeFragment : Fragment() {
 
     private fun initRecycler() {
         recipe?.let {
-            ingredientsAdapter = IngredientsAdapter(it.ingredients)
+            //ingredientsAdapter = IngredientsAdapter(it.ingredients)
             binding.rvIngredients.adapter = ingredientsAdapter
             binding.rvIngredients.layoutManager = LinearLayoutManager(context)
 
@@ -95,7 +95,7 @@ class RecipeFragment : Fragment() {
         binding.seekbarRecipe.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 binding.tvNumberOfServings.text = progress.toString()
-                ingredientsAdapter.updateIngredients(progress)
+                ingredientsAdapter?.updateIngredients(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -134,6 +134,7 @@ class RecipeFragment : Fragment() {
     }
 
     private fun getFavorites(): MutableSet<String> {
-        return sharedPref.getStringSet(getString(R.string.favorites_shared_pref), HashSet())?.toMutableSet() ?: HashSet()
+        return sharedPref.getStringSet(getString(R.string.favorites_shared_pref), HashSet())
+            ?.toMutableSet() ?: HashSet()
     }
 }
