@@ -26,6 +26,7 @@ class RecipeFragment : Fragment() {
             Context.MODE_PRIVATE
         )
     }
+    private val methodAdapter by lazy { recipe?.method?.let { MethodAdapter(it) } }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,7 +68,6 @@ class RecipeFragment : Fragment() {
 
     private fun initRecycler() {
         recipe?.let {
-            //ingredientsAdapter = IngredientsAdapter(it.ingredients)
             binding.rvIngredients.adapter = ingredientsAdapter
             binding.rvIngredients.layoutManager = LinearLayoutManager(context)
 
@@ -86,7 +86,7 @@ class RecipeFragment : Fragment() {
         }
 
         recipe?.let {
-            binding.rvMethod.adapter = MethodAdapter(it.method)
+            binding.rvMethod.adapter = methodAdapter
             binding.rvMethod.layoutManager = LinearLayoutManager(context)
         }
     }
@@ -128,13 +128,13 @@ class RecipeFragment : Fragment() {
 
     private fun saveFavorites(favoriteIds: Set<String>) {
         with(sharedPref.edit()) {
-            putStringSet(getString(R.string.favorites_shared_pref), favoriteIds)
+            putStringSet(ARG_FAVORITES_SHARED_PREF, favoriteIds)
             apply()
         }
     }
 
     private fun getFavorites(): MutableSet<String> {
-        return sharedPref.getStringSet(getString(R.string.favorites_shared_pref), HashSet())
-            ?.toMutableSet() ?: HashSet()
+        return HashSet(sharedPref
+            .getStringSet(ARG_FAVORITES_SHARED_PREF, HashSet()) ?: mutableSetOf())
     }
 }
