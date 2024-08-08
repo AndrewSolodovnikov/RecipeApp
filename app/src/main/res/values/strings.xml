@@ -13,4 +13,5 @@
     <string name="cooking_method">Способ приготовления</string>
     <string name="seekbar_progress">1</string>
     <string name="favorites_shared_pref">favorites_shared_pref</string>
+    <string name="favorite">избранное</string>
 </resources>
