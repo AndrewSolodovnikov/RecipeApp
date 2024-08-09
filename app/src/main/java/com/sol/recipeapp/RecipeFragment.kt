@@ -1,5 +1,7 @@
 package com.sol.recipeapp
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -17,8 +19,14 @@ import java.io.InputStream
 class RecipeFragment : Fragment() {
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private var recipe: Recipe? = null
-    private lateinit var ingredientsAdapter: IngredientsAdapter
-    private var isFavorite = false
+    private val ingredientsAdapter by lazy { recipe?.ingredients?.let { IngredientsAdapter(it) } }
+    private val sharedPref by lazy {
+        requireActivity().getSharedPreferences(
+            ARG_FAVORITES_SHARED_PREF,
+            Context.MODE_PRIVATE
+        )
+    }
+    private val methodAdapter by lazy { recipe?.method?.let { MethodAdapter(it) } }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,14 +57,10 @@ class RecipeFragment : Fragment() {
             Log.e("MyLogError", "Image ${recipe?.imageUrl} not found")
         }
 
+        updateFavoriteIcon()
+
         binding.btnFavorite.setOnClickListener {
-            isFavorite = !isFavorite
-            val favoriteImage = if (isFavorite) {
-                R.drawable.ic_heart
-            } else {
-                R.drawable.ic_heart_empty
-            }
-            binding.btnFavorite.setImageResource(favoriteImage)
+            toggleFavorite()
         }
 
         binding.tvRecipesHeaderTitle.text = recipe?.title
@@ -64,7 +68,6 @@ class RecipeFragment : Fragment() {
 
     private fun initRecycler() {
         recipe?.let {
-            ingredientsAdapter = IngredientsAdapter(it.ingredients)
             binding.rvIngredients.adapter = ingredientsAdapter
             binding.rvIngredients.layoutManager = LinearLayoutManager(context)
 
@@ -83,7 +86,7 @@ class RecipeFragment : Fragment() {
         }
 
         recipe?.let {
-            binding.rvMethod.adapter = MethodAdapter(it.method)
+            binding.rvMethod.adapter = methodAdapter
             binding.rvMethod.layoutManager = LinearLayoutManager(context)
         }
     }
@@ -92,11 +95,46 @@ class RecipeFragment : Fragment() {
         binding.seekbarRecipe.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 binding.tvNumberOfServings.text = progress.toString()
-                ingredientsAdapter.updateIngredients(progress)
+                ingredientsAdapter?.updateIngredients(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+    }
+
+    private fun toggleFavorite() {
+        val favorites = getFavorites()
+        val recipeId = recipe?.id.toString()
+        if (favorites.contains(recipeId)) {
+            favorites.remove(recipeId)
+            binding.btnFavorite.setImageResource(R.drawable.ic_heart_empty)
+        } else {
+            favorites.add(recipeId)
+            binding.btnFavorite.setImageResource(R.drawable.ic_heart)
+        }
+        saveFavorites(favorites)
+    }
+
+    private fun updateFavoriteIcon() {
+        val favorites = getFavorites()
+        val recipeId = recipe?.id.toString()
+        if (favorites.contains(recipeId)) {
+            binding.btnFavorite.setImageResource(R.drawable.ic_heart)
+        } else {
+            binding.btnFavorite.setImageResource(R.drawable.ic_heart_empty)
+        }
+    }
+
+    private fun saveFavorites(favoriteIds: Set<String>) {
+        with(sharedPref.edit()) {
+            putStringSet(ARG_FAVORITES_SHARED_PREF, favoriteIds)
+            apply()
+        }
+    }
+
+    private fun getFavorites(): MutableSet<String> {
+        return HashSet(sharedPref
+            .getStringSet(ARG_FAVORITES_SHARED_PREF, HashSet()) ?: mutableSetOf())
     }
 }
