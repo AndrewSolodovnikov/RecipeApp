@@ -20,13 +20,13 @@ class RecipeFragment : Fragment() {
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private var recipe: Recipe? = null
     private val ingredientsAdapter by lazy { recipe?.ingredients?.let { IngredientsAdapter(it) } }
+    private val methodAdapter by lazy { recipe?.method?.let { MethodAdapter(it) } }
     private val sharedPref by lazy {
         requireActivity().getSharedPreferences(
             ARG_FAVORITES_SHARED_PREF,
             Context.MODE_PRIVATE
         )
     }
-    private val methodAdapter by lazy { recipe?.method?.let { MethodAdapter(it) } }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
