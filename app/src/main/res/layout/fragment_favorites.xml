@@ -37,23 +37,14 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/layoutFavoriteEmpty"
+    <TextView
+        android:id="@+id/tvFavoriteEmpty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:gravity="center"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/tvFavoriteEmpty"
-            android:layout_width="328dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/FavoriteTxtEmpty"
-            android:gravity="center"
-            android:text="@string/favorites_empty" />
-
-    </LinearLayout>
+        android:text="@string/favorites_empty"
+        android:textAppearance="@style/FavoriteTxtEmpty"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFavorites"

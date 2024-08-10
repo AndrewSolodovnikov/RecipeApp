@@ -47,10 +47,10 @@ class FavoritesFragment : Fragment() {
 
     private fun initFavorites() {
         if (getFavorites()?.isEmpty() == true) {
-            binding.layoutFavoriteEmpty.visibility = View.VISIBLE
+            binding.tvFavoriteEmpty.visibility = View.VISIBLE
             binding.rvFavorites.visibility = View.GONE
         } else {
-            binding.layoutFavoriteEmpty.visibility = View.GONE
+            binding.tvFavoriteEmpty.visibility = View.GONE
             binding.rvFavorites.visibility = View.VISIBLE
             initRecycler()
         }
