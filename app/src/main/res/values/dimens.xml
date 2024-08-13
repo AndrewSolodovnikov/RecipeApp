@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="item_description_text_size">12sp</dimen>
-    <dimen name="title_text_size_xx">14sp</dimen>
-    <dimen name="title_text_size_x">20sp</dimen>
+    <dimen name="text_size_12sp">12sp</dimen>
+    <dimen name="text_size_14sp">14sp</dimen>
+    <dimen name="text_size_16sp">16sp</dimen>
+    <dimen name="text_size_20sp">20sp</dimen>
 
     <dimen name="radius_thumb">2dp</dimen>
     <dimen name="margin_quarter">4dp</dimen>
