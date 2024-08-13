@@ -1,7 +1,6 @@
-package com.sol.recipeapp
+package com.sol.recipeapp.ui.recipes.recipe
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +12,10 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
+import com.sol.recipeapp.ARG_RECIPE
+import com.sol.recipeapp.R
+import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
 import java.io.InputStream
 
