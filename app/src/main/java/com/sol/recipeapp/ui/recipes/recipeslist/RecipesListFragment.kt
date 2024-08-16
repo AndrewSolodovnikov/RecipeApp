@@ -1,4 +1,4 @@
-package com.sol.recipeapp
+package com.sol.recipeapp.ui.recipes.recipeslist
 
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -11,7 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sol.recipeapp.ARG_CATEGORY_ID
+import com.sol.recipeapp.ARG_CATEGORY_IMAGE_URL
+import com.sol.recipeapp.ARG_CATEGORY_NAME
+import com.sol.recipeapp.ARG_RECIPE
+import com.sol.recipeapp.R
+import com.sol.recipeapp.STUB
 import com.sol.recipeapp.databinding.FragmentRecipesListBinding
+import com.sol.recipeapp.ui.recipes.recipe.RecipeFragment
 import java.io.InputStream
 
 class RecipesListFragment : Fragment() {

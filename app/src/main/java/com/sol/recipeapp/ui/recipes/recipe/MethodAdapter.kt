@@ -1,11 +1,9 @@
-package com.sol.recipeapp
+package com.sol.recipeapp.ui.recipes.recipe
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sol.recipeapp.databinding.ItemIngredientBinding
 import com.sol.recipeapp.databinding.ItemMethodBinding
-import java.lang.reflect.Method
 
 class MethodAdapter(private val dataSet: List<String>) :
     RecyclerView.Adapter<MethodAdapter.ViewHolder>() {

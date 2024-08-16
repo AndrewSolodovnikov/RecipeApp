@@ -1,4 +1,4 @@
-package com.sol.recipeapp
+package com.sol.recipeapp.data
 
 data class Category(
     val id: Int,

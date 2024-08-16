@@ -1,4 +1,4 @@
-package com.sol.recipeapp
+package com.sol.recipeapp.data
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

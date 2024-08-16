@@ -1,12 +1,13 @@
 package com.sol.recipeapp
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import com.sol.recipeapp.databinding.ActivityMainBinding
+import com.sol.recipeapp.ui.category.CategoriesListFragment
+import com.sol.recipeapp.ui.recipes.favorites.FavoritesFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

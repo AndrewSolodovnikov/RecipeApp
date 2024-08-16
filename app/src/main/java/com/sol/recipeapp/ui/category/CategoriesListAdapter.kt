@@ -1,10 +1,12 @@
-package com.sol.recipeapp
+package com.sol.recipeapp.ui.category
 
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sol.recipeapp.R
+import com.sol.recipeapp.data.Category
 import com.sol.recipeapp.databinding.ItemCategoryBinding
 import java.io.InputStream
 

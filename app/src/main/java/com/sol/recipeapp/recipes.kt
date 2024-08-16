@@ -1,5 +1,9 @@
 package com.sol.recipeapp
 
+import com.sol.recipeapp.data.Category
+import com.sol.recipeapp.data.Ingredient
+import com.sol.recipeapp.data.Recipe
+
 object STUB {
     private val categories = listOf(
         Category(0, "Бургеры",

@@ -1,8 +1,9 @@
-package com.sol.recipeapp
+package com.sol.recipeapp.ui.recipes.recipe
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sol.recipeapp.data.Ingredient
 import com.sol.recipeapp.databinding.ItemIngredientBinding
 import java.math.BigDecimal
 
