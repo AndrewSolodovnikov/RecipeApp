@@ -13,13 +13,4 @@ class RecipeViewModel : ViewModel() {
         val portionCount: Int = 1,
         val isFavorite: Boolean = false,
     )
-
-    @Parcelize
-    data class Recipe(
-        val id: Int,
-        val title: String,
-        val ingredients: List<Ingredient>,
-        val method: List<String>,
-        val imageUrl: String,
-    ): Parcelable
 }
