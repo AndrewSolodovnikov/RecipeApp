@@ -5,13 +5,12 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
@@ -52,7 +51,6 @@ class RecipeFragment : Fragment() {
         initRecycler()
         initUI()
         initSeekBar()
-        viewModelObserver()
     }
 
     private fun initUI() {
@@ -71,6 +69,11 @@ class RecipeFragment : Fragment() {
         }
 
         binding.tvRecipesHeaderTitle.text = recipe?.title
+
+        viewModel.recipeState.observe(
+            viewLifecycleOwner,
+            { state -> Log.i("!!!", "Favorite ${state.isFavorite}") },
+        )
     }
 
     private fun initRecycler() {
@@ -143,12 +146,5 @@ class RecipeFragment : Fragment() {
     private fun getFavorites(): MutableSet<String> {
         return HashSet(sharedPref
             .getStringSet(ARG_FAVORITES_SHARED_PREF, HashSet()) ?: mutableSetOf())
-    }
-
-    private fun viewModelObserver() {
-        viewModel.recipeState.observe(
-            viewLifecycleOwner,
-            { state -> Log.i("!!!", "Favorite ${state.isFavorite}") },
-        )
     }
 }
