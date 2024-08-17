@@ -5,11 +5,12 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
@@ -20,6 +21,7 @@ import com.sol.recipeapp.databinding.FragmentRecipeBinding
 import java.io.InputStream
 
 class RecipeFragment : Fragment() {
+    private val viewModel: RecipeViewModel by activityViewModels()
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private var recipe: Recipe? = null
     private val ingredientsAdapter by lazy { recipe?.ingredients?.let { IngredientsAdapter(it) } }
@@ -67,6 +69,11 @@ class RecipeFragment : Fragment() {
         }
 
         binding.tvRecipesHeaderTitle.text = recipe?.title
+
+        viewModel.recipeState.observe(
+            viewLifecycleOwner,
+            { state -> Log.i("!!!", "Favorite ${state.isFavorite}") },
+        )
     }
 
     private fun initRecycler() {
