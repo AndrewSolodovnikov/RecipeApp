@@ -60,7 +60,6 @@ class RecipeFragment : Fragment() {
         initRecycler()
         initUI()
         initSeekBar()
-        viewModelObserver()
     }
 
     private fun initUI() {
@@ -79,6 +78,11 @@ class RecipeFragment : Fragment() {
         }
 
         binding.tvRecipesHeaderTitle.text = recipe?.title
+
+        viewModel.recipeState.observe(
+            viewLifecycleOwner,
+            { state -> Log.i("!!!", "Favorite ${state.isFavorite}") },
+        )
     }
 
     private fun initRecycler() {
@@ -155,11 +159,4 @@ class RecipeFragment : Fragment() {
     }
 
      */
-
-    private fun viewModelObserver() {
-        viewModel.recipeState.observe(
-            viewLifecycleOwner,
-            { state -> Log.i("!!!", "Favorite ${state.isFavorite}") },
-        )
-    }
 }
