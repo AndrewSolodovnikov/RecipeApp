@@ -43,10 +43,18 @@ class RecipeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /*
         recipe = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             arguments?.getParcelable(ARG_RECIPE, Recipe::class.java)
         } else {
             arguments?.getParcelable(ARG_RECIPE)
+        }
+
+         */
+
+        val recipeId = arguments?.getInt(ARG_RECIPE) ?: null
+        if (recipeId != null) {
+            viewModel.loadRecipe(recipeId)
         }
 
         initRecycler()
@@ -140,10 +148,13 @@ class RecipeFragment : Fragment() {
         }
     }
 
+    /*
     private fun getFavorites(): MutableSet<String> {
         return HashSet(sharedPref
             .getStringSet(ARG_FAVORITES_SHARED_PREF, HashSet()) ?: mutableSetOf())
     }
+
+     */
 
     private fun viewModelObserver() {
         viewModel.recipeState.observe(
