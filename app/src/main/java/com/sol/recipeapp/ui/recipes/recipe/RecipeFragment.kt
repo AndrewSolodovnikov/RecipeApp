@@ -39,7 +39,7 @@ class RecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recipeId = arguments?.getInt(ARG_RECIPE) ?: null
+        val recipeId = arguments?.getInt(ARG_RECIPE)
         if (recipeId != null) {
             viewModel.loadRecipe(recipeId)
         }
