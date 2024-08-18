@@ -1,20 +1,16 @@
 package com.sol.recipeapp.ui.recipes.recipe
 
-import android.content.Context
 import android.graphics.drawable.Drawable
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
 import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
 import com.sol.recipeapp.data.Recipe
@@ -25,14 +21,19 @@ class RecipeFragment : Fragment() {
     private val viewModel: RecipeViewModel by activityViewModels()
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private var recipe: Recipe? = null
-    private val ingredientsAdapter by lazy { recipe?.ingredients?.let { IngredientsAdapter(it) } }
+    private val ingredientsAdapter by lazy {
+        viewModel.recipeState.value?.recipe?.ingredients?.let { IngredientsAdapter(it) } }
+    /*
     private val sharedPref by lazy {
         requireActivity().getSharedPreferences(
             ARG_FAVORITES_SHARED_PREF,
             Context.MODE_PRIVATE
         )
     }
-    private val methodAdapter by lazy { recipe?.method?.let { MethodAdapter(it) } }
+     */
+
+    private val methodAdapter by lazy {
+        viewModel.recipeState.value?.recipe?.method?.let { MethodAdapter(it) } }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,22 +72,38 @@ class RecipeFragment : Fragment() {
             Log.e("MyLogError", "Image ${recipe?.imageUrl} not found")
         }
 
-        updateFavoriteIcon()
+        //updateFavoriteIcon()
 
         binding.btnFavorite.setOnClickListener {
-            toggleFavorite()
+            //toggleFavorite()
+            viewModel.onFavoritesClicked()
         }
 
-        binding.tvRecipesHeaderTitle.text = recipe?.title
+        binding.tvRecipesHeaderTitle.text = viewModel.recipeState.value?.recipe?.title
 
-        viewModel.recipeState.observe(
+        viewModel.recipeState.observe(viewLifecycleOwner){ state ->
+            val isFavorite = state.isFavorite
+            val portionCount = state.portionCount
+
+            binding.tvNumberOfServings.text = portionCount.toString()
+            if (isFavorite) {
+                binding.btnFavorite.setImageResource(R.drawable.ic_heart)
+            } else {
+                binding.btnFavorite.setImageResource(R.drawable.ic_heart_empty)
+            }
+        }
+
+        /*
+        (
             viewLifecycleOwner,
             { state -> Log.i("!!!", "Favorite ${state.isFavorite}") },
         )
+
+         */
     }
 
     private fun initRecycler() {
-        recipe?.let {
+        viewModel.recipeState.value?.recipe?.let {
             binding.rvIngredients.adapter = ingredientsAdapter
             binding.rvIngredients.layoutManager = LinearLayoutManager(context)
 
@@ -104,7 +121,7 @@ class RecipeFragment : Fragment() {
             binding.rvMethod.addItemDecoration(divider)
         }
 
-        recipe?.let {
+        viewModel.recipeState.value?.recipe?.let {
             binding.rvMethod.adapter = methodAdapter
             binding.rvMethod.layoutManager = LinearLayoutManager(context)
         }
@@ -122,6 +139,7 @@ class RecipeFragment : Fragment() {
         })
     }
 
+    /*
     private fun toggleFavorite() {
         val favorites = getFavorites()
         val recipeId = recipe?.id.toString()
@@ -135,15 +153,21 @@ class RecipeFragment : Fragment() {
         saveFavorites(favorites)
     }
 
+     */
+
+    /*
     private fun updateFavoriteIcon() {
         val favorites = getFavorites()
-        val recipeId = recipe?.id.toString()
+        val recipeId = viewModel.recipeState.value?.recipe?.id.toString()
         if (favorites.contains(recipeId)) {
             binding.btnFavorite.setImageResource(R.drawable.ic_heart)
         } else {
             binding.btnFavorite.setImageResource(R.drawable.ic_heart_empty)
         }
     }
+     */
+
+    /*
 
     private fun saveFavorites(favoriteIds: Set<String>) {
         with(sharedPref.edit()) {
@@ -151,6 +175,8 @@ class RecipeFragment : Fragment() {
             apply()
         }
     }
+
+     */
 
     /*
     private fun getFavorites(): MutableSet<String> {
