@@ -40,45 +40,20 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     private fun getFavorites(): MutableSet<String> {
-        return HashSet(sharedPref
-            .getStringSet(ARG_FAVORITES_SHARED_PREF, HashSet()) ?: mutableSetOf())
+        return HashSet(
+            sharedPref
+                .getStringSet(ARG_FAVORITES_SHARED_PREF, HashSet()) ?: mutableSetOf()
+        )
     }
 
-    /*
-private fun toggleFavorite() {
-    val favorites = getFavorites()
-    val recipeId = recipe?.id.toString()
-    if (favorites.contains(recipeId)) {
-        favorites.remove(recipeId)
-        binding.btnFavorite.setImageResource(R.drawable.ic_heart_empty)
-    } else {
-        favorites.add(recipeId)
-        binding.btnFavorite.setImageResource(R.drawable.ic_heart)
-    }
-    saveFavorites(favorites)
-}
-
-private fun updateFavoriteIcon() {
-    val favorites = getFavorites()
-    val recipeId = recipe?.id.toString()
-    if (favorites.contains(recipeId)) {
-        binding.btnFavorite.setImageResource(R.drawable.ic_heart)
-    } else {
-        binding.btnFavorite.setImageResource(R.drawable.ic_heart_empty)
-    }
-}
-
- */
     fun onFavoritesClicked() {
         val favorites = getFavorites()
         val isFavorite = _recipeState.value?.isFavorite ?: false
         val recipeId = _recipeState.value?.recipe?.id.toString()
         if (favorites.contains(recipeId)) {
             favorites.remove(recipeId)
-            //binding.btnFavorite.setImageResource(R.drawable.ic_heart)
         } else {
             favorites.add(recipeId)
-            //binding.btnFavorite.setImageResource(R.drawable.ic_heart_empty)
         }
         _recipeState.value = _recipeState.value?.copy(isFavorite = !isFavorite)
 
