@@ -1,8 +1,6 @@
 package com.sol.recipeapp.ui.recipes.recipe
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +13,6 @@ import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
-import java.io.InputStream
 
 class RecipeFragment : Fragment() {
     private val viewModel: RecipeViewModel by activityViewModels()
@@ -50,13 +47,7 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initUI() {
-        try {
-            val inputStream: InputStream? = recipe?.imageUrl?.let { context?.assets?.open(it) }
-            val drawable = Drawable.createFromStream(inputStream, null)
-            binding.ivRecipesHeaderImage.setImageDrawable(drawable)
-        } catch (e: Exception) {
-            Log.e("MyLogError", "Image ${recipe?.imageUrl} not found")
-        }
+        binding.ivRecipesHeaderImage.setImageDrawable(viewModel.recipeState.value?.recipeImage)
 
         binding.btnFavorite.setOnClickListener {
             viewModel.onFavoritesClicked()
