@@ -65,41 +65,37 @@ class RecipeFragment : Fragment() {
         binding.tvRecipesHeaderTitle.text = viewModel.recipeState.value?.recipe?.title
 
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
-            val isFavorite = state.isFavorite
-            val portionCount = state.portionCount
+            val isFavorite = state?.isFavorite
+            val portionCount = state?.portionCount
 
             binding.tvNumberOfServings.text = portionCount.toString()
-            if (isFavorite) {
+            if (isFavorite == true) {
                 binding.btnFavorite.setImageResource(R.drawable.ic_heart)
             } else {
                 binding.btnFavorite.setImageResource(R.drawable.ic_heart_empty)
             }
+
+            binding.rvIngredients.adapter = ingredientsAdapter
+            binding.rvIngredients.layoutManager = LinearLayoutManager(context)
+
+            binding.rvMethod.adapter = methodAdapter
+            binding.rvMethod.layoutManager = LinearLayoutManager(context)
         }
     }
 
     private fun initRecycler() {
-        viewModel.recipeState.value?.recipe?.let {
-            binding.rvIngredients.adapter = ingredientsAdapter
-            binding.rvIngredients.layoutManager = LinearLayoutManager(context)
-
-            val divider = MaterialDividerItemDecoration(
-                requireContext(),
-                LinearLayoutManager.VERTICAL
-            ).apply {
-                isLastItemDecorated = false
-                dividerInsetStart = resources.getDimensionPixelSize(R.dimen.padding_text_12)
-                dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.padding_text_12)
-                dividerColor = resources.getColor(R.color.divider_color)
-            }
-            divider.dividerThickness = 2
-            binding.rvIngredients.addItemDecoration(divider)
-            binding.rvMethod.addItemDecoration(divider)
+        val divider = MaterialDividerItemDecoration(
+            requireContext(),
+            LinearLayoutManager.VERTICAL
+        ).apply {
+            isLastItemDecorated = false
+            dividerInsetStart = resources.getDimensionPixelSize(R.dimen.padding_text_12)
+            dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.padding_text_12)
+            dividerColor = resources.getColor(R.color.divider_color)
         }
-
-        viewModel.recipeState.value?.recipe?.let {
-            binding.rvMethod.adapter = methodAdapter
-            binding.rvMethod.layoutManager = LinearLayoutManager(context)
-        }
+        divider.dividerThickness = 2
+        binding.rvIngredients.addItemDecoration(divider)
+        binding.rvMethod.addItemDecoration(divider)
     }
 
     private fun initSeekBar() {

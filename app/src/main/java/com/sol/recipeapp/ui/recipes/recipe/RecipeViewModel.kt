@@ -11,8 +11,8 @@ import com.sol.recipeapp.STUB
 import com.sol.recipeapp.data.Recipe
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
-    private val _recipeState = MutableLiveData<RecipeState>(RecipeState())
-    val recipeState: LiveData<RecipeState> = _recipeState
+    private val _recipeState = MutableLiveData<RecipeState?>(RecipeState())
+    val recipeState: LiveData<RecipeState?> = _recipeState
 
     private val sharedPref by lazy {
         application.getSharedPreferences(
@@ -47,15 +47,17 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun onFavoritesClicked() {
+        var currentState = _recipeState.value
         val favorites = getFavorites()
-        val isFavorite = _recipeState.value?.isFavorite ?: false
-        val recipeId = _recipeState.value?.recipe?.id.toString()
+        val isFavorite = currentState?.copy(isFavorite = !currentState.isFavorite)
+        _recipeState.value = isFavorite
+
+        val recipeId = currentState?.recipe?.id.toString()
         if (favorites.contains(recipeId)) {
             favorites.remove(recipeId)
         } else {
             favorites.add(recipeId)
         }
-        _recipeState.value = _recipeState.value?.copy(isFavorite = !isFavorite)
 
         saveFavorites(favorites)
     }
@@ -69,7 +71,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     data class RecipeState(
         val recipe: Recipe? = null,
-        var portionCount: Int = 1,
-        var isFavorite: Boolean = false,
+        val portionCount: Int = 1,
+        val isFavorite: Boolean = false,
     )
 }
