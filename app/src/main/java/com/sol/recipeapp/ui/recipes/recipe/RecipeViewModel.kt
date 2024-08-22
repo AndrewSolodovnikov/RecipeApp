@@ -30,13 +30,12 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         // TODO load from network
         val recipe = STUB.getRecipeById(recipeId)
 
-        _recipeState.value = _recipeState.value?.let {
-            RecipeState(
-                recipe = recipe,
-                isFavorite = getFavorites().contains(recipeId.toString()),
-                portionCount = it.portionCount
-            )
-        }
+        val currentState = _recipeState.value
+        _recipeState.value = currentState?.copy(
+            recipe = recipe,
+            isFavorite = getFavorites().contains(recipeId.toString())
+        )
+
     }
 
     private fun getFavorites(): MutableSet<String> {
@@ -47,10 +46,11 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun onFavoritesClicked() {
-        var currentState = _recipeState.value
         val favorites = getFavorites()
-        val isFavorite = currentState?.copy(isFavorite = !currentState.isFavorite)
-        _recipeState.value = isFavorite
+        val currentState = _recipeState.value
+
+        val newState = currentState?.copy(isFavorite = !currentState.isFavorite)
+        _recipeState.value = newState
 
         val recipeId = currentState?.recipe?.id.toString()
         if (favorites.contains(recipeId)) {

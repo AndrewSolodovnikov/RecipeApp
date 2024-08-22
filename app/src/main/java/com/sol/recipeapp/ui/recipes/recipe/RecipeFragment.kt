@@ -21,13 +21,8 @@ class RecipeFragment : Fragment() {
     private val viewModel: RecipeViewModel by activityViewModels()
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private var recipe: Recipe? = null
-    private val ingredientsAdapter by lazy {
-        viewModel.recipeState.value?.recipe?.ingredients?.let { IngredientsAdapter(it) }
-    }
-
-    private val methodAdapter by lazy {
-        viewModel.recipeState.value?.recipe?.method?.let { MethodAdapter(it) }
-    }
+    private var ingredientsAdapter = IngredientsAdapter(emptyList())
+    private var methodAdapter = MethodAdapter(emptyList())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +42,7 @@ class RecipeFragment : Fragment() {
         initRecycler()
         initUI()
         initSeekBar()
+
     }
 
     private fun initUI() {
@@ -62,9 +58,8 @@ class RecipeFragment : Fragment() {
             viewModel.onFavoritesClicked()
         }
 
-        binding.tvRecipesHeaderTitle.text = viewModel.recipeState.value?.recipe?.title
-
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
+            binding.tvRecipesHeaderTitle.text = state?.recipe?.title
             val isFavorite = state?.isFavorite
             val portionCount = state?.portionCount
 
@@ -75,11 +70,17 @@ class RecipeFragment : Fragment() {
                 binding.btnFavorite.setImageResource(R.drawable.ic_heart_empty)
             }
 
-            binding.rvIngredients.adapter = ingredientsAdapter
-            binding.rvIngredients.layoutManager = LinearLayoutManager(context)
+            state?.recipe?.ingredients?.let { ingredients ->
+                ingredientsAdapter = IngredientsAdapter(ingredients)
+                binding.rvIngredients.adapter = ingredientsAdapter
+                binding.rvIngredients.layoutManager = LinearLayoutManager(context)
+            }
 
-            binding.rvMethod.adapter = methodAdapter
-            binding.rvMethod.layoutManager = LinearLayoutManager(context)
+            state?.recipe?.method?.let { method ->
+                methodAdapter = MethodAdapter(method)
+                binding.rvMethod.adapter = methodAdapter
+                binding.rvMethod.layoutManager = LinearLayoutManager(context)
+            }
         }
     }
 
@@ -102,7 +103,7 @@ class RecipeFragment : Fragment() {
         binding.seekbarRecipe.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 binding.tvNumberOfServings.text = progress.toString()
-                ingredientsAdapter?.updateIngredients(progress)
+                ingredientsAdapter.updateIngredients(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
