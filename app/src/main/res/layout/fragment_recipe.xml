@@ -32,7 +32,8 @@
             android:src="@drawable/ic_heart_empty"
             app:layout_constraintEnd_toEndOf="@+id/recipeHeader"
             app:layout_constraintTop_toTopOf="@+id/recipeHeader"
-            tools:src="@drawable/ic_heart" />
+            tools:src="@drawable/ic_heart"
+            android:contentDescription="@string/button_favorite"/>
 
         <TextView
             android:id="@+id/tvRecipesHeaderTitle"

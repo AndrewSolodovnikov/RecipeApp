@@ -15,4 +15,5 @@
     <string name="favorites_shared_pref">favorites_shared_pref</string>
     <string name="favorite">избранное</string>
     <string name="favorites_empty">Вы еще не добавили ни одного рецепта в избранное</string>
+    <string name="button_favorite">Button favorite</string>
 </resources>
