@@ -7,7 +7,7 @@ import com.sol.recipeapp.data.Ingredient
 import com.sol.recipeapp.databinding.ItemIngredientBinding
 import java.math.BigDecimal
 
-class IngredientsAdapter(private val dataSet: List<Ingredient> = emptyList()) :
+class IngredientsAdapter(private var dataSet: List<Ingredient> = emptyList()) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemIngredientBinding) :
@@ -43,6 +43,11 @@ class IngredientsAdapter(private val dataSet: List<Ingredient> = emptyList()) :
 
     fun updateIngredients(progress: Int) {
         quantity = progress
+        notifyDataSetChanged()
+    }
+
+    fun updateIngredientsList(data: List<Ingredient>) {
+        dataSet = data
         notifyDataSetChanged()
     }
 }

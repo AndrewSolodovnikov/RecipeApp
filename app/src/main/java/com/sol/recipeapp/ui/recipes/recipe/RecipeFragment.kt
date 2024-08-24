@@ -21,7 +21,8 @@ class RecipeFragment : Fragment() {
     private val viewModel: RecipeViewModel by activityViewModels()
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private var recipe: Recipe? = null
-    private val ingredientsAdapter by lazy { recipe?.ingredients?.let { IngredientsAdapter(it) } }
+    private val ingredientsAdapter = IngredientsAdapter(emptyList())
+    private val methodAdapter = MethodAdapter(emptyList())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +58,9 @@ class RecipeFragment : Fragment() {
             viewModel.onFavoritesClicked()
         }
 
+        binding.rvIngredients.layoutManager = LinearLayoutManager(context)
+        binding.rvMethod.layoutManager = LinearLayoutManager(context)
+
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
             binding.tvRecipesHeaderTitle.text = state?.recipe?.title
 
@@ -68,13 +72,13 @@ class RecipeFragment : Fragment() {
             }
 
             state?.recipe?.ingredients?.let { ingredients ->
-                binding.rvIngredients.adapter = IngredientsAdapter(ingredients)
-                binding.rvIngredients.layoutManager = LinearLayoutManager(context)
+                binding.rvIngredients.adapter = ingredientsAdapter
+                ingredientsAdapter.updateIngredientsList(ingredients)
             }
 
             state?.recipe?.method?.let { method ->
-                binding.rvMethod.adapter = MethodAdapter(method)
-                binding.rvMethod.layoutManager = LinearLayoutManager(context)
+                binding.rvMethod.adapter = methodAdapter
+                methodAdapter.updateMethodList(method)
             }
         }
     }
@@ -98,7 +102,7 @@ class RecipeFragment : Fragment() {
         binding.seekbarRecipe.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 binding.tvNumberOfServings.text = progress.toString()
-                ingredientsAdapter?.updateIngredients(progress)
+                ingredientsAdapter.updateIngredients(progress)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
