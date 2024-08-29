@@ -1,18 +1,17 @@
 <resources>
     <string name="app_name">RecipeApp</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">CategoryListFragment</string>
+    <string name="screen_title_categories">категории</string>
+    <string name="screen_title_favorites">избранное</string>
 
-    <string name="title_category">категории</string>
-    <string name="title_favorites">избранное</string>
-    <string name="category_item_image">Изображение категории</string>
-    <string name="recipes_item_image">Изображение рецепта</string>
-    <string name="ingredients">Ингредиенты</string>
-    <string name="services">Порции:</string>
-    <string name="cooking_method">Способ приготовления</string>
-    <string name="seekbar_progress">1</string>
-    <string name="favorite">избранное</string>
-    <string name="favorites_empty">Вы еще не добавили ни одного рецепта в избранное</string>
-    <string name="button_favorite">Добавить в избранное</string>
+    <string name="list_item_category_image">Изображение категории</string>
+    <string name="list_item_recipe_image">Изображение рецепта</string>
+
+    <string name="recipe_ingredients_label">Ингредиенты</string>
+    <string name="recipe_servings_label">Порции:</string>
+    <string name="recipe_cooking_method_label">Способ приготовления</string>
+    <string name="seekbar_progress_default">1</string>
+
+    <string name="favorites_empty_message">Вы еще не добавили ни одного рецепта в избранное</string>
+    <string name="button_add_to_favorites">Добавить в избранное</string>
 </resources>

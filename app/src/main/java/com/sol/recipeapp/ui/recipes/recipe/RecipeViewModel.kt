@@ -2,17 +2,17 @@ package com.sol.recipeapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
 import com.sol.recipeapp.STUB
 import com.sol.recipeapp.data.Recipe
+import java.math.BigDecimal
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
-    private val _recipeState = MutableLiveData<RecipeState?>(RecipeState())
-    val recipeState: LiveData<RecipeState?> = _recipeState
+    private val recipeStateMap = mutableMapOf<Int, RecipeState>()
+    private val _recipeState = MutableLiveData<RecipeState?>()
+    val recipeState: MutableLiveData<RecipeState?> = _recipeState
 
     private val sharedPref by lazy {
         application.getSharedPreferences(
@@ -21,21 +21,44 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
-    init {
-        Log.i("!!!", "RecipeViewModel")
-        _recipeState.value = _recipeState.value?.copy(isFavorite = true)
-    }
-
     fun loadRecipe(recipeId: Int) {
-        // TODO load from network
-        val recipe = STUB.getRecipeById(recipeId)
+        if (recipeStateMap.containsKey(recipeId)) {
+            _recipeState.value = recipeStateMap[recipeId]
+            return
+        }
 
-        val currentState = _recipeState.value
-        _recipeState.value = currentState?.copy(
+        val recipe = STUB.getRecipeById(recipeId)
+        val recipeState = RecipeState(
             recipe = recipe,
             isFavorite = getFavorites().contains(recipeId.toString())
         )
 
+        recipeStateMap[recipeId] = recipeState
+        _recipeState.value = recipeState
+    }
+
+    fun updatePortionCount(recipeId: Int, count: Int) {
+        val currentState = recipeStateMap[recipeId]
+
+        if (currentState != null && currentState.recipe?.id == recipeId) {
+            val originalIngredients = currentState.recipe.ingredients
+            val updatedIngredients = originalIngredients.map { ingredient ->
+                val newQuantity = try {
+                    BigDecimal(ingredient.quantity).multiply(BigDecimal(count))
+                } catch (e: NumberFormatException) {
+                    BigDecimal.ZERO
+                }
+                ingredient.copy(quantity = newQuantity.toString())
+            }
+
+            val updatedState = currentState.copy(
+                portionCount = count,
+                recipe = currentState.recipe.copy(ingredients = updatedIngredients)
+            )
+
+            recipeStateMap[recipeId] = updatedState
+            _recipeState.value = updatedState
+        }
     }
 
     private fun getFavorites(): MutableSet<String> {
@@ -71,7 +94,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     data class RecipeState(
         val recipe: Recipe? = null,
-        val portionCount: Int = 1,
+        var portionCount: Int = 1,
         val isFavorite: Boolean = false,
     )
 }

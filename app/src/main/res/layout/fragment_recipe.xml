@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bcg_recipes_list"
-            android:contentDescription="@string/title_category"
+            android:contentDescription="@string/screen_title_categories"
             android:scaleType="centerCrop" />
 
         <ImageButton
@@ -33,7 +33,7 @@
             app:layout_constraintEnd_toEndOf="@+id/recipeHeader"
             app:layout_constraintTop_toTopOf="@+id/recipeHeader"
             tools:src="@drawable/ic_heart"
-            android:contentDescription="@string/button_favorite"/>
+            android:contentDescription="@string/button_add_to_favorites"/>
 
         <TextView
             android:id="@+id/tvRecipesHeaderTitle"
@@ -65,7 +65,7 @@
                 android:paddingVertical="@dimen/padding_text_6"
                 android:paddingStart="@dimen/margin_main"
                 android:paddingTop="@dimen/margin_half"
-                android:text="@string/ingredients"
+                android:text="@string/recipe_ingredients_label"
                 android:textAppearance="@style/CookingH1" />
 
             <LinearLayout
@@ -78,7 +78,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/services"
+                    android:text="@string/recipe_servings_label"
                     android:textAppearance="@style/CookingServices" />
 
                 <TextView
@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/padding_text_6"
-                    android:text="@string/seekbar_progress"
+                    android:text="@string/seekbar_progress_default"
                     android:textAppearance="@style/CookingServices" />
 
             </LinearLayout>
@@ -115,7 +115,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_main"
-                android:text="@string/cooking_method"
+                android:text="@string/recipe_cooking_method_label"
                 android:textAppearance="@style/CookingH1" />
 
             <androidx.recyclerview.widget.RecyclerView

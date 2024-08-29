@@ -37,7 +37,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/navigation_button_category_color"
             android:padding="0dp"
-            android:text="@string/title_category"
+            android:text="@string/screen_title_categories"
             android:textAllCaps="true" />
 
         <Button
@@ -49,7 +49,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/navigation_button_favorites_color"
             android:padding="0dp"
-            android:text="@string/title_favorites"
+            android:text="@string/screen_title_favorites"
             android:textAllCaps="true"
             app:icon="@drawable/ic_heart_empty"
             app:iconGravity="textEnd" />

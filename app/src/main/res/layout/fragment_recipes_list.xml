@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bcg_recipes_list"
-            android:contentDescription="@string/title_category"
+            android:contentDescription="@string/screen_title_categories"
             android:scaleType="centerCrop" />
 
         <TextView
