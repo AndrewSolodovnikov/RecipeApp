@@ -35,10 +35,11 @@ class RecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Получаем recipeId из аргументов
         recipeId = arguments?.getInt(ARG_RECIPE)
-        if (recipeId != null) {
-            viewModel.loadRecipe(recipeId!!)
-        }
+
+        // Загружаем рецепт по ID
+        recipeId?.let { viewModel.loadRecipe(it) }
 
         initRecycler()
         initUI()

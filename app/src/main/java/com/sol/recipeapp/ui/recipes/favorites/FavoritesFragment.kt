@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +18,7 @@ import com.sol.recipeapp.ui.recipes.recipeslist.RecipesListAdapter
 import com.sol.recipeapp.STUB
 import com.sol.recipeapp.databinding.FragmentFavoritesBinding
 import com.sol.recipeapp.ui.recipes.recipe.RecipeFragment
+import com.sol.recipeapp.ui.recipes.recipe.RecipeViewModel
 
 class FavoritesFragment : Fragment() {
     private val binding by lazy { FragmentFavoritesBinding.inflate(layoutInflater) }
@@ -26,6 +28,7 @@ class FavoritesFragment : Fragment() {
             Context.MODE_PRIVATE
         )
     }
+    private val recipeViewModel: RecipeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +50,8 @@ class FavoritesFragment : Fragment() {
         customAdapter?.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
             override fun onItemClick(recipeId: Int) {
                 openRecipesByRecipeId(recipeId)
+                // нужно тянуть данные из стейта
+
             }
         })
     }
@@ -63,11 +68,17 @@ class FavoritesFragment : Fragment() {
     }
 
     fun openRecipesByRecipeId(recipeId: Int) {
+        // тянем данные из стейта здесь
+        recipeViewModel.loadRecipe(recipeId)
+
+        /*
         val recipe = STUB.getRecipeById(recipeId)
         val bundle = bundleOf(ARG_RECIPE to recipe)
 
+         */
+
         parentFragmentManager.commit {
-            replace<RecipeFragment>(R.id.mainContainer, args = bundle)
+            replace<RecipeFragment>(R.id.mainContainer)
             setReorderingAllowed(true)
             addToBackStack("recipes_list_fragment")
         }
