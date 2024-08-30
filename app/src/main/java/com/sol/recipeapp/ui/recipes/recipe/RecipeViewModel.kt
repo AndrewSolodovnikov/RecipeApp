@@ -2,6 +2,7 @@ package com.sol.recipeapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
@@ -11,7 +12,6 @@ import com.sol.recipeapp.data.Recipe
 import java.math.BigDecimal
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
-    private val recipeStateMap = mutableMapOf<Int, RecipeState>()
     private val _recipeState = MutableLiveData<RecipeState?>()
     val recipeState: MutableLiveData<RecipeState?> = _recipeState
     private val originalIngredientsMap = mutableMapOf<Int, List<Ingredient>?>()
@@ -24,49 +24,30 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun loadRecipe(recipeId: Int) {
-        // Если рецепт уже загружен, просто используем его состояние
-        if (recipeStateMap.containsKey(recipeId)) {
-            _recipeState.value = recipeStateMap[recipeId]
-            return
-        }
+        _recipeState.value?.let { return }
 
-        // Загружаем рецепт и сохраняем его в мапу состояний
         val recipe = STUB.getRecipeById(recipeId)
         val recipeState = RecipeState(
             recipe = recipe,
             isFavorite = getFavorites().contains(recipeId.toString())
         )
 
-        // Сохраняем оригинальные ингредиенты
         originalIngredientsMap[recipeId] = recipe?.ingredients
 
-        // Сохраняем состояние в мапу и обновляем LiveData
-        recipeStateMap[recipeId] = recipeState
         _recipeState.value = recipeState
     }
 
-    fun updatePortionCount(recipeId: Int, count: Int) {
-        val currentState = recipeStateMap[recipeId]
-        val originalIngredients = originalIngredientsMap[recipeId]
+    fun updatePortionCount(recipeId: Int, progress: Int) {
+        Log.i("!!!info", "ViewModel seekBar progress = $progress")
+        val currentState = _recipeState.value
 
         if (currentState != null && currentState.recipe?.id == recipeId) {
-            val updatedIngredients = originalIngredients?.map { ingredient ->
-                val newQuantity = try {
-                    BigDecimal(ingredient.quantity).multiply(BigDecimal(count))
-                } catch (e: NumberFormatException) {
-                    BigDecimal.ZERO
-                }
-                ingredient.copy(quantity = newQuantity.toString())
-            }
-
             val updatedState = currentState.copy(
-                portionCount = count,
-                recipe = currentState.recipe.copy(ingredients = updatedIngredients ?: emptyList())
+                portionCount = progress
             )
 
-            // Сохраняем обновлённое состояние обратно в мапу и в LiveData
-            recipeStateMap[recipeId] = updatedState
             _recipeState.value = updatedState
+            Log.i("!!!info", "ViewModel recipeState = ${_recipeState.value}")
         }
     }
 

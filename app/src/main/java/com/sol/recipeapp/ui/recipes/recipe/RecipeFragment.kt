@@ -16,6 +16,7 @@ import com.sol.recipeapp.R
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
 import java.io.InputStream
+import java.math.BigDecimal
 
 class RecipeFragment : Fragment() {
     private val viewModel: RecipeViewModel by activityViewModels()
@@ -35,10 +36,7 @@ class RecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Получаем recipeId из аргументов
         recipeId = arguments?.getInt(ARG_RECIPE)
-
-        // Загружаем рецепт по ID
         recipeId?.let { viewModel.loadRecipe(it) }
 
         initRecycler()
@@ -82,6 +80,18 @@ class RecipeFragment : Fragment() {
             state?.recipe?.method?.let { method ->
                 methodAdapter.updateMethodList(method)
             }
+
+            state?.recipe?.ingredients?.let { ingredients ->
+                val updatedIngredients = ingredients.map { ingredient ->
+                    val newQuantity = try {
+                        BigDecimal(ingredient.quantity).multiply(BigDecimal(state.portionCount))
+                    } catch (e: NumberFormatException) {
+                        BigDecimal.ZERO
+                    }
+                    ingredient.copy(quantity = newQuantity.toString())
+                }
+                ingredientsAdapter.updateIngredientsList(updatedIngredients)
+            }
         }
     }
 
@@ -101,11 +111,12 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initSeekBar() {
+        Log.i("!!!info", "seekBar init")
         binding.seekbarRecipe.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 recipeId?.let { viewModel.updatePortionCount(it, progress) }
-                }
-
+                Log.i("!!!info", "seekBar progress = $progress")
+            }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
