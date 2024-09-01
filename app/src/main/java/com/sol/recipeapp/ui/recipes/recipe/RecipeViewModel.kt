@@ -9,7 +9,6 @@ import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
 import com.sol.recipeapp.STUB
 import com.sol.recipeapp.data.Ingredient
 import com.sol.recipeapp.data.Recipe
-import java.math.BigDecimal
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeState = MutableLiveData<RecipeState?>()
