@@ -22,7 +22,6 @@ class RecipeFragment : Fragment() {
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private val ingredientsAdapter = IngredientsAdapter()
     private val methodAdapter = MethodAdapter()
-    //private val recipe: Recipe? = null
     private var recipeId: Int? = null
 
     override fun onCreateView(
