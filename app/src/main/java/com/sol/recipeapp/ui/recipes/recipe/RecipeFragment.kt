@@ -23,7 +23,7 @@ class RecipeFragment : Fragment() {
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private val ingredientsAdapter = IngredientsAdapter()
     private val methodAdapter = MethodAdapter()
-    private val recipe: Recipe? = null
+    //private val recipe: Recipe? = null
     private var recipeId: Int? = null
 
     override fun onCreateView(
@@ -45,14 +45,6 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initUI() {
-        try {
-            val inputStream: InputStream? = recipe?.imageUrl?.let { context?.assets?.open(it) }
-            val drawable = Drawable.createFromStream(inputStream, null)
-            binding.ivRecipesHeaderImage.setImageDrawable(drawable)
-        } catch (e: Exception) {
-            Log.e("MyLogError", "Image ${recipe?.imageUrl} not found")
-        }
-
         binding.btnFavorite.setOnClickListener {
             viewModel.onFavoritesClicked()
         }
@@ -63,6 +55,7 @@ class RecipeFragment : Fragment() {
         binding.rvMethod.adapter = methodAdapter
 
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
+            Log.i("!!!info", "seekBar_3, init_4 ViewModel observe recipeState = $state")
             binding.tvRecipesHeaderTitle.text = state?.recipe?.title
             binding.tvNumberOfServings.text = state?.portionCount.toString()
             binding.seekbarRecipe.progress = state?.portionCount ?: 1
@@ -92,6 +85,14 @@ class RecipeFragment : Fragment() {
                 }
                 ingredientsAdapter.updateIngredientsList(updatedIngredients)
             }
+
+            try {
+                val inputStream: InputStream? = state?.recipe?.imageUrl?.let { context?.assets?.open(it) }
+                val drawable = Drawable.createFromStream(inputStream, null)
+                binding.ivRecipesHeaderImage.setImageDrawable(drawable)
+            } catch (e: Exception) {
+                Log.e("MyLogError", "Image ${state?.recipe?.imageUrl} not found")
+            }
         }
     }
 
@@ -111,11 +112,11 @@ class RecipeFragment : Fragment() {
     }
 
     private fun initSeekBar() {
-        Log.i("!!!info", "seekBar init")
+        Log.i("!!!info", "init_3 seekBar init")
         binding.seekbarRecipe.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 recipeId?.let { viewModel.updatePortionCount(it, progress) }
-                Log.i("!!!info", "seekBar progress = $progress")
+                Log.i("!!!info", "seekBar_5 seekBar progress = $progress")
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}

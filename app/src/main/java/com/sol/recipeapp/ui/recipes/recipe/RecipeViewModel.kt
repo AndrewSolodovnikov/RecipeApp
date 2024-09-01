@@ -24,22 +24,28 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun loadRecipe(recipeId: Int) {
-        _recipeState.value?.let { return }
+        Log.i("!!!info", "____ start loadRecipe()")
+        //_recipeState.value?.let { return }
+        if (_recipeState.value?.recipe?.id == recipeId) return
 
         val recipe = STUB.getRecipeById(recipeId)
-        val recipeState = RecipeState(
+        Log.i("!!!info", "init_1 ViewModel loadRecipe() recipe = $recipe")
+        val newRecipeState = RecipeState(
             recipe = recipe,
             isFavorite = getFavorites().contains(recipeId.toString())
         )
 
         originalIngredientsMap[recipeId] = recipe?.ingredients
 
-        _recipeState.value = recipeState
+        _recipeState.value = newRecipeState
+        Log.i("!!!info", "init_2, seekBar_3 ViewModel loadRecipe() recipeState = ${_recipeState.value}")
     }
 
     fun updatePortionCount(recipeId: Int, progress: Int) {
-        Log.i("!!!info", "ViewModel seekBar progress = $progress")
+        Log.i("!!!info", "seekBar_1 ViewModel seekBar progress = $progress")
+        Log.i("!!!info", "seekBar_2 ViewModel seekBar recipeId = $recipeId")
         val currentState = _recipeState.value
+
 
         if (currentState != null && currentState.recipe?.id == recipeId) {
             val updatedState = currentState.copy(
@@ -47,7 +53,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             )
 
             _recipeState.value = updatedState
-            Log.i("!!!info", "ViewModel recipeState = ${_recipeState.value}")
+            Log.i("!!!info", "seekBar_4 ViewModel recipeState = ${_recipeState.value}")
         }
     }
 
@@ -89,7 +95,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     data class RecipeState(
         val recipe: Recipe? = null,
-        var portionCount: Int = 1,
+        val portionCount: Int = 1,
         val isFavorite: Boolean = false,
     )
 }
