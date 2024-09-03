@@ -7,13 +7,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
 import com.sol.recipeapp.STUB
-import com.sol.recipeapp.data.Ingredient
 import com.sol.recipeapp.data.Recipe
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeState = MutableLiveData<RecipeState?>()
     val recipeState: MutableLiveData<RecipeState?> = _recipeState
-    private val originalIngredientsMap = mutableMapOf<Int, List<Ingredient>?>()
 
     private val sharedPref by lazy {
         application.getSharedPreferences(
