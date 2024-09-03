@@ -24,8 +24,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadRecipe(recipeId: Int) {
         Log.i("!!!info", "____ start loadRecipe()")
-        //_recipeState.value?.let { return }
-        if (_recipeState.value?.recipe?.id == recipeId) return
+        if (recipeState.value?.recipe?.id == recipeId) return
 
         val recipe = STUB.getRecipeById(recipeId)
         Log.i("!!!info", "init_1 ViewModel loadRecipe() recipe = $recipe")
@@ -34,16 +33,16 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             isFavorite = getFavorites().contains(recipeId.toString())
         )
 
-        originalIngredientsMap[recipeId] = recipe?.ingredients
+        //originalIngredientsMap[recipeId] = recipe?.ingredients
 
-        _recipeState.value = newRecipeState
-        Log.i("!!!info", "init_2, seekBar_3 ViewModel loadRecipe() recipeState = ${_recipeState.value}")
+        recipeState.value = newRecipeState
+        Log.i("!!!info", "init_2, seekBar_3 ViewModel loadRecipe() recipeState = ${recipeState.value}")
     }
 
     fun updatePortionCount(recipeId: Int, progress: Int) {
         Log.i("!!!info", "seekBar_1 ViewModel seekBar progress = $progress")
         Log.i("!!!info", "seekBar_2 ViewModel seekBar recipeId = $recipeId")
-        val currentState = _recipeState.value
+        val currentState = recipeState.value
 
 
         if (currentState != null && currentState.recipe?.id == recipeId) {
@@ -51,8 +50,8 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                 portionCount = progress
             )
 
-            _recipeState.value = updatedState
-            Log.i("!!!info", "seekBar_4 ViewModel recipeState = ${_recipeState.value}")
+            recipeState.value = updatedState
+            Log.i("!!!info", "seekBar_4 ViewModel recipeState = ${recipeState.value}")
         }
     }
 
@@ -65,15 +64,13 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun onFavoritesClicked() {
         val favorites = getFavorites()
-        val currentState = _recipeState.value
-
-        val currentPortionCount = currentState?.portionCount ?: 1
+        val currentState = recipeState.value
 
         val newState = currentState?.copy(
             isFavorite = !currentState.isFavorite,
-            portionCount = currentPortionCount
+            portionCount = currentState?.portionCount ?: 1
         )
-        _recipeState.value = newState
+        recipeState.value = newState
 
         val recipeId = currentState?.recipe?.id.toString()
         if (favorites.contains(recipeId)) {

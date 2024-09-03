@@ -15,6 +15,7 @@
     <dimen name="size_favorite">40dp</dimen>
     <dimen name="header_layout_height">224dp</dimen>
     <dimen name="rv_item_image_height">130dp</dimen>
-    <dimen name="_242dp">242dp</dimen>
+    <dimen name="_102dp">102dp</dimen>
+    <dimen name="_0dp">0dp</dimen>
 
 </resources>

@@ -37,15 +37,20 @@
 
         <TextView
             android:id="@+id/tvRecipesHeaderTitle"
-            android:layout_width="@dimen/_242dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_main"
             android:layout_marginBottom="@dimen/margin_main"
+            android:layout_marginEnd="@dimen/_102dp"
             android:background="@drawable/shape_rounded_title"
             android:padding="@dimen/padding_text"
             android:textAppearance="@style/HeaderTitle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintWidth_max="@dimen/_0dp"
             tools:text="Бургер с грибами и сыром" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
