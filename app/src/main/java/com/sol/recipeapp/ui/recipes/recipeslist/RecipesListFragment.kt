@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,9 +20,11 @@ import com.sol.recipeapp.R
 import com.sol.recipeapp.STUB
 import com.sol.recipeapp.databinding.FragmentRecipesListBinding
 import com.sol.recipeapp.ui.recipes.recipe.RecipeFragment
+import com.sol.recipeapp.ui.recipes.recipe.RecipeViewModel
 import java.io.InputStream
 
 class RecipesListFragment : Fragment() {
+    private val viewModel: RecipeViewModel by activityViewModels()
     private val binding by lazy { FragmentRecipesListBinding.inflate(layoutInflater) }
 
     private var categoryId: Int? = null
@@ -57,6 +60,7 @@ class RecipesListFragment : Fragment() {
         }
 
         binding.tvRecipesListHeaderTitle.text = categoryName
+
     }
 
     private fun initRecycler() {
