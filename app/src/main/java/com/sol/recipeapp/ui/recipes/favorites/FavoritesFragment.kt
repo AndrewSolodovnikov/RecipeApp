@@ -2,21 +2,19 @@ package com.sol.recipeapp.ui.recipes.favorites
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
+import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
-import com.sol.recipeapp.ui.recipes.recipeslist.RecipesListAdapter
 import com.sol.recipeapp.STUB
 import com.sol.recipeapp.databinding.FragmentFavoritesBinding
 import com.sol.recipeapp.ui.recipes.recipe.RecipeFragment
-import com.sol.recipeapp.ui.recipes.recipe.RecipeViewModel
+import com.sol.recipeapp.ui.recipes.recipeslist.RecipesListAdapter
 
 class FavoritesFragment : Fragment() {
     private val binding by lazy { FragmentFavoritesBinding.inflate(layoutInflater) }
@@ -26,7 +24,6 @@ class FavoritesFragment : Fragment() {
             Context.MODE_PRIVATE
         )
     }
-    private val recipeViewModel: RecipeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,10 +61,14 @@ class FavoritesFragment : Fragment() {
     }
 
     fun openRecipesByRecipeId(recipeId: Int) {
-        recipeViewModel.loadRecipe(recipeId)
+        val fragment = RecipeFragment().apply {
+            arguments = Bundle().apply {
+                putInt(ARG_RECIPE, recipeId)
+            }
+        }
 
         parentFragmentManager.commit {
-            replace<RecipeFragment>(R.id.mainContainer)
+            replace(R.id.mainContainer, fragment)
             setReorderingAllowed(true)
             addToBackStack("recipes_list_fragment")
         }

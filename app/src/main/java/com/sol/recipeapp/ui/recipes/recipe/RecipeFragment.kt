@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
+import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
 import java.io.InputStream
 import java.math.BigDecimal
@@ -73,14 +75,19 @@ class RecipeFragment : Fragment() {
             }
 
             state?.recipe?.ingredients?.let { ingredients ->
+                Log.i("!!!info", "seekBar_ RecipeFragment ingredients portionCount = ${state.portionCount}")
                 val updatedIngredients = ingredients.map { ingredient ->
                     val newQuantity = try {
                         BigDecimal(ingredient.quantity).multiply(BigDecimal(state.portionCount))
                     } catch (e: NumberFormatException) {
                         BigDecimal.ZERO
                     }
-                    ingredient.copy(quantity = newQuantity.toString())
+                    ingredient.copy(
+                        quantity = newQuantity.toString()
+                    )
+
                 }
+                Log.i("!!!info", "seekBar_ RecipeFragment ingredients state = $state")
                 ingredientsAdapter.updateIngredientsList(updatedIngredients)
             }
 

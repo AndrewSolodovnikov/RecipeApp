@@ -23,6 +23,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun loadRecipe(recipeId: Int) {
         Log.i("!!!info", "____ start loadRecipe()")
         if (recipeState.value?.recipe?.id == recipeId) return
+        Log.i("!!!info", "init_1 ViewModel id = ${recipeState.value?.recipe?.id}")
 
         val recipe = STUB.getRecipeById(recipeId)
         Log.i("!!!info", "init_1 ViewModel loadRecipe() recipe = $recipe")
@@ -30,8 +31,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             recipe = recipe,
             isFavorite = getFavorites().contains(recipeId.toString())
         )
-
-        //originalIngredientsMap[recipeId] = recipe?.ingredients
 
         recipeState.value = newRecipeState
         Log.i("!!!info", "init_2, seekBar_3 ViewModel loadRecipe() recipeState = ${recipeState.value}")
@@ -44,10 +43,12 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
 
         if (currentState != null && currentState.recipe?.id == recipeId) {
+            Log.i("!!!info", "Current portionCount before update = ${currentState.portionCount}")
             val updatedState = currentState.copy(
                 portionCount = progress
             )
 
+            Log.i("!!!info", "Updating portionCount to = $progress")
             recipeState.value = updatedState
             Log.i("!!!info", "seekBar_4 ViewModel recipeState = ${recipeState.value}")
         }
