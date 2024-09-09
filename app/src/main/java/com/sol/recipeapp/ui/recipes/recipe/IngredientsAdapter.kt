@@ -22,7 +22,7 @@ class IngredientsAdapter(private var dataSet: List<Ingredient> = emptyList()) :
 
         with(viewHolder.binding) {
             tvItemCookingIngredientDescription.text = ingredient.description
-            tvItemCookingIngredientDescriptionUnitOfMeasure.text = " " + ingredient.unitOfMeasure
+            tvItemCookingIngredientDescriptionUnitOfMeasure.text = ingredient.unitOfMeasure
             tvItemCookingIngredientQuantity.text = ingredient.quantity
         }
     }

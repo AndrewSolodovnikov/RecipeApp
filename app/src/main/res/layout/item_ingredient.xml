@@ -24,6 +24,7 @@
         android:textAppearance="@style/CookingItemIngredient"
         app:layout_constraintEnd_toStartOf="@+id/tvItemCookingIngredientDescriptionUnitOfMeasure"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginEnd="@dimen/margin_quarter"
         tools:text="2" />
 
     <TextView

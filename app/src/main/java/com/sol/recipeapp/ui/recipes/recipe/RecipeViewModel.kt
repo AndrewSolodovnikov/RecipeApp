@@ -10,7 +10,7 @@ import com.sol.recipeapp.STUB
 import com.sol.recipeapp.data.Recipe
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
-    private val _recipeState = MutableLiveData<RecipeState?>()
+    private val _recipeState = MutableLiveData(RecipeState())
     val recipeState: MutableLiveData<RecipeState?> = _recipeState
 
     private val sharedPref by lazy {
@@ -33,25 +33,24 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         )
 
         recipeState.value = newRecipeState
-        Log.i("!!!info", "init_2, seekBar_3 ViewModel loadRecipe() recipeState = ${recipeState.value}")
+        Log.i(
+            "!!!info",
+            "init_2, seekBar_3 ViewModel loadRecipe() recipeState = ${recipeState.value}"
+        )
     }
 
     fun updatePortionCount(recipeId: Int, progress: Int) {
         Log.i("!!!info", "seekBar_1 ViewModel seekBar progress = $progress")
         Log.i("!!!info", "seekBar_2 ViewModel seekBar recipeId = $recipeId")
-        val currentState = recipeState.value
+        Log.i("!!!info", "Current portionCount before update = ${recipeState.value?.portionCount}")
 
+        val updatedState = recipeState.value?.copy(
+            portionCount = progress
+        )
 
-        if (currentState != null && currentState.recipe?.id == recipeId) {
-            Log.i("!!!info", "Current portionCount before update = ${currentState.portionCount}")
-            val updatedState = currentState.copy(
-                portionCount = progress
-            )
-
-            Log.i("!!!info", "Updating portionCount to = $progress")
-            recipeState.value = updatedState
-            Log.i("!!!info", "seekBar_4 ViewModel recipeState = ${recipeState.value}")
-        }
+        Log.i("!!!info", "Updating portionCount to = $progress")
+        recipeState.value = updatedState
+        Log.i("!!!info", "seekBar_4 ViewModel recipeState = ${recipeState.value}")
     }
 
     private fun getFavorites(): MutableSet<String> {
