@@ -118,8 +118,7 @@ class RecipeFragment : Fragment() {
         Log.i("!!!info", "init_3 seekBar init")
         binding.seekbarRecipe.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                recipeId?.let { viewModel.updatePortionCount(it, progress) }
-                Log.i("!!!info", "seekBar_5 seekBar progress = $progress")
+                recipeId?.let { viewModel.updatePortionCount(progress) }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
