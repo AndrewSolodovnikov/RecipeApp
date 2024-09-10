@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
 import com.sol.recipeapp.STUB
@@ -11,7 +12,7 @@ import com.sol.recipeapp.data.Recipe
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeState = MutableLiveData(RecipeState())
-    val recipeState: MutableLiveData<RecipeState?> = _recipeState
+    val recipeState: LiveData<RecipeState> = _recipeState
 
     private val sharedPref by lazy {
         application.getSharedPreferences(
@@ -32,16 +33,15 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             isFavorite = getFavorites().contains(recipeId.toString())
         )
 
-        recipeState.value = newRecipeState
+        _recipeState.value = newRecipeState
         Log.i(
             "!!!info",
             "init_2, seekBar_3 ViewModel loadRecipe() recipeState = ${recipeState.value}"
         )
     }
 
-    fun updatePortionCount(recipeId: Int, progress: Int) {
+    fun updatePortionCount(progress: Int) {
         Log.i("!!!info", "seekBar_1 ViewModel seekBar progress = $progress")
-        Log.i("!!!info", "seekBar_2 ViewModel seekBar recipeId = $recipeId")
         Log.i("!!!info", "Current portionCount before update = ${recipeState.value?.portionCount}")
 
         val updatedState = recipeState.value?.copy(
@@ -49,7 +49,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         )
 
         Log.i("!!!info", "Updating portionCount to = $progress")
-        recipeState.value = updatedState
+        _recipeState.value = updatedState
         Log.i("!!!info", "seekBar_4 ViewModel recipeState = ${recipeState.value}")
     }
 
@@ -68,7 +68,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             isFavorite = !currentState.isFavorite,
             portionCount = currentState?.portionCount ?: 1
         )
-        recipeState.value = newState
+        _recipeState.value = newState
 
         val recipeId = currentState?.recipe?.id.toString()
         if (favorites.contains(recipeId)) {
