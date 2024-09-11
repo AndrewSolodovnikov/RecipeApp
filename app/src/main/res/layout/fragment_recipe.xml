@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bcg_recipes_list"
-            android:contentDescription="@string/title_category"
+            android:contentDescription="@string/screen_title_categories"
             android:scaleType="centerCrop" />
 
         <ImageButton
@@ -32,19 +32,25 @@
             android:src="@drawable/ic_heart_empty"
             app:layout_constraintEnd_toEndOf="@+id/recipeHeader"
             app:layout_constraintTop_toTopOf="@+id/recipeHeader"
-            tools:src="@drawable/ic_heart" />
+            tools:src="@drawable/ic_heart"
+            android:contentDescription="@string/button_add_to_favorites"/>
 
         <TextView
             android:id="@+id/tvRecipesHeaderTitle"
-            android:layout_width="@dimen/_242dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_main"
             android:layout_marginBottom="@dimen/margin_main"
+            android:layout_marginEnd="@dimen/_102dp"
             android:background="@drawable/shape_rounded_title"
             android:padding="@dimen/padding_text"
             android:textAppearance="@style/HeaderTitle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintWidth_max="@dimen/_0dp"
             tools:text="Бургер с грибами и сыром" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -64,7 +70,7 @@
                 android:paddingVertical="@dimen/padding_text_6"
                 android:paddingStart="@dimen/margin_main"
                 android:paddingTop="@dimen/margin_half"
-                android:text="@string/ingredients"
+                android:text="@string/recipe_ingredients_label"
                 android:textAppearance="@style/CookingH1" />
 
             <LinearLayout
@@ -77,7 +83,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/services"
+                    android:text="@string/recipe_servings_label"
                     android:textAppearance="@style/CookingServices" />
 
                 <TextView
@@ -85,7 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/padding_text_6"
-                    android:text="@string/seekbar_progress"
+                    android:text="@string/seekbar_progress_default"
                     android:textAppearance="@style/CookingServices" />
 
             </LinearLayout>
@@ -114,7 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/margin_main"
-                android:text="@string/cooking_method"
+                android:text="@string/recipe_cooking_method_label"
                 android:textAppearance="@style/CookingH1" />
 
             <androidx.recyclerview.widget.RecyclerView

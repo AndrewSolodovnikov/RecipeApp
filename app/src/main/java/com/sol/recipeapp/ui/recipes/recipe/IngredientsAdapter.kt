@@ -5,15 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sol.recipeapp.data.Ingredient
 import com.sol.recipeapp.databinding.ItemIngredientBinding
-import java.math.BigDecimal
 
-class IngredientsAdapter(private val dataSet: List<Ingredient>) :
+class IngredientsAdapter(private var dataSet: List<Ingredient> = emptyList()) :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemIngredientBinding) :
         RecyclerView.ViewHolder(binding.root)
-
-    private var quantity = 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemIngredientBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -26,14 +23,7 @@ class IngredientsAdapter(private val dataSet: List<Ingredient>) :
         with(viewHolder.binding) {
             tvItemCookingIngredientDescription.text = ingredient.description
             tvItemCookingIngredientDescriptionUnitOfMeasure.text = ingredient.unitOfMeasure
-
-            val newQuantity = BigDecimal(ingredient.quantity).multiply(BigDecimal(quantity))
-            val quantityText = if (newQuantity.remainder(BigDecimal.ONE) == BigDecimal.ZERO) {
-                newQuantity.toInt().toString()
-            } else {
-                String.format("%.1f", newQuantity)
-            }
-            tvItemCookingIngredientQuantity.text = quantityText + " "
+            tvItemCookingIngredientQuantity.text = ingredient.quantity
         }
     }
 
@@ -41,8 +31,8 @@ class IngredientsAdapter(private val dataSet: List<Ingredient>) :
         return dataSet.size
     }
 
-    fun updateIngredients(progress: Int) {
-        quantity = progress
+    fun updateIngredientsList(data: List<Ingredient>) {
+        dataSet = data
         notifyDataSetChanged()
     }
 }

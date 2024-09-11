@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bcg_favorites"
-            android:contentDescription="@string/title_category"
+            android:contentDescription="@string/screen_title_categories"
             android:scaleType="centerCrop" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_marginBottom="@dimen/margin_main"
             android:background="@drawable/shape_rounded_title"
             android:padding="@dimen/padding_text"
-            android:text="@string/favorite"
+            android:text="@string/screen_title_favorites"
             android:textAppearance="@style/HeaderTitle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="@string/favorites_empty"
+        android:text="@string/favorites_empty_message"
         android:textAppearance="@style/FavoriteTxtEmpty"
         android:visibility="gone" />
 

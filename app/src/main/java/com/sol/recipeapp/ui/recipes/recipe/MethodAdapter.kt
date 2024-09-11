@@ -3,9 +3,10 @@ package com.sol.recipeapp.ui.recipes.recipe
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.sol.recipeapp.data.Ingredient
 import com.sol.recipeapp.databinding.ItemMethodBinding
 
-class MethodAdapter(private val dataSet: List<String>) :
+class MethodAdapter(private var dataSet: List<String> = emptyList()) :
     RecyclerView.Adapter<MethodAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemMethodBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -28,5 +29,10 @@ class MethodAdapter(private val dataSet: List<String>) :
 
     override fun getItemCount(): Int {
         return dataSet.size
+    }
+
+    fun updateMethodList(data: List<String>) {
+        dataSet = data
+        notifyDataSetChanged()
     }
 }
