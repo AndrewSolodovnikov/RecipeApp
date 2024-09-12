@@ -1,6 +1,5 @@
 package com.sol.recipeapp.ui.recipes.recipe
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +13,6 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
-import java.io.InputStream
 import java.math.BigDecimal
 
 class RecipeFragment : Fragment() {
@@ -57,6 +55,7 @@ class RecipeFragment : Fragment() {
             binding.tvRecipesHeaderTitle.text = state?.recipe?.title
             binding.tvNumberOfServings.text = state?.portionCount.toString()
             binding.seekbarRecipe.progress = state?.portionCount ?: 1
+            binding.ivRecipesHeaderImage.setImageDrawable(state?.recipeImage)
 
             if (state?.isFavorite == true) {
                 binding.btnFavorite.setImageResource(R.drawable.ic_heart)
@@ -89,13 +88,6 @@ class RecipeFragment : Fragment() {
                 ingredientsAdapter.updateIngredientsList(updatedIngredients)
             }
 
-            try {
-                val inputStream: InputStream? = state?.recipe?.imageUrl?.let { context?.assets?.open(it) }
-                val drawable = Drawable.createFromStream(inputStream, null)
-                binding.ivRecipesHeaderImage.setImageDrawable(drawable)
-            } catch (e: Exception) {
-                Log.e("MyLogError", "Image ${state?.recipe?.imageUrl} not found")
-            }
         }
     }
 
