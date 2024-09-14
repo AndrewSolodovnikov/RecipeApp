@@ -2,6 +2,7 @@ package com.sol.recipeapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
+import android.content.res.Resources.NotFoundException
 import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
@@ -10,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
 import com.sol.recipeapp.STUB
 import com.sol.recipeapp.data.Recipe
+import java.io.IOException
 import java.io.InputStream
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
@@ -36,8 +38,14 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                 recipe.imageUrl.let { img -> getApplication<Application>().assets?.open(img) }
             }
             Drawable.createFromStream(inputStream, null)
+        } catch (e: NotFoundException) {
+            Log.e("MyLogError", "Image ${recipe?.imageUrl} not found")
+            null
+        } catch (e: IOException) {
+            Log.e("MyLogError", "Image ${recipe?.imageUrl} not read")
+            null
         } catch (e: Exception) {
-            Log.e("MyLogError", "Image ${recipeState.value?.recipe?.imageUrl} not found")
+            Log.e("MyLogError", "Unknown error when uploading an image ${recipe?.imageUrl}")
             null
         }
 
