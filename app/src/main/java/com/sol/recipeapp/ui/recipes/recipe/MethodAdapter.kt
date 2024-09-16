@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sol.recipeapp.data.Ingredient
 import com.sol.recipeapp.databinding.ItemMethodBinding
 
 class MethodAdapter(private var dataSet: List<String> = emptyList()) :
