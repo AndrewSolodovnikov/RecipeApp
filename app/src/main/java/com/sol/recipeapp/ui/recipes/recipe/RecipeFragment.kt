@@ -44,22 +44,8 @@ class RecipeFragment : Fragment() {
             viewModel.onFavoritesClicked()
         }
 
-        binding.rvIngredients.layoutManager = LinearLayoutManager(context)
-        binding.rvMethod.layoutManager = LinearLayoutManager(context)
         binding.rvIngredients.adapter = ingredientsAdapter
         binding.rvMethod.adapter = methodAdapter
-        val divider = MaterialDividerItemDecoration(
-            requireContext(),
-            LinearLayoutManager.VERTICAL
-        ).apply {
-            isLastItemDecorated = false
-            dividerInsetStart = resources.getDimensionPixelSize(R.dimen.padding_text_12)
-            dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.padding_text_12)
-            dividerColor = resources.getColor(R.color.divider_color)
-        }
-        divider.dividerThickness = 2
-        binding.rvIngredients.addItemDecoration(divider)
-        binding.rvMethod.addItemDecoration(divider)
 
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
             Log.i("!!!info", "seekBar_3, init_4 ViewModel observe recipeState = $state")

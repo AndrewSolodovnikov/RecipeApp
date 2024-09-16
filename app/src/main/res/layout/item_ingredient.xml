@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingHorizontal="@dimen/padding_text_12"
-    android:paddingVertical="@dimen/margin_half">
+    android:paddingBottom="@dimen/margin_half">
 
     <TextView
         android:id="@+id/tvItemCookingIngredientDescription"
@@ -35,5 +35,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="ложки" />
+
+    <View
+        android:id="@+id/divider_ingredient"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_color"
+        android:layout_marginVertical="@dimen/margin_half"
+        app:layout_constraintTop_toBottomOf="@+id/tvItemCookingIngredientDescriptionUnitOfMeasure"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
