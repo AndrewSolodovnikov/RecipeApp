@@ -88,13 +88,20 @@ class RecipeFragment : Fragment() {
 
     private fun initSeekBar() {
         Log.i("!!!info", "init_3 seekBar init")
-        binding.seekbarRecipe.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                recipeId?.let { viewModel.updatePortionCount(progress) }
+        binding.seekbarRecipe.setOnSeekBarChangeListener(
+            PortionSeekBarListener {progress ->
+                viewModel.updatePortionCount(progress)
             }
+        )
+    }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
+    class PortionSeekBarListener(val onChangeIngredients: (Int) -> Unit): SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            onChangeIngredients(progress)
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+        override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+
     }
 }
