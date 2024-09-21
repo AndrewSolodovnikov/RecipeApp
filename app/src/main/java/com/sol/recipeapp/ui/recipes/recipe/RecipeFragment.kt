@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
@@ -35,7 +33,6 @@ class RecipeFragment : Fragment() {
         recipeId = arguments?.getInt(ARG_RECIPE)
         recipeId?.let { viewModel.loadRecipe(it) }
 
-        initRecycler()
         initUI()
         initSeekBar()
     }
@@ -45,8 +42,6 @@ class RecipeFragment : Fragment() {
             viewModel.onFavoritesClicked()
         }
 
-        binding.rvIngredients.layoutManager = LinearLayoutManager(context)
-        binding.rvMethod.layoutManager = LinearLayoutManager(context)
         binding.rvIngredients.adapter = ingredientsAdapter
         binding.rvMethod.adapter = methodAdapter
 
@@ -89,21 +84,6 @@ class RecipeFragment : Fragment() {
             }
 
         }
-    }
-
-    private fun initRecycler() {
-        val divider = MaterialDividerItemDecoration(
-            requireContext(),
-            LinearLayoutManager.VERTICAL
-        ).apply {
-            isLastItemDecorated = false
-            dividerInsetStart = resources.getDimensionPixelSize(R.dimen.padding_text_12)
-            dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.padding_text_12)
-            dividerColor = resources.getColor(R.color.divider_color)
-        }
-        divider.dividerThickness = 2
-        binding.rvIngredients.addItemDecoration(divider)
-        binding.rvMethod.addItemDecoration(divider)
     }
 
     private fun initSeekBar() {

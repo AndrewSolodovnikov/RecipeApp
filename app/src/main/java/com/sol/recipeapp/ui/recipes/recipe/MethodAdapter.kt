@@ -1,9 +1,9 @@
 package com.sol.recipeapp.ui.recipes.recipe
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sol.recipeapp.data.Ingredient
 import com.sol.recipeapp.databinding.ItemMethodBinding
 
 class MethodAdapter(private var dataSet: List<String> = emptyList()) :
@@ -22,8 +22,9 @@ class MethodAdapter(private var dataSet: List<String> = emptyList()) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         with(viewHolder) {
             with(dataSet[position]) {
-                binding.methodStep.text = this
+                binding.methodStep.text = "${position + 1}. " + this
             }
+            binding.dividerMethod.visibility = if (position == dataSet.size - 1) View.GONE else View.VISIBLE
         }
     }
 

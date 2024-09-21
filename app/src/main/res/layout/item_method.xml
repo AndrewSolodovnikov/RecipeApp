@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/padding_text_12"
-    android:layout_marginVertical="@dimen/margin_half"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/methodStep"
@@ -14,5 +13,12 @@
         android:textAppearance="@style/CookingItemMethod"
         tools:text="1. В глубокой миске смешайте говяжий фарш, лук, чеснок, соль и перец.
         Разделите фарш на 4 равные части и сформируйте котлеты." />
+
+    <View
+        android:id="@+id/divider_method"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_color"
+        android:layout_marginVertical="@dimen/margin_half"/>
 
 </LinearLayout>

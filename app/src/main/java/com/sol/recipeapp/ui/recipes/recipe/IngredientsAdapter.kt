@@ -1,6 +1,7 @@
 package com.sol.recipeapp.ui.recipes.recipe
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.sol.recipeapp.data.Ingredient
@@ -24,6 +25,7 @@ class IngredientsAdapter(private var dataSet: List<Ingredient> = emptyList()) :
             tvItemCookingIngredientDescription.text = ingredient.description
             tvItemCookingIngredientDescriptionUnitOfMeasure.text = ingredient.unitOfMeasure
             tvItemCookingIngredientQuantity.text = ingredient.quantity
+            dividerIngredient.visibility = if (position == dataSet.size - 1) View.GONE else View.VISIBLE
         }
     }
 
