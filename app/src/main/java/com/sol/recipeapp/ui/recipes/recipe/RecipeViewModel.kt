@@ -15,8 +15,6 @@ import java.io.IOException
 import java.io.InputStream
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
-    private val recipeStatesMap = mutableMapOf<Int, RecipeState>()
-
     private val _recipeState = MutableLiveData(RecipeState())
     val recipeState: LiveData<RecipeState> = _recipeState
 
