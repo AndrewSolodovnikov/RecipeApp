@@ -8,13 +8,15 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
 import java.math.BigDecimal
 
 class RecipeFragment : Fragment() {
-    private val viewModel: RecipeViewModel by activityViewModels()
+    private val viewModel: RecipeViewModel by viewModels()
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private val ingredientsAdapter = IngredientsAdapter()
     private val methodAdapter = MethodAdapter()
@@ -88,13 +90,20 @@ class RecipeFragment : Fragment() {
 
     private fun initSeekBar() {
         Log.i("!!!info", "init_3 seekBar init")
-        binding.seekbarRecipe.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                recipeId?.let { viewModel.updatePortionCount(progress) }
+        binding.seekbarRecipe.setOnSeekBarChangeListener(
+            PortionSeekBarListener {progress ->
+                viewModel.updatePortionCount(progress)
             }
+        )
+    }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
+    class PortionSeekBarListener(val onChangeIngredients: (Int) -> Unit): SeekBar.OnSeekBarChangeListener {
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            onChangeIngredients(progress)
+        }
+
+        override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+        override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+
     }
 }

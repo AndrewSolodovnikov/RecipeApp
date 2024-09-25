@@ -26,7 +26,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun loadRecipe(recipeId: Int) {
-        Log.i("!!!info", "____ start loadRecipe()")
+        Log.i("!!!info", "____ start loadRecipe() ${recipeState.value?.recipe?.id}")
         if (recipeState.value?.recipe?.id == recipeId) return
         Log.i("!!!info", "init_1 ViewModel id = ${recipeState.value?.recipe?.id}")
 
@@ -49,7 +49,11 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             null
         }
 
-        val newRecipeState = RecipeState(
+        val newRecipeState = _recipeState.value?.copy(
+            recipe = recipe,
+            isFavorite = getFavorites().contains(recipeId.toString()),
+            recipeImage = drawable
+        ) ?: RecipeState(
             recipe = recipe,
             isFavorite = getFavorites().contains(recipeId.toString()),
             recipeImage = drawable
