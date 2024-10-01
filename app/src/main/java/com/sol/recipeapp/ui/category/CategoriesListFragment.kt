@@ -1,6 +1,7 @@
 package com.sol.recipeapp.ui.category
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.sol.recipeapp.ARG_CATEGORY_ID
 import com.sol.recipeapp.ARG_CATEGORY_IMAGE_URL
@@ -19,6 +21,7 @@ import com.sol.recipeapp.ui.recipes.recipeslist.RecipesListFragment
 
 class CategoriesListFragment : Fragment() {
     private val binding by lazy { FragmentListCategoriesBinding.inflate(layoutInflater) }
+    private val viewModel: CategoriesListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,24 +32,27 @@ class CategoriesListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initRecycler()
+        initUI()
     }
 
-    private fun initRecycler() {
-        val customAdapter = CategoriesListAdapter(STUB.getCategories())
-
+    private fun initUI() {
         binding.rvCategory.layoutManager = GridLayoutManager(context, 2)
-        binding.rvCategory.adapter = customAdapter
 
-        customAdapter.setOnItemClickListener(object : CategoriesListAdapter.OnItemClickListener {
-            override fun onItemClick(categoryId: Int) {
-                openRecipesByCategoryId(categoryId)
-            }
-        })
+        viewModel.categoriesListState.observe(viewLifecycleOwner) { state ->
+            val customAdapter = CategoriesListAdapter(state.dataSet)
+            binding.rvCategory.adapter = customAdapter
+
+            customAdapter.setOnItemClickListener(object : CategoriesListAdapter.OnItemClickListener {
+                override fun onItemClick(categoryId: Int) {
+                    openRecipesByCategoryId(categoryId)
+                }
+            })
+        }
     }
 
     fun openRecipesByCategoryId(categoryId: Int) {
-        val category = STUB.getCategories().find { it.id == categoryId }
+        val category = viewModel.categoriesListState.value?.dataSet?.find { it.id == categoryId }
+        Log.i("!!!info", "category = $category")
         val categoryName = category?.title
         val categoryImageUrl = category?.imageUrl
 

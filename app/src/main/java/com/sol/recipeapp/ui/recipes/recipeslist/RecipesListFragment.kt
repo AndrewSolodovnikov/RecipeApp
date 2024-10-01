@@ -10,6 +10,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sol.recipeapp.ARG_CATEGORY_ID
 import com.sol.recipeapp.ARG_CATEGORY_IMAGE_URL
@@ -23,6 +24,7 @@ import java.io.InputStream
 
 class RecipesListFragment : Fragment() {
     private val binding by lazy { FragmentRecipesListBinding.inflate(layoutInflater) }
+    private val viewModel: RecipeListViewModel by viewModels()
 
     private var categoryId: Int? = null
     private var categoryName: String? = null
@@ -43,34 +45,34 @@ class RecipesListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initRecycler()
         initUI()
     }
 
     private fun initUI() {
-        try {
-            val inputStream: InputStream? = categoryImageUrl?.let { context?.assets?.open(it) }
-            val drawable = Drawable.createFromStream(inputStream, null)
-            binding.ivRecipesListHeaderImage.setImageDrawable(drawable)
-        } catch (e: Exception) {
-            Log.e("MyLogError", "Image $categoryImageUrl not found")
+        categoryId?.let { id ->
+            viewModel.loadRecipes(id)
         }
 
-        binding.tvRecipesListHeaderTitle.text = categoryName
-    }
-
-    private fun initRecycler() {
-        val customAdapter = categoryId?.let { STUB.getRecipesByCategoryId(it) }
-            ?.let { RecipesListAdapter(it) }
+        categoryImageUrl?.let { url ->
+            viewModel.categoryImage(url)
+        }
 
         binding.rvCategory.layoutManager = LinearLayoutManager(context)
-        binding.rvCategory.adapter = customAdapter
 
-        customAdapter?.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
-            override fun onItemClick(recipeId: Int) {
-                openRecipesByRecipeId(recipeId)
-            }
-        })
+        viewModel.recipeListState.observe(viewLifecycleOwner) { state ->
+            binding.ivRecipesListHeaderImage.setImageDrawable(state.categoryImageUrl)
+            binding.tvRecipesListHeaderTitle.text = categoryName
+
+            val customAdapter = RecipesListAdapter(state.dataSet)
+            binding.rvCategory.adapter = customAdapter
+
+            customAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
+                override fun onItemClick(recipeId: Int) {
+                    openRecipesByRecipeId(recipeId)
+                }
+            })
+
+        }
     }
 
     fun openRecipesByRecipeId(recipeId: Int) {
