@@ -1,8 +1,6 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +15,8 @@ import com.sol.recipeapp.ARG_CATEGORY_IMAGE_URL
 import com.sol.recipeapp.ARG_CATEGORY_NAME
 import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
-import com.sol.recipeapp.STUB
 import com.sol.recipeapp.databinding.FragmentRecipesListBinding
 import com.sol.recipeapp.ui.recipes.recipe.RecipeFragment
-import java.io.InputStream
 
 class RecipesListFragment : Fragment() {
     private val binding by lazy { FragmentRecipesListBinding.inflate(layoutInflater) }

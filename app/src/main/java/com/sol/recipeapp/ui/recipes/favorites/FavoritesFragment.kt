@@ -13,7 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
-import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentFavoritesBinding
 import com.sol.recipeapp.ui.recipes.recipe.RecipeFragment
 import com.sol.recipeapp.ui.recipes.recipeslist.RecipesListAdapter

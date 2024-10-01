@@ -15,7 +15,6 @@ import com.sol.recipeapp.ARG_CATEGORY_ID
 import com.sol.recipeapp.ARG_CATEGORY_IMAGE_URL
 import com.sol.recipeapp.ARG_CATEGORY_NAME
 import com.sol.recipeapp.R
-import com.sol.recipeapp.STUB
 import com.sol.recipeapp.databinding.FragmentListCategoriesBinding
 import com.sol.recipeapp.ui.recipes.recipeslist.RecipesListFragment
 

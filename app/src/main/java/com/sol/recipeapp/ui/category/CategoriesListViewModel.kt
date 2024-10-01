@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.STUB
 import com.sol.recipeapp.data.Category
-import com.sol.recipeapp.data.Recipe
 
 class CategoriesListViewModel(application: Application): AndroidViewModel(application) {
     private val _categoriesListState = MutableLiveData(CategoriesListState())
