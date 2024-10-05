@@ -1,6 +1,5 @@
 package com.sol.recipeapp.ui.category
 
-import android.graphics.drawable.Drawable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sol.recipeapp.STUB
