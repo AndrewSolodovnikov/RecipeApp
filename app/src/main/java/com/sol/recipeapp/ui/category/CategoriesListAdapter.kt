@@ -11,7 +11,7 @@ import com.sol.recipeapp.databinding.ItemCategoryBinding
 import java.io.InputStream
 
 
-class CategoriesListAdapter(private val dataSet: List<Category>) :
+class CategoriesListAdapter(private var dataSet: List<Category>) :
     RecyclerView.Adapter<CategoriesListAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemCategoryBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -54,6 +54,11 @@ class CategoriesListAdapter(private val dataSet: List<Category>) :
 
     override fun getItemCount(): Int {
         return dataSet.size
+    }
+
+    fun updateData(newCategories: List<Category>) {
+        dataSet = newCategories
+        notifyDataSetChanged()
     }
 
 }

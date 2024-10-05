@@ -9,10 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.sol.recipeapp.ARG_CATEGORY_ID
-import com.sol.recipeapp.ARG_CATEGORY_IMAGE_URL
-import com.sol.recipeapp.ARG_CATEGORY_NAME
 import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
 import com.sol.recipeapp.databinding.FragmentRecipesListBinding
@@ -23,8 +20,6 @@ class RecipesListFragment : Fragment() {
     private val viewModel: RecipeListViewModel by viewModels()
 
     private var categoryId: Int? = null
-    private var categoryName: String? = null
-    private var categoryImageUrl: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,8 +27,6 @@ class RecipesListFragment : Fragment() {
     ): View {
         arguments.let {
             categoryId = it?.getInt(ARG_CATEGORY_ID)
-            categoryName = it?.getString(ARG_CATEGORY_NAME)
-            categoryImageUrl = it?.getString(ARG_CATEGORY_IMAGE_URL)
         }
 
         val view = binding.root
@@ -41,6 +34,7 @@ class RecipesListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initUI()
     }
 
@@ -49,25 +43,20 @@ class RecipesListFragment : Fragment() {
             viewModel.loadRecipes(id)
         }
 
-        categoryImageUrl?.let { url ->
-            viewModel.categoryImage(url)
-        }
+        val customAdapter = RecipesListAdapter(emptyList())
+        binding.rvCategory.adapter = customAdapter
 
-        binding.rvCategory.layoutManager = LinearLayoutManager(context)
+        customAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
+            override fun onItemClick(recipeId: Int) {
+                openRecipesByRecipeId(recipeId)
+            }
+        })
 
         viewModel.recipeListState.observe(viewLifecycleOwner) { state ->
             binding.ivRecipesListHeaderImage.setImageDrawable(state.categoryImageUrl)
-            binding.tvRecipesListHeaderTitle.text = categoryName
+            binding.tvRecipesListHeaderTitle.text = state.categoryTitle
 
-            val customAdapter = RecipesListAdapter(state.dataSet)
-            binding.rvCategory.adapter = customAdapter
-
-            customAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
-                override fun onItemClick(recipeId: Int) {
-                    openRecipesByRecipeId(recipeId)
-                }
-            })
-
+            customAdapter.updateRecipes(state.dataSet)
         }
     }
 

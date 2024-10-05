@@ -14,27 +14,39 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
     private val _recipeListState = MutableLiveData(RecipeListState())
     val recipeListState: LiveData<RecipeListState> = _recipeListState
 
-    fun loadRecipes(categoryId: Int) {
-        val recipes = STUB.getRecipesByCategoryId(categoryId)
-        val newRecipeListState = _recipeListState.value?.copy(dataSet = recipes)
-        _recipeListState.value = newRecipeListState
-    }
+    private var drawable: Drawable? = null
 
-    fun categoryImage(categoryImageUrl: String) {
+    fun loadRecipes(categoryId: Int) {
+        //loading recipes
+        val recipes = STUB.getRecipesByCategoryId(categoryId)
+
+        //loading category data by id
+        val category = STUB.getCategories().find { it.id == categoryId }
+
+        //loading image
         try {
-            val inputStream: InputStream? = categoryImageUrl.let {
-                getApplication<Application>().assets?.open(it)
+            val inputStream: InputStream? = category?.imageUrl.let {
+                category?.imageUrl?.let { image ->
+                    getApplication<Application>().assets?.open(image)
+                }
             }
-            val drawable = Drawable.createFromStream(inputStream, null)
-            val newRecipeListState = _recipeListState.value?.copy(categoryImageUrl = drawable)
-            _recipeListState.value = newRecipeListState
+            drawable = Drawable.createFromStream(inputStream, null)
         } catch (e: Exception) {
-            Log.e("MyLogError", "Image $categoryImageUrl not found")
+            Log.e("MyLogError", "Image $drawable not found")
+        }
+
+        if (category != null) {
+            _recipeListState.value = _recipeListState.value?.copy(
+                dataSet = recipes,
+                categoryImageUrl = drawable,
+                categoryTitle = category.title
+            )
         }
     }
 
     data class RecipeListState(
         val dataSet: List<Recipe> = emptyList(),
         val categoryImageUrl: Drawable? = null,
+        val categoryTitle: String = "",
     )
 }

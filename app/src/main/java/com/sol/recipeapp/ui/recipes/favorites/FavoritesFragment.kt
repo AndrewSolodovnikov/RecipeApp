@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
 import com.sol.recipeapp.databinding.FragmentFavoritesBinding
@@ -26,32 +25,24 @@ class FavoritesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        initUI()
         return binding.root
     }
 
-    /*
-    private fun initRecycler(favoriteRecipes: List<Recipe>) {
-        //val recipeListAdapter = RecipesListAdapter(favoriteRecipes)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initUI()
+    }
 
-        binding.rvFavorites.layoutManager = LinearLayoutManager(context)
-        //binding.rvFavorites.adapter = recipeListAdapter
+    private fun initUI() {
+        binding.rvFavorites.adapter = recipeListAdapter
+
+        viewModel.loadFavoritesRecipes()
 
         recipeListAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
             override fun onItemClick(recipeId: Int) {
                 openRecipesByRecipeId(recipeId)
             }
         })
-    }
-
-     */
-
-    private fun initUI() {
-        binding.rvFavorites.layoutManager = LinearLayoutManager(context)
-        binding.rvFavorites.adapter = recipeListAdapter
-
-        viewModel.loadFavoritesRecipes()
 
         viewModel.favoritesState.observe(viewLifecycleOwner) { state ->
             Log.i("!!!info", "DataSet = ${state.dataSet}")
@@ -64,12 +55,8 @@ class FavoritesFragment : Fragment() {
                 state.dataSet?.let { recipeListAdapter.updateRecipes(it) }
             }
 
-            recipeListAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
-                override fun onItemClick(recipeId: Int) {
-                    openRecipesByRecipeId(recipeId)
-                }
-            })
-
+            binding.ivFavoriteHeaderImage.setImageDrawable(state.categoryImageUrl)
+            binding.tvFavoriteHeaderTitle.text = state.categoryTitle
         }
     }
 

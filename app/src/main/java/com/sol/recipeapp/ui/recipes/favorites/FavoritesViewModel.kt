@@ -2,6 +2,7 @@ package com.sol.recipeapp.ui.recipes.favorites
 
 import android.app.Application
 import android.content.Context
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
@@ -22,13 +23,13 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     fun loadFavoritesRecipes() {
         val favoriteIds = getFavorites()?.mapNotNull { it.toIntOrNull() }?.toSet()
         val favoriteRecipes = favoriteIds?.let { STUB.getRecipesByIds(it) }
-        val newFavoritesState =
-            _favoritesState.value?.copy(dataSet = favoriteRecipes)
-        _favoritesState.value = newFavoritesState
+        _favoritesState.value = _favoritesState.value?.copy(dataSet = favoriteRecipes)
     }
 
     data class FavoritesState(
         val dataSet: List<Recipe>? = emptyList(),
+        val categoryTitle: String = "",
+        val categoryImageUrl: Drawable? = null,
     )
 
 }

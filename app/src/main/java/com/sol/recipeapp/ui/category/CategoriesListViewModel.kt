@@ -1,12 +1,12 @@
 package com.sol.recipeapp.ui.category
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.sol.recipeapp.STUB
 import com.sol.recipeapp.data.Category
 
-class CategoriesListViewModel(application: Application): AndroidViewModel(application) {
+class CategoriesListViewModel: ViewModel() {
     private val _categoriesListState = MutableLiveData(CategoriesListState())
     val categoriesListState = _categoriesListState
 
