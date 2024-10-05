@@ -54,9 +54,6 @@ class FavoritesFragment : Fragment() {
                 binding.rvFavorites.visibility = View.VISIBLE
                 state.dataSet?.let { recipeListAdapter.updateRecipes(it) }
             }
-
-            binding.ivFavoriteHeaderImage.setImageDrawable(state.categoryImageUrl)
-            binding.tvFavoriteHeaderTitle.text = state.categoryTitle
         }
     }
 

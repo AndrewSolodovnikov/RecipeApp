@@ -10,7 +10,7 @@ import com.sol.recipeapp.STUB
 import com.sol.recipeapp.data.Recipe
 import java.io.InputStream
 
-class RecipeListViewModel(application: Application) : AndroidViewModel(application) {
+class RecipeListViewModel(private val application: Application) : AndroidViewModel(application) {
     private val _recipeListState = MutableLiveData(RecipeListState())
     val recipeListState: LiveData<RecipeListState> = _recipeListState
 
@@ -27,7 +27,7 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
         try {
             val inputStream: InputStream? = category?.imageUrl.let {
                 category?.imageUrl?.let { image ->
-                    getApplication<Application>().assets?.open(image)
+                    application.assets?.open(image)
                 }
             }
             drawable = Drawable.createFromStream(inputStream, null)
