@@ -11,7 +11,7 @@ import com.sol.recipeapp.databinding.ItemRecipeBinding
 import java.io.InputStream
 
 
-class RecipesListAdapter(private val dataSet: List<Recipe>) :
+class RecipesListAdapter(private var dataSet: List<Recipe>) :
     RecyclerView.Adapter<RecipesListAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: ItemRecipeBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -53,6 +53,11 @@ class RecipesListAdapter(private val dataSet: List<Recipe>) :
 
     override fun getItemCount(): Int {
         return dataSet.size
+    }
+
+    fun updateRecipes(newRecipes: List<Recipe>) {
+        dataSet = newRecipes
+        notifyDataSetChanged()
     }
 
 }

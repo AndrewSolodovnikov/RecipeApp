@@ -8,17 +8,15 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.fragment.app.viewModels
 import com.sol.recipeapp.ARG_CATEGORY_ID
-import com.sol.recipeapp.ARG_CATEGORY_IMAGE_URL
-import com.sol.recipeapp.ARG_CATEGORY_NAME
 import com.sol.recipeapp.R
-import com.sol.recipeapp.STUB
 import com.sol.recipeapp.databinding.FragmentListCategoriesBinding
 import com.sol.recipeapp.ui.recipes.recipeslist.RecipesListFragment
 
 class CategoriesListFragment : Fragment() {
     private val binding by lazy { FragmentListCategoriesBinding.inflate(layoutInflater) }
+    private val viewModel: CategoriesListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,13 +27,12 @@ class CategoriesListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initRecycler()
+        super.onViewCreated(view, savedInstanceState)
+        initUI()
     }
 
-    private fun initRecycler() {
-        val customAdapter = CategoriesListAdapter(STUB.getCategories())
-
-        binding.rvCategory.layoutManager = GridLayoutManager(context, 2)
+    private fun initUI() {
+        val customAdapter = CategoriesListAdapter(emptyList())
         binding.rvCategory.adapter = customAdapter
 
         customAdapter.setOnItemClickListener(object : CategoriesListAdapter.OnItemClickListener {
@@ -43,17 +40,16 @@ class CategoriesListFragment : Fragment() {
                 openRecipesByCategoryId(categoryId)
             }
         })
+
+        viewModel.categoriesListState.observe(viewLifecycleOwner) { state ->
+            customAdapter.updateData(state.dataSet)
+        }
     }
 
     fun openRecipesByCategoryId(categoryId: Int) {
-        val category = STUB.getCategories().find { it.id == categoryId }
-        val categoryName = category?.title
-        val categoryImageUrl = category?.imageUrl
-
         val bundle = bundleOf(
             ARG_CATEGORY_ID to categoryId,
-            ARG_CATEGORY_NAME to categoryName,
-            ARG_CATEGORY_IMAGE_URL to categoryImageUrl)
+            )
 
         parentFragmentManager.commit {
             replace<RecipesListFragment>(R.id.mainContainer, args = bundle)
