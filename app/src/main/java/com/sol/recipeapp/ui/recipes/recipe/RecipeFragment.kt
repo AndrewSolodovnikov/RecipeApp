@@ -67,7 +67,10 @@ class RecipeFragment : Fragment() {
             }
 
             state?.recipe?.ingredients?.let { ingredients ->
-                Log.i("!!!info", "seekBar_ RecipeFragment ingredients portionCount = ${state.portionCount}")
+                Log.i(
+                    "!!!info",
+                    "seekBar_ RecipeFragment ingredients portionCount = ${state.portionCount}"
+                )
                 val updatedIngredients = ingredients.map { ingredient ->
                     val newQuantity = try {
                         BigDecimal(ingredient.quantity).multiply(BigDecimal(state.portionCount))
@@ -89,13 +92,14 @@ class RecipeFragment : Fragment() {
     private fun initSeekBar() {
         Log.i("!!!info", "init_3 seekBar init")
         binding.seekbarRecipe.setOnSeekBarChangeListener(
-            PortionSeekBarListener {progress ->
+            PortionSeekBarListener { progress ->
                 viewModel.updatePortionCount(progress)
             }
         )
     }
 
-    class PortionSeekBarListener(val onChangeIngredients: (Int) -> Unit): SeekBar.OnSeekBarChangeListener {
+    class PortionSeekBarListener(val onChangeIngredients: (Int) -> Unit) :
+        SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
             onChangeIngredients(progress)
         }
