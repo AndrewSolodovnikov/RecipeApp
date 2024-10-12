@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
@@ -19,6 +20,7 @@ class RecipeFragment : Fragment() {
     private val ingredientsAdapter = IngredientsAdapter()
     private val methodAdapter = MethodAdapter()
     private var recipeId: Int? = null
+    private val args: RecipeFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +32,7 @@ class RecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recipeId = arguments?.getInt(ARG_RECIPE)
+        recipeId = args.recipeId
         recipeId?.let { viewModel.loadRecipe(it) }
 
         initUI()
