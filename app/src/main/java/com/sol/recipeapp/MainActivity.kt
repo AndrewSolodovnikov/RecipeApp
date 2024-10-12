@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
 import com.sol.recipeapp.databinding.ActivityMainBinding
 import com.sol.recipeapp.ui.category.CategoriesListFragment
 import com.sol.recipeapp.ui.recipes.favorites.FavoritesFragment
@@ -18,27 +20,12 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.commit {
-                setReorderingAllowed(true)
-                add<CategoriesListFragment>(R.id.mainContainer)
-            }
-        }
-
         binding.navigationButtonCategory.setOnClickListener {
-            supportFragmentManager.commit {
-                replace<CategoriesListFragment>(R.id.mainContainer)
-                setReorderingAllowed(true)
-                addToBackStack("Categories list fragment")
-            }
+            findNavController(R.id.nav_host_fragment_container).navigate(R.id.categoriesListFragment)
         }
 
         binding.navigationButtonFavorites.setOnClickListener {
-            supportFragmentManager.commit {
-                replace<FavoritesFragment>(R.id.mainContainer)
-                setReorderingAllowed(true)
-                addToBackStack("Favorites fragment")
-            }
+            findNavController(R.id.nav_host_fragment_container).navigate(R.id.favoritesFragment)
         }
     }
 }

@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.replace
 import androidx.fragment.app.viewModels
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.sol.recipeapp.ARG_CATEGORY_ID
 import com.sol.recipeapp.R
 import com.sol.recipeapp.databinding.FragmentListCategoriesBinding
@@ -51,11 +54,7 @@ class CategoriesListFragment : Fragment() {
             ARG_CATEGORY_ID to categoryId,
             )
 
-        parentFragmentManager.commit {
-            replace<RecipesListFragment>(R.id.mainContainer, args = bundle)
-            setReorderingAllowed(true)
-            addToBackStack("categories_list_fragment")
-        }
+        findNavController().navigate(R.id.recipesListFragment, bundle)
 
     }
 }
