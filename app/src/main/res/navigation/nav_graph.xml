@@ -20,9 +20,6 @@
         android:label="fragment_favorites"
         tools:layout="@layout/fragment_favorites" >
         <action
-            android:id="@+id/action_favoritesFragment_to_categoriesListFragment"
-            app:destination="@id/categoriesListFragment" />
-        <action
             android:id="@+id/action_favoritesFragment_to_recipeFragment"
             app:destination="@id/recipeFragment" />
     </fragment>
@@ -30,11 +27,7 @@
         android:id="@+id/categoriesListFragment"
         android:name="com.sol.recipeapp.ui.category.CategoriesListFragment"
         android:label="fragment_list_categories"
-        tools:layout="@layout/fragment_list_categories" >
-        <action
-            android:id="@+id/action_categoriesListFragment_to_recipesListFragment2"
-            app:destination="@id/recipesListFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_list_categories" />
     <fragment
         android:id="@+id/recipeFragment"
         android:name="com.sol.recipeapp.ui.recipes.recipe.RecipeFragment"
