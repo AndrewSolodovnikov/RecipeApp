@@ -30,7 +30,6 @@ class FavoritesFragment : Fragment() {
 
     private fun initUI() {
         binding.rvFavorites.adapter = recipeListAdapter
-
         viewModel.loadFavoritesRecipes()
 
         recipeListAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {

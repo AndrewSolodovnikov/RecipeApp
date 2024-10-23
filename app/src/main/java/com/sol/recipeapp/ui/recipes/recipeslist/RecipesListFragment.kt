@@ -1,16 +1,13 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.sol.recipeapp.ARG_CATEGORY_ID
-import com.sol.recipeapp.ARG_RECIPE
-import com.sol.recipeapp.R
 import com.sol.recipeapp.databinding.FragmentRecipesListBinding
 
 class RecipesListFragment : Fragment() {
@@ -23,12 +20,8 @@ class RecipesListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        arguments.let {
-            categoryId = it?.getInt(ARG_CATEGORY_ID)
-        }
-
-        val view = binding.root
-        return view
+        categoryId = RecipesListFragmentArgs.fromBundle(requireArguments()).categoryId
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,6 +32,7 @@ class RecipesListFragment : Fragment() {
     private fun initUI() {
         categoryId?.let { id ->
             viewModel.loadRecipes(id)
+            Log.i("!!!info", "id = $id")
         }
 
         val customAdapter = RecipesListAdapter(emptyList())

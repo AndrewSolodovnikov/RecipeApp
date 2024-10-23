@@ -1,15 +1,13 @@
 package com.sol.recipeapp.ui.category
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.sol.recipeapp.ARG_CATEGORY_ID
-import com.sol.recipeapp.R
 import com.sol.recipeapp.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment() {
@@ -20,8 +18,7 @@ class CategoriesListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,6 +32,7 @@ class CategoriesListFragment : Fragment() {
 
         customAdapter.setOnItemClickListener(object : CategoriesListAdapter.OnItemClickListener {
             override fun onItemClick(categoryId: Int) {
+                Log.i("!!!info", "categoryId = $categoryId")
                 openRecipesByCategoryId(categoryId)
             }
         })
@@ -45,11 +43,14 @@ class CategoriesListFragment : Fragment() {
     }
 
     fun openRecipesByCategoryId(categoryId: Int) {
-        val bundle = bundleOf(
-            ARG_CATEGORY_ID to categoryId,
-        )
+        val category = viewModel.categoriesListState.value?.dataSet?.find { it.id == categoryId }
 
-        findNavController().navigate(R.id.recipesListFragment, bundle)
-
+        category?.let {
+            findNavController().navigate(
+                CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(
+                    it.id
+                )
+            )
+        } ?: throw IllegalArgumentException("Category with categoryId = $categoryId not found")
     }
 }
