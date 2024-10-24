@@ -1,26 +1,25 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentRecipesListBinding
 
 class RecipesListFragment : Fragment() {
     private val binding by lazy { FragmentRecipesListBinding.inflate(layoutInflater) }
     private val viewModel: RecipeListViewModel by viewModels()
-
-    private var categoryId: Int? = null
+    private val args: RecipesListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        categoryId = RecipesListFragmentArgs.fromBundle(requireArguments()).categoryId
         return binding.root
     }
 
@@ -30,17 +29,15 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initUI() {
-        categoryId?.let { id ->
-            viewModel.loadRecipes(id)
-            Log.i("!!!info", "id = $id")
-        }
+        val categoryId = args.category.id
+        viewModel.loadRecipes(categoryId)
 
         val customAdapter = RecipesListAdapter(emptyList())
         binding.rvCategory.adapter = customAdapter
 
         customAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
-            override fun onItemClick(recipeId: Int) {
-                openRecipesByRecipeId(recipeId)
+            override fun onItemClick(recipe: Recipe) {
+                openRecipesByRecipeId(recipe)
             }
         })
 
@@ -52,9 +49,9 @@ class RecipesListFragment : Fragment() {
         }
     }
 
-    fun openRecipesByRecipeId(recipeId: Int) {
+    fun openRecipesByRecipeId(recipe: Recipe) {
         findNavController().navigate(
-            RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeId)
+            RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipe)
         )
     }
 }

@@ -16,7 +16,7 @@ class RecipesListAdapter(private var dataSet: List<Recipe>) :
     inner class ViewHolder(val binding: ItemRecipeBinding) : RecyclerView.ViewHolder(binding.root)
 
     interface OnItemClickListener {
-        fun onItemClick(categoryId: Int)
+        fun onItemClick(recipe: Recipe)
     }
 
     private var itemClickListener: OnItemClickListener? = null
@@ -37,7 +37,7 @@ class RecipesListAdapter(private var dataSet: List<Recipe>) :
                 binding.itemRecipeTitleText.text = this.title
                 binding.itemRecipeImage.contentDescription = viewHolder.itemView.context
                     .getString(R.string.list_item_recipe_image) + " " + this.title
-                binding.itemCategoryRecipe.setOnClickListener { itemClickListener?.onItemClick(this.id) }
+                binding.itemCategoryRecipe.setOnClickListener { itemClickListener?.onItemClick(this) }
             }
         }
 

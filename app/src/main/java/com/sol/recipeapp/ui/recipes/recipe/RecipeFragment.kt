@@ -9,7 +9,6 @@ import android.widget.SeekBar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.sol.recipeapp.ARG_RECIPE
 import com.sol.recipeapp.R
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
 import java.math.BigDecimal
@@ -32,7 +31,7 @@ class RecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recipeId = args.recipeId
+        recipeId = args.recipe.id
         recipeId?.let { viewModel.loadRecipe(it) }
 
         initUI()

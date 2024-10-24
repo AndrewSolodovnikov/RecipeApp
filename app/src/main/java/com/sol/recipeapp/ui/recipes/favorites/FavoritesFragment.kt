@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentFavoritesBinding
 import com.sol.recipeapp.ui.recipes.recipeslist.RecipesListAdapter
 
@@ -33,8 +34,8 @@ class FavoritesFragment : Fragment() {
         viewModel.loadFavoritesRecipes()
 
         recipeListAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
-            override fun onItemClick(recipeId: Int) {
-                openRecipesByRecipeId(recipeId)
+            override fun onItemClick(recipe: Recipe) {
+                openRecipesByRecipeId(recipe)
             }
         })
 
@@ -51,9 +52,9 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-    fun openRecipesByRecipeId(recipeId: Int) {
+    fun openRecipesByRecipeId(recipe: Recipe) {
         findNavController().navigate(
-            FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(recipeId)
+            FavoritesFragmentDirections.actionFavoritesFragmentToRecipeFragment(recipe)
         )
     }
 

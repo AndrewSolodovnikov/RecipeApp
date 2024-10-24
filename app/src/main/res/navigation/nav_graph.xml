@@ -18,8 +18,8 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
-            android:name="categoryId"
-            app:argType="integer" />
+            android:name="category"
+            app:argType="com.sol.recipeapp.data.Category" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment"
@@ -56,7 +56,7 @@
         android:label="fragment_recipe"
         tools:layout="@layout/fragment_recipe">
         <argument
-            android:name="recipeId"
-            app:argType="integer" />
+            android:name="recipe"
+            app:argType="com.sol.recipeapp.data.Recipe" />
     </fragment>
 </navigation>

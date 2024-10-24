@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.sol.recipeapp.databinding.FragmentListCategoriesBinding
 
 class CategoriesListFragment : Fragment() {
@@ -47,9 +48,8 @@ class CategoriesListFragment : Fragment() {
 
         category?.let {
             findNavController().navigate(
-                CategoriesListFragmentDirections.actionCategoriesListFragmentToRecipesListFragment(
-                    it.id
-                )
+                CategoriesListFragmentDirections
+                    .actionCategoriesListFragmentToRecipesListFragment(it)
             )
         } ?: throw IllegalArgumentException("Category with categoryId = $categoryId not found")
     }

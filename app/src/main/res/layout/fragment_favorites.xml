@@ -26,7 +26,7 @@
             android:id="@+id/tvFavoriteHeaderTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_main"
+            android:layout_margin="@dimen/margin_main"
             android:background="@drawable/shape_rounded_title"
             android:padding="@dimen/padding_text"
             android:text="@string/screen_title_favorites"
