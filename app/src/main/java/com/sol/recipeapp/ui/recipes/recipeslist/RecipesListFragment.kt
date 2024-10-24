@@ -4,31 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.sol.recipeapp.ARG_CATEGORY_ID
-import com.sol.recipeapp.ARG_RECIPE
-import com.sol.recipeapp.R
+import androidx.navigation.fragment.navArgs
+import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentRecipesListBinding
 
 class RecipesListFragment : Fragment() {
     private val binding by lazy { FragmentRecipesListBinding.inflate(layoutInflater) }
     private val viewModel: RecipeListViewModel by viewModels()
-
-    private var categoryId: Int? = null
+    private val args: RecipesListFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        arguments.let {
-            categoryId = it?.getInt(ARG_CATEGORY_ID)
-        }
-
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,16 +29,15 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initUI() {
-        categoryId?.let { id ->
-            viewModel.loadRecipes(id)
-        }
+        val categoryId = args.category.id
+        viewModel.loadRecipes(categoryId)
 
         val customAdapter = RecipesListAdapter(emptyList())
         binding.rvCategory.adapter = customAdapter
 
         customAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
-            override fun onItemClick(recipeId: Int) {
-                openRecipesByRecipeId(recipeId)
+            override fun onItemClick(recipe: Recipe) {
+                openRecipesByRecipeId(recipe)
             }
         })
 
@@ -58,9 +49,9 @@ class RecipesListFragment : Fragment() {
         }
     }
 
-    fun openRecipesByRecipeId(recipeId: Int) {
+    fun openRecipesByRecipeId(recipe: Recipe) {
         findNavController().navigate(
-            RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipeId)
+            RecipesListFragmentDirections.actionRecipesListFragmentToRecipeFragment(recipe)
         )
     }
 }
