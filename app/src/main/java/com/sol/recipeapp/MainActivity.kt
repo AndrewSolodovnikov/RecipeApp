@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity() {
                         categoryRecipesUrl.openConnection() as HttpURLConnection
                     connectionCategoryRecipes.connect()
 
-                    val bodyCategoryRecipe = connectionCategoryRecipes
-                        .inputStream.bufferedReader().readText()
+                    val bodyCategoryRecipe =
+                        connectionCategoryRecipes.inputStream.bufferedReader().readText()
                     Log.i(
                         "!!!info",
                         "responseCode category recipes [$id] = ${connectionCategoryRecipes.responseCode}"
