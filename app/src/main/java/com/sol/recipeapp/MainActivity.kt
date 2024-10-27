@@ -53,9 +53,6 @@ class MainActivity : AppCompatActivity() {
                     val bodyCategoryRecipe: String? = getJson(
                         "https://recipes.androidsprint.ru/api/category/$id/recipes", client
                     )
-                    val categoryRecipesUrl = URL(
-                        "https://recipes.androidsprint.ru/api/category/$id/recipes"
-                    )
                     Log.i("!!!info", "Body category recipes [$id] = $bodyCategoryRecipe")
                     Log.i("!!!info", "Name running thread = ${Thread.currentThread().name}")
                 }
