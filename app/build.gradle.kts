@@ -58,4 +58,6 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.navigation.dynamic.features.fragment)
     implementation(libs.navigation.testing)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 }
