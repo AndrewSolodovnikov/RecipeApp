@@ -1,8 +1,7 @@
 package com.sol.recipeapp.data
 
-import android.app.Application
+import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.RetrofitInstance.service
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
@@ -26,10 +25,13 @@ class RecipesRepository {
         }
     }
 
-    fun recipesByCategoryIdSync(id: String): List<Recipe>? {
+    fun recipesByCategoryIdSync(id: Int): List<Recipe>? {
+        Log.i("!!!info", "Start recipesByCategoryIdSync")
         return try {
             ThreadPool.executorService.submit<List<Recipe>?> {
+                Log.i("!!!info", "Start thread recipesByCategoryIdSync")
                 val response = service.getRecipesByCategoryId(id).execute()
+                Log.i("!!!info", "Response $response")
                 if (response.isSuccessful) response.body() else null
             }.get()
         } catch (e: Exception) {

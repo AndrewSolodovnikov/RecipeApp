@@ -1,6 +1,7 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,6 +43,7 @@ class RecipesListFragment : Fragment() {
         })
 
         viewModel.recipeListState.observe(viewLifecycleOwner) { state ->
+            Log.i("!!!info", "State $state")
             binding.ivRecipesListHeaderImage.setImageDrawable(state.categoryImageUrl)
             binding.tvRecipesListHeaderTitle.text = state.categoryTitle
 

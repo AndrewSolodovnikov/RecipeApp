@@ -7,16 +7,41 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.STUB
+import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Recipe
+import com.sol.recipeapp.data.RecipesRepository
 import java.io.InputStream
+import java.util.concurrent.ExecutorService
 
 class RecipeListViewModel(private val application: Application) : AndroidViewModel(application) {
     private val _recipeListState = MutableLiveData(RecipeListState())
     val recipeListState: LiveData<RecipeListState> = _recipeListState
+    private val executorService: ExecutorService by lazy {
+        (application as MyApplication).executorService
+    }
+    private val repository = RecipesRepository()
 
     private var drawable: Drawable? = null
 
     fun loadRecipes(categoryId: Int) {
+        executorService.submit {
+            Log.i("!!!info", "Repository ${repository.recipesByCategoryIdSync(categoryId)}")
+            Log.i("!!!info", "CategoryId $categoryId")
+            try {
+                _recipeListState.postValue(
+                    repository.recipesByCategoryIdSync(categoryId)?.let {
+                        _recipeListState.value?.copy(
+                            dataSet = it
+                        )
+                    }
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+
+        /*
         //loading recipes
         val recipes = STUB.getRecipesByCategoryId(categoryId)
 
@@ -42,6 +67,8 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
                 categoryTitle = category.title
             )
         }
+
+         */
     }
 
     data class RecipeListState(

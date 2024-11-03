@@ -1,4 +1,4 @@
-package com.sol.recipeapp
+package com.sol.recipeapp.com.sol.recipeapp
 
 import android.app.Application
 import java.util.concurrent.ExecutorService
