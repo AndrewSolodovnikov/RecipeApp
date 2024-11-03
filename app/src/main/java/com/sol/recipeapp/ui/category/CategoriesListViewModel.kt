@@ -12,7 +12,7 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     private val executorService: ExecutorService by lazy {
         (application as MyApplication).executorService
     }
-    private val repository = RecipesRepository()
+    private val repository = RecipesRepository(application)
 
     private val _categoriesListState = MutableLiveData(CategoriesListState())
     val categoriesListState = _categoriesListState

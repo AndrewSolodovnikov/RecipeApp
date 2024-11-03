@@ -1,21 +1,21 @@
 package com.sol.recipeapp.data
 
+import android.app.Application
 import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.RetrofitInstance.service
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
-class RecipesRepository {
-    //private val executorService = (app as MyApplication).executorService
+class RecipesRepository(application: Application) {
+    private val executorService = (application as MyApplication).executorService
 
     fun getCategorySync(): List<Category>? {
         return try {
-            ThreadPool.executorService.submit<List<Category>?> {
+            executorService.submit<List<Category>?> {
                 val response = service.getCategories().execute()
                 if (response.isSuccessful) response.body() else null
             }.get()
@@ -28,7 +28,7 @@ class RecipesRepository {
     fun recipesByCategoryIdSync(id: Int): List<Recipe>? {
         Log.i("!!!info", "Start recipesByCategoryIdSync")
         return try {
-            ThreadPool.executorService.submit<List<Recipe>?> {
+            executorService.submit<List<Recipe>?> {
                 Log.i("!!!info", "Start thread recipesByCategoryIdSync")
                 val response = service.getRecipesByCategoryId(id).execute()
                 Log.i("!!!info", "Response $response")
@@ -42,7 +42,7 @@ class RecipesRepository {
 
     fun categoryByIdSync(id: String): Category? {
         return try {
-            ThreadPool.executorService.submit<Category> {
+            executorService.submit<Category> {
                 val response = service.getCategoryById(id).execute()
                 if (response.isSuccessful) response.body() else null
             }.get()
@@ -54,7 +54,7 @@ class RecipesRepository {
 
     fun recipeByIdSync(id: String): Recipe? {
         return try {
-            ThreadPool.executorService.submit<Recipe> {
+            executorService.submit<Recipe> {
                 val response = service.getRecipeById(id).execute()
                 if (response.isSuccessful) response.body() else null
             }.get()
@@ -74,8 +74,4 @@ object RetrofitInstance {
         .build()
 
     val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
-}
-
-object ThreadPool {
-    val executorService: ExecutorService = Executors.newFixedThreadPool(10)
 }

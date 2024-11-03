@@ -6,11 +6,9 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.sol.recipeapp.STUB
 import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.data.RecipesRepository
-import java.io.InputStream
 import java.util.concurrent.ExecutorService
 
 class RecipeListViewModel(private val application: Application) : AndroidViewModel(application) {
@@ -19,7 +17,7 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
     private val executorService: ExecutorService by lazy {
         (application as MyApplication).executorService
     }
-    private val repository = RecipesRepository()
+    private val repository = RecipesRepository(application)
 
     private var drawable: Drawable? = null
 
