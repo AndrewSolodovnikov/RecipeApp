@@ -35,6 +35,7 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
                 )
             } catch (e: Exception) {
                 e.printStackTrace()
+                Log.e("!!!e", "load recipe", e)
                 null
             }
         }
