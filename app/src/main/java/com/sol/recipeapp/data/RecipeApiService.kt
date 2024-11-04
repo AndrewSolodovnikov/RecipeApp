@@ -9,10 +9,10 @@ interface RecipeApiService {
     @GET("category")
     fun getCategories(): Call<List<Category>>
 
-    @GET("/api/category/{id}/recipes")
+    @GET("category/{id}/recipes")
     fun getRecipesByCategoryId(@Path("id") id: Int?): Call<List<Recipe>>
 
-    @GET("/category/{id}")
+    @GET("category/{id}")
     fun getCategoryById(@Path("id") id: String?): Call<Category>
 
     @GET("recipes?ids={id}")
