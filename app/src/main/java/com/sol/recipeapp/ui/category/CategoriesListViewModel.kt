@@ -30,11 +30,6 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
                 null
             }
         }
-
-
-
-
-
     }
 
     data class CategoriesListState(

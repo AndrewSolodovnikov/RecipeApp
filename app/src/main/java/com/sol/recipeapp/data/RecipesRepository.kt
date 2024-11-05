@@ -40,7 +40,7 @@ class RecipesRepository(application: Application) {
         }
     }
 
-    fun categoryByIdSync(id: String): Category? {
+    fun categoryByIdSync(id: Int): Category? {
         return try {
             executorService.submit<Category> {
                 val response = service.getCategoryById(id).execute()

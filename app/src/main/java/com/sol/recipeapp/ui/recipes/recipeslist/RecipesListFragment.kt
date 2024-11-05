@@ -30,6 +30,7 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initUI() {
+        val category =args.category
         val categoryId = args.category.id
         viewModel.loadRecipes(categoryId)
 
