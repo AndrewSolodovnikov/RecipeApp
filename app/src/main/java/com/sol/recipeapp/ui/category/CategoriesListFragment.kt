@@ -42,6 +42,7 @@ class CategoriesListFragment : Fragment() {
         viewModel.categoriesListState.observe(viewLifecycleOwner) { state ->
             customAdapter.updateData(state.dataSet)
             state.errorMessage?.let {
+                Log.i("!!!toast", "value errorMessage UI ${state.errorMessage}")
                 Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
             }
         }
