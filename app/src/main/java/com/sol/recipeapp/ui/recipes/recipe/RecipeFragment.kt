@@ -32,7 +32,7 @@ class RecipeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recipeId = args.recipe.id
-        recipeId?.let { viewModel.loadRecipe(it) }
+        recipeId?.let { viewModel.loadRecipe(it.toString()) }
 
         initUI()
         initSeekBar()
@@ -48,7 +48,7 @@ class RecipeFragment : Fragment() {
 
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
             Log.i("!!!info", "seekBar_3, init_4 ViewModel observe recipeState = $state")
-            binding.tvRecipesHeaderTitle.text = state?.recipe?.title
+            binding.tvRecipesHeaderTitle.text = state?.recipe?.firstOrNull()?.title
             binding.tvNumberOfServings.text = state?.portionCount.toString()
             binding.seekbarRecipe.progress = state?.portionCount ?: 1
             binding.ivRecipesHeaderImage.setImageDrawable(state?.recipeImage)
@@ -59,15 +59,15 @@ class RecipeFragment : Fragment() {
                 binding.btnFavorite.setImageResource(R.drawable.ic_heart_empty)
             }
 
-            state?.recipe?.ingredients?.let { ingredients ->
+            state?.recipe?.firstOrNull()?.ingredients?.let { ingredients ->
                 ingredientsAdapter.updateIngredientsList(ingredients)
             }
 
-            state?.recipe?.method?.let { method ->
+            state?.recipe?.firstOrNull()?.method?.let { method ->
                 methodAdapter.updateMethodList(method)
             }
 
-            state?.recipe?.ingredients?.let { ingredients ->
+            state?.recipe?.firstOrNull()?.ingredients?.let { ingredients ->
                 Log.i(
                     "!!!info",
                     "seekBar_ RecipeFragment ingredients portionCount = ${state.portionCount}"

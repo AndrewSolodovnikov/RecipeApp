@@ -1,6 +1,7 @@
 package com.sol.recipeapp.ui.category
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.com.sol.recipeapp.MyApplication
@@ -20,19 +21,31 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     init {
         executorService.submit{
             try {
-                repository.getCategorySync()?.let {
+                val category = repository.getCategorySync()
+                Log.i("!!!toast", "category $category")
+
+                if (category != null) {
                     _categoriesListState.postValue(
-                        _categoriesListState.value?.copy(dataSet = it)
+                        _categoriesListState.value?.copy(dataSet = category)
                     )
+                } else {
+                    _categoriesListState.postValue(
+                        _categoriesListState.value?.copy(errorMessage = "Ошибка получения данных")
+                    )
+                    Log.i("!!!toast", "value ${_categoriesListState.value?.errorMessage}")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                null
+                _categoriesListState.postValue(
+                    _categoriesListState.value?.copy(errorMessage = "Ошибка получения данных")
+                )
             }
         }
+
     }
 
     data class CategoriesListState(
         val dataSet: List<Category> = emptyList(),
+        val errorMessage: String? = null,
     )
 }

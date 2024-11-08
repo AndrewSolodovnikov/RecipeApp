@@ -10,13 +10,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
 import com.sol.recipeapp.STUB
+import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Recipe
+import com.sol.recipeapp.data.RecipesRepository
+import kotlinx.serialization.Serializable
 import java.io.IOException
 import java.io.InputStream
+import java.util.concurrent.ExecutorService
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeState = MutableLiveData(RecipeState())
     val recipeState: LiveData<RecipeState> = _recipeState
+    private val executorService: ExecutorService by lazy { (application as MyApplication).executorService }
+    private val service = RecipesRepository(application)
 
     private val sharedPref by lazy {
         application.getSharedPreferences(
@@ -25,45 +31,26 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
-    fun loadRecipe(recipeId: Int) {
-        Log.i("!!!info", "____ start loadRecipe() ${recipeState.value?.recipe?.id}")
-        if (recipeState.value?.recipe?.id == recipeId) return
-        Log.i("!!!info", "init_1 ViewModel id = ${recipeState.value?.recipe?.id}")
+    fun loadRecipe(recipeId: String) {
+        executorService.submit {
+            try {
+                val recipe = service.recipesByIdSync(recipeId)
+                Log.i("!!!repo", "recipe state $recipe")
 
-        val recipe = STUB.getRecipeById(recipeId)
-        Log.i("!!!info", "init_1 ViewModel loadRecipe() recipe = $recipe")
+                _recipeState.postValue(
+                        RecipeState (
+                            recipe = service.recipesByIdSync(recipeId),
+                            isFavorite = getFavorites().contains(recipeId.toString()),
+                            //recipeImage = drawable
+                        )
+                    )
 
-        val drawable: Drawable? = try {
-            val inputStream: InputStream? = recipe?.let {
-                recipe.imageUrl.let { img -> getApplication<Application>().assets?.open(img) }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
             }
-            Drawable.createFromStream(inputStream, null)
-        } catch (e: NotFoundException) {
-            Log.e("MyLogError", "Image ${recipe?.imageUrl} not found")
-            null
-        } catch (e: IOException) {
-            Log.e("MyLogError", "Image ${recipe?.imageUrl} not read")
-            null
-        } catch (e: Exception) {
-            Log.e("MyLogError", "Unknown error when uploading an image ${recipe?.imageUrl}")
-            null
         }
 
-        val newRecipeState = _recipeState.value?.copy(
-            recipe = recipe,
-            isFavorite = getFavorites().contains(recipeId.toString()),
-            recipeImage = drawable
-        ) ?: RecipeState(
-            recipe = recipe,
-            isFavorite = getFavorites().contains(recipeId.toString()),
-            recipeImage = drawable
-        )
-
-        _recipeState.value = newRecipeState
-        Log.i(
-            "!!!info",
-            "init_2, seekBar_3 ViewModel loadRecipe() recipeState = ${recipeState.value}"
-        )
     }
 
     fun updatePortionCount(progress: Int) {
@@ -96,7 +83,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         )
         _recipeState.value = newState
 
-        val recipeId = currentState?.recipe?.id.toString()
+        val recipeId = currentState?.recipe?.firstOrNull()?.id.toString()
         if (favorites.contains(recipeId)) {
             favorites.remove(recipeId)
         } else {
@@ -114,7 +101,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     data class RecipeState(
-        val recipe: Recipe? = null,
+        val recipe: List<Recipe>? = null,
         val portionCount: Int = 1,
         val isFavorite: Boolean = false,
         val recipeImage: Drawable? = null,

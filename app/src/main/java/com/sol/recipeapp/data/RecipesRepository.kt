@@ -52,10 +52,26 @@ class RecipesRepository(application: Application) {
         }
     }
 
-    fun recipeByIdSync(id: String): Recipe? {
+    fun recipeByIdSync(id: Int): Recipe? {
         return try {
             executorService.submit<Recipe> {
                 val response = service.getRecipeById(id).execute()
+                if (response.isSuccessful) response.body() else null
+            }.get()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    fun recipesByIdSync(id: String): List<Recipe>? {
+        Log.i("!!!repo", "response id $id")
+
+        return try {
+            executorService.submit<List<Recipe>> {
+                Log.i("!!!repo", "response bod")
+                val response = service.getRecipesById(id).execute()
+                Log.i("!!!repo", "response bod")
                 if (response.isSuccessful) response.body() else null
             }.get()
         } catch (e: Exception) {
