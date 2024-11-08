@@ -24,15 +24,16 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
                 val category = repository.getCategorySync()
                 Log.i("!!!toast", "category $category")
 
-                if (category != null) {
+                if (category !== null) {
                     _categoriesListState.postValue(
                         _categoriesListState.value?.copy(dataSet = category)
                     )
+                    Log.i("!!!toast", "value dataSet ${_categoriesListState.value?.dataSet}")
                 } else {
                     _categoriesListState.postValue(
                         _categoriesListState.value?.copy(errorMessage = "Ошибка получения данных")
                     )
-                    Log.i("!!!toast", "value ${_categoriesListState.value?.errorMessage}")
+                    Log.i("!!!toast", "value errorMessage ${_categoriesListState.value?.errorMessage}")
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
