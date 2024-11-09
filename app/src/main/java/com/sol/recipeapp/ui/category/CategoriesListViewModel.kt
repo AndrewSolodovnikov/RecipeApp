@@ -13,40 +13,26 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     private val executorService: ExecutorService by lazy {
         (application as MyApplication).executorService
     }
-    private val repository = RecipesRepository(application)
+    private val repository = RecipesRepository()
 
     private val _categoriesListState = MutableLiveData(CategoriesListState())
     val categoriesListState = _categoriesListState
 
     init {
-        executorService.submit{
+        executorService.submit {
             try {
-                val category = repository.getCategorySync()
-                Log.i("!!!toast", "category $category")
-
-                if (category !== null) {
-                    _categoriesListState.postValue(
-                        _categoriesListState.value?.copy(dataSet = category)
-                    )
-                    Log.i("!!!toast", "value dataSet ${_categoriesListState.value?.dataSet}")
-                } else {
-                    _categoriesListState.postValue(
-                        _categoriesListState.value?.copy(errorMessage = "Ошибка получения данных")
-                    )
-                    Log.i("!!!toast", "value errorMessage ${_categoriesListState.value?.errorMessage}")
-                }
+                _categoriesListState.postValue(
+                    _categoriesListState.value?.copy(dataSet = repository.getCategorySync())
+                )
+                Log.i("!!!toast", "value dataSet ${_categoriesListState.value?.dataSet}")
             } catch (e: Exception) {
                 e.printStackTrace()
-                _categoriesListState.postValue(
-                    _categoriesListState.value?.copy(errorMessage = "Ошибка получения данных")
-                )
+                null
             }
         }
-
     }
-
-    data class CategoriesListState(
-        val dataSet: List<Category> = emptyList(),
-        val errorMessage: String? = null,
-    )
 }
+
+data class CategoriesListState(
+    val dataSet: List<Category>? = emptyList(),
+)

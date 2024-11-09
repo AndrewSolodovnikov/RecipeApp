@@ -22,7 +22,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     private val _recipeState = MutableLiveData(RecipeState())
     val recipeState: LiveData<RecipeState> = _recipeState
     private val executorService: ExecutorService by lazy { (application as MyApplication).executorService }
-    private val service = RecipesRepository(application)
+    private val service = RecipesRepository()
 
     private val sharedPref by lazy {
         application.getSharedPreferences(

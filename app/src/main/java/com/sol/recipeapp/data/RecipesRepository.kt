@@ -1,24 +1,18 @@
 package com.sol.recipeapp.data
 
-import android.app.Application
-import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.RetrofitInstance.service
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
-class RecipesRepository(application: Application) {
-    private val executorService = (application as MyApplication).executorService
+class RecipesRepository {
 
     fun getCategorySync(): List<Category>? {
         return try {
-            executorService.submit<List<Category>?> {
                 val response = service.getCategories().execute()
                 if (response.isSuccessful) response.body() else null
-            }.get()
         } catch (e: Exception) {
             e.printStackTrace()
             null
@@ -26,14 +20,9 @@ class RecipesRepository(application: Application) {
     }
 
     fun recipesByCategoryIdSync(id: Int): List<Recipe>? {
-        Log.i("!!!info", "Start recipesByCategoryIdSync")
         return try {
-            executorService.submit<List<Recipe>?> {
-                Log.i("!!!info", "Start thread recipesByCategoryIdSync")
                 val response = service.getRecipesByCategoryId(id).execute()
-                Log.i("!!!info", "Response $response")
                 if (response.isSuccessful) response.body() else null
-            }.get()
         } catch (e: Exception) {
             e.printStackTrace()
             null
@@ -42,10 +31,8 @@ class RecipesRepository(application: Application) {
 
     fun categoryByIdSync(id: Int): Category? {
         return try {
-            executorService.submit<Category> {
                 val response = service.getCategoryById(id).execute()
                 if (response.isSuccessful) response.body() else null
-            }.get()
         } catch (e: Exception) {
             e.printStackTrace()
             null
@@ -54,10 +41,8 @@ class RecipesRepository(application: Application) {
 
     fun recipeByIdSync(id: Int): Recipe? {
         return try {
-            executorService.submit<Recipe> {
                 val response = service.getRecipeById(id).execute()
                 if (response.isSuccessful) response.body() else null
-            }.get()
         } catch (e: Exception) {
             e.printStackTrace()
             null
@@ -65,15 +50,9 @@ class RecipesRepository(application: Application) {
     }
 
     fun recipesByIdSync(id: String): List<Recipe>? {
-        Log.i("!!!repo", "response id $id")
-
         return try {
-            executorService.submit<List<Recipe>> {
-                Log.i("!!!repo", "response bod")
                 val response = service.getRecipesById(id).execute()
-                Log.i("!!!repo", "response bod")
                 if (response.isSuccessful) response.body() else null
-            }.get()
         } catch (e: Exception) {
             e.printStackTrace()
             null

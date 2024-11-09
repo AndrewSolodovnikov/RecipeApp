@@ -18,7 +18,7 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
     private val executorService: ExecutorService by lazy {
         (application as MyApplication).executorService
     }
-    private val repository = RecipesRepository(application)
+    private val repository = RecipesRepository()
 
     private var drawable: Drawable? = null
 
