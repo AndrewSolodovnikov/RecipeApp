@@ -6,7 +6,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RecipeApiService {
-    @GET("category1")
+    @GET("category")
     fun getCategories(): Call<List<Category>>
 
     @GET("category/{id}/recipes")

@@ -34,20 +34,21 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun loadRecipe(recipeId: String) {
         executorService.submit {
             try {
-                val recipe = service.recipesByIdSync(recipeId)
-                Log.i("!!!repo", "recipe state $recipe")
-
                 _recipeState.postValue(
-                        RecipeState (
+                        _recipeState.value?.copy(
                             recipe = service.recipesByIdSync(recipeId),
-                            isFavorite = getFavorites().contains(recipeId.toString()),
+                            isFavorite = getFavorites().contains(recipeId),
                             //recipeImage = drawable
                         )
                     )
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                null
+                _recipeState.postValue(
+                    _recipeState.value?.copy(
+                        recipe = null
+                    )
+                )
             }
         }
 

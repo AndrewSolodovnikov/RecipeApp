@@ -3,6 +3,7 @@ package com.sol.recipeapp.ui.category
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Category
@@ -16,7 +17,7 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     private val repository = RecipesRepository()
 
     private val _categoriesListState = MutableLiveData(CategoriesListState())
-    val categoriesListState = _categoriesListState
+    val categoriesListState: LiveData<CategoriesListState> = _categoriesListState
 
     init {
         executorService.submit {
@@ -24,10 +25,11 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
                 _categoriesListState.postValue(
                     _categoriesListState.value?.copy(dataSet = repository.getCategorySync())
                 )
-                Log.i("!!!toast", "value dataSet ${_categoriesListState.value?.dataSet}")
             } catch (e: Exception) {
                 e.printStackTrace()
-                null
+                _categoriesListState.postValue(
+                    _categoriesListState.value?.copy(dataSet = null)
+                )
             }
         }
     }

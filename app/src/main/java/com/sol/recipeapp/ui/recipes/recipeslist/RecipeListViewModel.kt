@@ -50,42 +50,17 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("!!!e", "load recipe", e)
-                null
+                _recipeListState.postValue(
+                    _recipeListState.value?.copy(
+                        dataSet = null
+                    )
+                )
             }
         }
-
-        /*
-        //loading recipes
-        val recipes = STUB.getRecipesByCategoryId(categoryId)
-
-        //loading category data by id
-        val category = STUB.getCategories().find { it.id == categoryId }
-
-        //loading image
-        try {
-            val inputStream: InputStream? = category?.imageUrl.let {
-                category?.imageUrl?.let { image ->
-                    application.assets?.open(image)
-                }
-            }
-            drawable = Drawable.createFromStream(inputStream, null)
-        } catch (e: Exception) {
-            Log.e("MyLogError", "Image $drawable not found")
-        }
-
-        if (category != null) {
-            _recipeListState.value = _recipeListState.value?.copy(
-                dataSet = recipes,
-                categoryImageUrl = drawable,
-                categoryTitle = category.title
-            )
-        }
-
-         */
     }
 
     data class RecipeListState(
-        val dataSet: List<Recipe> = emptyList(),
+        val dataSet: List<Recipe>? = emptyList(),
         val categoryImageUrl: Drawable? = null,
         val categoryTitle: String = "",
     )

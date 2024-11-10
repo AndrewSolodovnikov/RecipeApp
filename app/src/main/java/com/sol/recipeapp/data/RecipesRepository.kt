@@ -5,7 +5,10 @@ import com.sol.recipeapp.data.RetrofitInstance.service
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import java.util.concurrent.TimeUnit
 
 class RecipesRepository {
 
@@ -61,10 +64,21 @@ class RecipesRepository {
 
 }
 
+private fun createOkHttpClient(): OkHttpClient {
+    val loggingInterceptor = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
+    return OkHttpClient.Builder()
+        .addInterceptor(loggingInterceptor)
+        .build()
+}
+
 object RetrofitInstance {
     private val converterType: MediaType = "application/json".toMediaType()
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://recipes.androidsprint.ru/api/")
+        .client(createOkHttpClient())
         .addConverterFactory(Json.asConverterFactory(converterType))
         .build()
 
