@@ -1,7 +1,6 @@
 package com.sol.recipeapp.ui.category
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,8 +32,16 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
             }
         }
     }
+
+    fun openRecipesByCategoryId(categoryId: Int) {
+        val category = categoriesListState.value?.dataSet?.find { it.id == categoryId }
+        _categoriesListState.postValue(
+            _categoriesListState.value?.copy(navigateToCategory = category)
+        )
+    }
 }
 
 data class CategoriesListState(
     val dataSet: List<Category>? = emptyList(),
+    val navigateToCategory: Category? = null,
 )

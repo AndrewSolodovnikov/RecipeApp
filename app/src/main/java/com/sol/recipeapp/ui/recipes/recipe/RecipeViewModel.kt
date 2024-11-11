@@ -2,20 +2,15 @@ package com.sol.recipeapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
-import android.content.res.Resources.NotFoundException
 import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
-import com.sol.recipeapp.STUB
 import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.data.RecipesRepository
-import kotlinx.serialization.Serializable
-import java.io.IOException
-import java.io.InputStream
 import java.util.concurrent.ExecutorService
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {

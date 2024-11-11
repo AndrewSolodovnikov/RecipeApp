@@ -1,7 +1,6 @@
 package com.sol.recipeapp.ui.category
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.sol.recipeapp.R
 import com.sol.recipeapp.databinding.FragmentListCategoriesBinding
 
@@ -35,7 +33,7 @@ class CategoriesListFragment : Fragment() {
 
         customAdapter.setOnItemClickListener(object : CategoriesListAdapter.OnItemClickListener {
             override fun onItemClick(categoryId: Int) {
-                openRecipesByCategoryId(categoryId)
+                viewModel.openRecipesByCategoryId(categoryId)
             }
         })
 
@@ -47,9 +45,16 @@ class CategoriesListFragment : Fragment() {
                 Toast.makeText(requireContext(), errorData, Toast.LENGTH_LONG).show()
             }
 
+            state.navigateToCategory?.let { category ->
+                findNavController().navigate(
+                    CategoriesListFragmentDirections
+                        .actionCategoriesListFragmentToRecipesListFragment(category)
+                )
+            }
         }
     }
 
+    /*
     fun openRecipesByCategoryId(categoryId: Int) {
         val category = viewModel.categoriesListState.value?.dataSet?.find { it.id == categoryId }
 
@@ -60,4 +65,6 @@ class CategoriesListFragment : Fragment() {
             )
         } ?: throw IllegalArgumentException("Category with categoryId = $categoryId not found")
     }
+
+     */
 }
