@@ -10,7 +10,7 @@ import kotlinx.serialization.Serializable
 data class Recipe(
     val id: Int,
     val title: String,
-    val ingredients: List<Ingredient>,
-    val method: List<String>,
+    val ingredients: List<Ingredient> = emptyList(),
+    val method: List<String> = emptyList(),
     val imageUrl: String,
 ): Parcelable

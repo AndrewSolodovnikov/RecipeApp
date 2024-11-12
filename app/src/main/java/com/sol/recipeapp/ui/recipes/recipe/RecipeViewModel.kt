@@ -26,13 +26,13 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
-    fun loadRecipe(recipeId: String) {
+    fun loadRecipe(recipeId: Int) {
         executorService.submit {
             try {
                 _recipeState.postValue(
                         _recipeState.value?.copy(
-                            recipe = service.recipesByIdSync(recipeId),
-                            isFavorite = getFavorites().contains(recipeId),
+                            recipe = service.recipeByIdSync(recipeId),
+                            isFavorite = getFavorites().contains(recipeId.toString()),
                             //recipeImage = drawable
                         )
                     )
@@ -79,7 +79,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         )
         _recipeState.value = newState
 
-        val recipeId = currentState?.recipe?.firstOrNull()?.id.toString()
+        val recipeId = currentState?.recipe?.id.toString()
         if (favorites.contains(recipeId)) {
             favorites.remove(recipeId)
         } else {
@@ -97,7 +97,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     data class RecipeState(
-        val recipe: List<Recipe>? = null,
+        val recipe: Recipe? = null,
         val portionCount: Int = 1,
         val isFavorite: Boolean = false,
         val recipeImage: Drawable? = null,

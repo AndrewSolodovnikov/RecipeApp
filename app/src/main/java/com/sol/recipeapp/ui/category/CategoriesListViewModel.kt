@@ -39,6 +39,10 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
             _categoriesListState.value?.copy(navigateToCategory = category)
         )
     }
+
+    fun clearNavigation() {
+        _categoriesListState.value = _categoriesListState.value?.copy(navigateToCategory = null)
+    }
 }
 
 data class CategoriesListState(

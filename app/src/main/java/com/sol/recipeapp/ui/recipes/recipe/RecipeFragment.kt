@@ -32,7 +32,7 @@ class RecipeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         recipeId = args.recipe.id
-        recipeId?.let { viewModel.loadRecipe(it.toString()) }
+        recipeId?.let { viewModel.loadRecipe(it) }
 
         initUI()
         initSeekBar()
@@ -47,19 +47,14 @@ class RecipeFragment : Fragment() {
         binding.rvMethod.adapter = methodAdapter
 
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
-            if (state.recipe != null) {
-                val firstRecipe = state.recipe.first()
-                binding.tvRecipesHeaderTitle.text = firstRecipe.title
+            val recipe = state.recipe
+            if (recipe != null) {
+                binding.tvRecipesHeaderTitle.text = recipe.title
 
-                firstRecipe.ingredients.let { ingredients ->
-                    ingredientsAdapter.updateIngredientsList(ingredients)
-                }
+                ingredientsAdapter.updateIngredientsList(recipe.ingredients)
+                methodAdapter.updateMethodList(recipe.method)
 
-                firstRecipe.method.let { method ->
-                    methodAdapter.updateMethodList(method)
-                }
-
-                val updatedIngredients = firstRecipe.ingredients.map { ingredient ->
+                val updatedIngredients = recipe.ingredients.map { ingredient ->
                     val newQuantity = try {
                         BigDecimal(ingredient.quantity).multiply(BigDecimal(state.portionCount))
                     } catch (e: NumberFormatException) {
@@ -73,8 +68,6 @@ class RecipeFragment : Fragment() {
                 val errorData = getString(R.string.error_retrofit_data)
                 Toast.makeText(requireContext(), errorData, Toast.LENGTH_LONG).show()
             }
-
-
 
             binding.tvNumberOfServings.text = state?.portionCount.toString()
             binding.seekbarRecipe.progress = state?.portionCount ?: 1

@@ -1,6 +1,8 @@
 package com.sol.recipeapp.data
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.sol.recipeapp.RETROFIT_BASE_URL
+import com.sol.recipeapp.RETROFIT_MEDIA_TYPE
 import com.sol.recipeapp.data.RetrofitInstance.service
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
@@ -75,9 +77,9 @@ private fun createOkHttpClient(): OkHttpClient {
 }
 
 object RetrofitInstance {
-    private val converterType: MediaType = "application/json".toMediaType()
+    private val converterType: MediaType = RETROFIT_MEDIA_TYPE.toMediaType()
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("https://recipes.androidsprint.ru/api/")
+        .baseUrl(RETROFIT_BASE_URL)
         .client(createOkHttpClient())
         .addConverterFactory(Json.asConverterFactory(converterType))
         .build()

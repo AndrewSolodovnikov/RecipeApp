@@ -45,26 +45,21 @@ class CategoriesListFragment : Fragment() {
                 Toast.makeText(requireContext(), errorData, Toast.LENGTH_LONG).show()
             }
 
-            state.navigateToCategory?.let { category ->
+            if (state.navigateToCategory == null) {
+                customAdapter.setOnItemClickListener(object : CategoriesListAdapter.OnItemClickListener {
+                    override fun onItemClick(categoryId: Int) {
+                        viewModel.openRecipesByCategoryId(categoryId)
+                    }
+                })
+            } else {
+                customAdapter.setOnItemClickListener(null)
                 findNavController().navigate(
                     CategoriesListFragmentDirections
-                        .actionCategoriesListFragmentToRecipesListFragment(category)
+                        .actionCategoriesListFragmentToRecipesListFragment(state.navigateToCategory)
                 )
+                viewModel.clearNavigation()
             }
         }
     }
 
-    /*
-    fun openRecipesByCategoryId(categoryId: Int) {
-        val category = viewModel.categoriesListState.value?.dataSet?.find { it.id == categoryId }
-
-        category?.let {
-            findNavController().navigate(
-                CategoriesListFragmentDirections
-                    .actionCategoriesListFragmentToRecipesListFragment(it)
-            )
-        } ?: throw IllegalArgumentException("Category with categoryId = $categoryId not found")
-    }
-
-     */
 }
