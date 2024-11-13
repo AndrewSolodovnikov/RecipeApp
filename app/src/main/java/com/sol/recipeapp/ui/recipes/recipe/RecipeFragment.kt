@@ -71,7 +71,7 @@ class RecipeFragment : Fragment() {
 
             binding.tvNumberOfServings.text = state?.portionCount.toString()
             binding.seekbarRecipe.progress = state?.portionCount ?: 1
-            binding.ivRecipesHeaderImage.setImageDrawable(state?.recipeImage)
+            binding.ivRecipesHeaderImage.setImageDrawable(state?.recipeImageUrl)
 
             if (state?.isFavorite == true) {
                 binding.btnFavorite.setImageResource(R.drawable.ic_heart)

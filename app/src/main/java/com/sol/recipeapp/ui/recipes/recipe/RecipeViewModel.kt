@@ -100,6 +100,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val recipe: Recipe? = null,
         val portionCount: Int = 1,
         val isFavorite: Boolean = false,
-        val recipeImage: Drawable? = null,
+        val recipeImageUrl: String = "",
     )
 }

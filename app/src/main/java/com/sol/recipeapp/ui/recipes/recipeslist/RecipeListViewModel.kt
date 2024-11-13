@@ -61,7 +61,7 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
 
     data class RecipeListState(
         val dataSet: List<Recipe>? = emptyList(),
-        val categoryImageUrl: Drawable? = null,
+        val categoryImageUrl: String = "",
         val categoryTitle: String = "",
     )
 }
