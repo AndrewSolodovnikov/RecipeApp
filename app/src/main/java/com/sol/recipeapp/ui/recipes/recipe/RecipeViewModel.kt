@@ -28,20 +28,22 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadRecipe(recipeId: Int) {
         executorService.submit {
-            try {
+            val recipe = service.recipeByIdSync(recipeId)
+            if (recipe != null) {
                 _recipeState.postValue(
                         _recipeState.value?.copy(
                             recipe = service.recipeByIdSync(recipeId),
                             isFavorite = getFavorites().contains(recipeId.toString()),
-                            //recipeImage = drawable
+                            //recipeImage = drawable,
+                            isError = false,
                         )
                     )
 
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } else {
                 _recipeState.postValue(
                     _recipeState.value?.copy(
-                        recipe = null
+                        recipe = null,
+                        isError = true,
                     )
                 )
             }
@@ -101,5 +103,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val portionCount: Int = 1,
         val isFavorite: Boolean = false,
         val recipeImage: Drawable? = null,
+        val isError: Boolean = false,
     )
 }
