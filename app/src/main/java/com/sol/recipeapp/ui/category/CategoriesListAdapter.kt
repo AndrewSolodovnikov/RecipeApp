@@ -1,14 +1,15 @@
 package com.sol.recipeapp.ui.category
 
-import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.sol.recipeapp.IMAGE_CATEGORY_URL
 import com.sol.recipeapp.R
+import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.data.Category
 import com.sol.recipeapp.databinding.ItemCategoryBinding
-import java.io.InputStream
 
 
 class CategoriesListAdapter(private var dataSet: List<Category>) :
@@ -42,6 +43,16 @@ class CategoriesListAdapter(private var dataSet: List<Category>) :
             }
         }
 
+        val imageView: ImageView = viewHolder.binding.itemCategoryImage
+        val imageUrl = "$BASE_URL$IMAGE_CATEGORY_URL${dataSet[position].imageUrl}"
+        Glide.with(viewHolder.itemView.context)
+            .load(imageUrl)
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_error)
+            .into(imageView)
+
+        //viewHolder.binding.itemCategoryImage.setImageDrawable(drawable)
+        /*
         try {
             val inputStream: InputStream? = viewHolder.itemView.context?.assets?.open(dataSet[position].imageUrl)
             val drawable = Drawable.createFromStream(inputStream, null)
@@ -49,6 +60,8 @@ class CategoriesListAdapter(private var dataSet: List<Category>) :
         } catch (e: Exception) {
             Log.e("MyLogError", "Image ${dataSet[position].imageUrl} not found")
         }
+
+         */
 
     }
 

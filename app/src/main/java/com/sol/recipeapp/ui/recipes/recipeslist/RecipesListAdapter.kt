@@ -4,7 +4,11 @@ import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.sol.recipeapp.BASE_URL
+import com.sol.recipeapp.IMAGE_CATEGORY_URL
 import com.sol.recipeapp.R
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.ItemRecipeBinding
@@ -40,6 +44,14 @@ class RecipesListAdapter(private var dataSet: List<Recipe>) :
                 binding.itemCategoryRecipe.setOnClickListener { itemClickListener?.onItemClick(this) }
             }
         }
+
+        val imageView: ImageView = viewHolder.binding.itemRecipeImage
+        val imageUrl = "$BASE_URL$IMAGE_CATEGORY_URL${dataSet[position].imageUrl}"
+        Glide.with(viewHolder.itemView.context)
+            .load(imageUrl)
+            .placeholder(R.drawable.img_placeholder)
+            .error(R.drawable.img_error)
+            .into(imageView)
 
         try {
             val inputStream: InputStream? = viewHolder.itemView.context?.assets?.open(dataSet[position].imageUrl)

@@ -1,15 +1,15 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
 import android.app.Application
-import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.sol.recipeapp.IMAGE_CATEGORY_URL
+import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.data.RecipesRepository
-import java.io.InputStream
 import java.util.concurrent.ExecutorService
 
 class RecipeListViewModel(private val application: Application) : AndroidViewModel(application) {
@@ -20,13 +20,12 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
     }
     private val repository = RecipesRepository()
 
-    private var drawable: Drawable? = null
-
     fun loadRecipes(categoryId: Int) {
         executorService.submit {
             try {
                 val recipesList = repository.recipesByCategoryIdSync(categoryId) ?: emptyList()
                 val category = repository.categoryByIdSync(categoryId)
+                /*
                 try {
                     val inputStream: InputStream? = category?.imageUrl.let {
                         category?.imageUrl?.let { image ->
@@ -40,11 +39,13 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
 
                 Log.i("!!!info", "img $drawable")
 
+                 */
+
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
                         dataSet = recipesList,
                         categoryTitle = category?.title ?: "",
-                        categoryImageUrl = drawable
+                        categoryImageUrl = BASE_URL + IMAGE_CATEGORY_URL + category?.imageUrl
                     )
                 )
             } catch (e: Exception) {

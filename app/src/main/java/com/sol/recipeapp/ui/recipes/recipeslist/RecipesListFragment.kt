@@ -5,11 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.sol.recipeapp.R
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentRecipesListBinding
@@ -46,8 +48,12 @@ class RecipesListFragment : Fragment() {
 
         viewModel.recipeListState.observe(viewLifecycleOwner) { state ->
             Log.i("!!!info", "State $state")
-            binding.ivRecipesListHeaderImage.setImageDrawable(state.categoryImageUrl)
             binding.tvRecipesListHeaderTitle.text = state.categoryTitle
+
+            val imageView: ImageView = binding.ivRecipesListHeaderImage
+            Glide.with(this)
+                .load(state.categoryImageUrl)
+                .into(imageView)
 
             if (state.dataSet != null) {
                 customAdapter.updateRecipes(state.dataSet)

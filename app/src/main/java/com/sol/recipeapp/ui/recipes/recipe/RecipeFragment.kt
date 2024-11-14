@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.sol.recipeapp.IMAGE_CATEGORY_URL
 import com.sol.recipeapp.R
+import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
 import java.math.BigDecimal
 
@@ -71,7 +75,15 @@ class RecipeFragment : Fragment() {
 
             binding.tvNumberOfServings.text = state?.portionCount.toString()
             binding.seekbarRecipe.progress = state?.portionCount ?: 1
-            binding.ivRecipesHeaderImage.setImageDrawable(state?.recipeImageUrl)
+
+            //binding.ivRecipesHeaderImage.setImageDrawable(state?.recipeImageUrl)
+            val imageView: ImageView = binding.ivRecipesHeaderImage
+            val imageUrl = "$BASE_URL$IMAGE_CATEGORY_URL${state.recipeImageUrl}"
+            Glide.with(this)
+                .load(imageUrl)
+                .placeholder(R.drawable.img_placeholder)
+                .error(R.drawable.img_error)
+                .into(imageView)
 
             if (state?.isFavorite == true) {
                 binding.btnFavorite.setImageResource(R.drawable.ic_heart)
