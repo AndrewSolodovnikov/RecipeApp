@@ -2,7 +2,6 @@ package com.sol.recipeapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -29,13 +28,16 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     fun loadRecipe(recipeId: Int) {
         executorService.submit {
             try {
-                _recipeState.postValue(
+                val recipe = service.recipeByIdSync(recipeId)
+                if (recipe != null) {
+                    _recipeState.postValue(
                         _recipeState.value?.copy(
-                            recipe = service.recipeByIdSync(recipeId),
+                            recipe = recipe,
                             isFavorite = getFavorites().contains(recipeId.toString()),
-                            //recipeImage = drawable
+                            recipeImageUrl = recipe.imageUrl
                         )
                     )
+                }
 
             } catch (e: Exception) {
                 e.printStackTrace()

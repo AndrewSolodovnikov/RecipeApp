@@ -1,6 +1,7 @@
 package com.sol.recipeapp.ui.recipes.recipe
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,6 +80,7 @@ class RecipeFragment : Fragment() {
             //binding.ivRecipesHeaderImage.setImageDrawable(state?.recipeImageUrl)
             val imageView: ImageView = binding.ivRecipesHeaderImage
             val imageUrl = "$BASE_URL$IMAGE_CATEGORY_URL${state.recipeImageUrl}"
+            Log.i("!!!img", "image url $imageUrl")
             Glide.with(this)
                 .load(imageUrl)
                 .placeholder(R.drawable.img_placeholder)
