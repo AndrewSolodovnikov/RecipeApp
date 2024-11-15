@@ -20,12 +20,12 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
 
     init {
         executorService.submit {
-            try {
+            val dataSet = repository.getCategorySync()
+            if (dataSet != null) {
                 _categoriesListState.postValue(
                     _categoriesListState.value?.copy(dataSet = repository.getCategorySync())
                 )
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } else {
                 _categoriesListState.postValue(
                     _categoriesListState.value?.copy(dataSet = null)
                 )

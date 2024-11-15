@@ -3,7 +3,6 @@ package com.sol.recipeapp.ui.recipes.recipe
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,11 +27,11 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadRecipe(recipeId: Int) {
         executorService.submit {
-            val recipe = service.recipeByIdSync(recipeId)
+            val recipe = service.getRecipeByIdSync(recipeId)
             if (recipe != null) {
                 _recipeState.postValue(
                         _recipeState.value?.copy(
-                            recipe = service.recipeByIdSync(recipeId),
+                            recipe = service.getRecipeByIdSync(recipeId),
                             isFavorite = getFavorites().contains(recipeId.toString()),
                             //recipeImage = drawable,
                             isError = false,
@@ -52,16 +51,11 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun updatePortionCount(progress: Int) {
-        Log.i("!!!info", "seekBar_1 ViewModel seekBar progress = $progress")
-        Log.i("!!!info", "Current portionCount before update = ${recipeState.value?.portionCount}")
-
         val updatedState = recipeState.value?.copy(
             portionCount = progress
         )
 
-        Log.i("!!!info", "Updating portionCount to = $progress")
         _recipeState.value = updatedState
-        Log.i("!!!info", "seekBar_4 ViewModel recipeState = ${recipeState.value}")
     }
 
     private fun getFavorites(): MutableSet<String> {

@@ -24,22 +24,21 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
 
     fun loadRecipes(categoryId: Int) {
         executorService.submit {
+            val recipesList = repository.getRecipesByCategoryIdSync(categoryId)
+            val category = repository.getCategoryByIdSync(categoryId)
+
             try {
-                val recipesList = repository.recipesByCategoryIdSync(categoryId) ?: emptyList()
-                val category = repository.categoryByIdSync(categoryId)
-                try {
-                    val inputStream: InputStream? = category?.imageUrl.let {
-                        category?.imageUrl?.let { image ->
-                            application.assets?.open(image)
-                        }
+                val inputStream: InputStream? = category?.imageUrl.let {
+                    category?.imageUrl?.let { image ->
+                        application.assets?.open(image)
                     }
-                    drawable = Drawable.createFromStream(inputStream, null)
-                } catch (e: Exception) {
-                    Log.e("MyLogError", "Image $drawable not found")
                 }
+                drawable = Drawable.createFromStream(inputStream, null)
+            } catch (e: Exception) {
+                Log.e("MyLogError", "Image $drawable not found")
+            }
 
-                Log.i("!!!info", "img $drawable")
-
+            if (recipesList != null) {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
                         dataSet = recipesList,
@@ -47,9 +46,7 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
                         categoryImageUrl = drawable
                     )
                 )
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("!!!e", "load recipe", e)
+            } else {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
                         dataSet = null
