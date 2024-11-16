@@ -2,8 +2,6 @@ package com.sol.recipeapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
-import android.graphics.drawable.Drawable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
