@@ -5,12 +5,18 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sol.recipeapp.data.Category
+import com.sol.recipeapp.data.RecipeApiService
 import com.sol.recipeapp.databinding.ActivityMainBinding
 import kotlinx.serialization.json.Json
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.create
 import java.net.URL
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -34,6 +40,19 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        /*
+        threadPool.execute {
+            val converterType: MediaType = "application/json".toMediaType()
+            val retrofit: Retrofit = Retrofit.Builder()
+                .baseUrl("https://recipes.androidsprint.ru/api/")
+                .addConverterFactory(Json.asConverterFactory(converterType))
+                .build()
+
+            val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
+        }
+         */
+
+        /*
         Log.i("!!!info", "Метод onCreate() выполняется на потоке: ${Thread.currentThread().name}")
 
         threadPool.execute {
@@ -58,6 +77,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+         */
 
         binding.navigationButtonCategory.setOnClickListener {
             findNavController(R.id.nav_host_fragment_container)

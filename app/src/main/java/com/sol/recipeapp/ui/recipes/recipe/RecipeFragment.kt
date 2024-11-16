@@ -1,11 +1,11 @@
 package com.sol.recipeapp.ui.recipes.recipe
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -47,8 +47,30 @@ class RecipeFragment : Fragment() {
         binding.rvMethod.adapter = methodAdapter
 
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
-            Log.i("!!!info", "seekBar_3, init_4 ViewModel observe recipeState = $state")
-            binding.tvRecipesHeaderTitle.text = state?.recipe?.title
+            if (!state.isError) {
+                val recipe = state.recipe
+                recipe?.let {
+                    binding.tvRecipesHeaderTitle.text = recipe.title
+
+                    ingredientsAdapter.updateIngredientsList(recipe.ingredients)
+                    methodAdapter.updateMethodList(recipe.method)
+
+                    val updatedIngredients = recipe.ingredients.map { ingredient ->
+                        val newQuantity = try {
+                            BigDecimal(ingredient.quantity).multiply(BigDecimal(state.portionCount))
+                        } catch (e: NumberFormatException) {
+                            BigDecimal.ZERO
+                        }
+                        ingredient.copy(quantity = newQuantity.toString())
+                    }
+                    ingredientsAdapter.updateIngredientsList(updatedIngredients)
+                }
+            } else {
+                val errorData = getString(R.string.error_retrofit_data)
+                Toast.makeText(requireContext(), errorData, Toast.LENGTH_LONG).show()
+            }
+
+
             binding.tvNumberOfServings.text = state?.portionCount.toString()
             binding.seekbarRecipe.progress = state?.portionCount ?: 1
             binding.ivRecipesHeaderImage.setImageDrawable(state?.recipeImage)
@@ -59,39 +81,11 @@ class RecipeFragment : Fragment() {
                 binding.btnFavorite.setImageResource(R.drawable.ic_heart_empty)
             }
 
-            state?.recipe?.ingredients?.let { ingredients ->
-                ingredientsAdapter.updateIngredientsList(ingredients)
-            }
-
-            state?.recipe?.method?.let { method ->
-                methodAdapter.updateMethodList(method)
-            }
-
-            state?.recipe?.ingredients?.let { ingredients ->
-                Log.i(
-                    "!!!info",
-                    "seekBar_ RecipeFragment ingredients portionCount = ${state.portionCount}"
-                )
-                val updatedIngredients = ingredients.map { ingredient ->
-                    val newQuantity = try {
-                        BigDecimal(ingredient.quantity).multiply(BigDecimal(state.portionCount))
-                    } catch (e: NumberFormatException) {
-                        BigDecimal.ZERO
-                    }
-                    ingredient.copy(
-                        quantity = newQuantity.toString()
-                    )
-
-                }
-                Log.i("!!!info", "seekBar_ RecipeFragment ingredients state = $state")
-                ingredientsAdapter.updateIngredientsList(updatedIngredients)
-            }
 
         }
     }
 
     private fun initSeekBar() {
-        Log.i("!!!info", "init_3 seekBar init")
         binding.seekbarRecipe.setOnSeekBarChangeListener(
             PortionSeekBarListener { progress ->
                 viewModel.updatePortionCount(progress)

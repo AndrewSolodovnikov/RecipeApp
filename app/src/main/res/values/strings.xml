@@ -14,4 +14,6 @@
 
     <string name="favorites_empty_message">Вы еще не добавили ни одного рецепта в избранное</string>
     <string name="button_add_to_favorites">Добавить в избранное</string>
+
+    <string name="error_retrofit_data">Ошибка получения данных</string>
 </resources>

@@ -21,7 +21,7 @@ class CategoriesListAdapter(private var dataSet: List<Category>) :
 
     var itemClickListener: OnItemClickListener? = null
 
-    fun setOnItemClickListener(listener: OnItemClickListener) {
+    fun setOnItemClickListener(listener: OnItemClickListener?) {
         itemClickListener = listener
     }
 

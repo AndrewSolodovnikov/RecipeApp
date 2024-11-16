@@ -2,21 +2,21 @@ package com.sol.recipeapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
-import android.content.res.Resources.NotFoundException
 import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
-import com.sol.recipeapp.STUB
+import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Recipe
-import java.io.IOException
-import java.io.InputStream
+import com.sol.recipeapp.data.RecipesRepository
+import java.util.concurrent.ExecutorService
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeState = MutableLiveData(RecipeState())
     val recipeState: LiveData<RecipeState> = _recipeState
+    private val executorService: ExecutorService by lazy { (application as MyApplication).executorService }
+    private val service = RecipesRepository()
 
     private val sharedPref by lazy {
         application.getSharedPreferences(
@@ -26,57 +26,36 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun loadRecipe(recipeId: Int) {
-        Log.i("!!!info", "____ start loadRecipe() ${recipeState.value?.recipe?.id}")
-        if (recipeState.value?.recipe?.id == recipeId) return
-        Log.i("!!!info", "init_1 ViewModel id = ${recipeState.value?.recipe?.id}")
+        executorService.submit {
+            val recipe = service.getRecipeByIdSync(recipeId)
+            if (recipe != null) {
+                _recipeState.postValue(
+                        _recipeState.value?.copy(
+                            recipe = service.getRecipeByIdSync(recipeId),
+                            isFavorite = getFavorites().contains(recipeId.toString()),
+                            //recipeImage = drawable,
+                            isError = false,
+                        )
+                    )
 
-        val recipe = STUB.getRecipeById(recipeId)
-        Log.i("!!!info", "init_1 ViewModel loadRecipe() recipe = $recipe")
-
-        val drawable: Drawable? = try {
-            val inputStream: InputStream? = recipe?.let {
-                recipe.imageUrl.let { img -> getApplication<Application>().assets?.open(img) }
+            } else {
+                _recipeState.postValue(
+                    _recipeState.value?.copy(
+                        recipe = null,
+                        isError = true,
+                    )
+                )
             }
-            Drawable.createFromStream(inputStream, null)
-        } catch (e: NotFoundException) {
-            Log.e("MyLogError", "Image ${recipe?.imageUrl} not found")
-            null
-        } catch (e: IOException) {
-            Log.e("MyLogError", "Image ${recipe?.imageUrl} not read")
-            null
-        } catch (e: Exception) {
-            Log.e("MyLogError", "Unknown error when uploading an image ${recipe?.imageUrl}")
-            null
         }
 
-        val newRecipeState = _recipeState.value?.copy(
-            recipe = recipe,
-            isFavorite = getFavorites().contains(recipeId.toString()),
-            recipeImage = drawable
-        ) ?: RecipeState(
-            recipe = recipe,
-            isFavorite = getFavorites().contains(recipeId.toString()),
-            recipeImage = drawable
-        )
-
-        _recipeState.value = newRecipeState
-        Log.i(
-            "!!!info",
-            "init_2, seekBar_3 ViewModel loadRecipe() recipeState = ${recipeState.value}"
-        )
     }
 
     fun updatePortionCount(progress: Int) {
-        Log.i("!!!info", "seekBar_1 ViewModel seekBar progress = $progress")
-        Log.i("!!!info", "Current portionCount before update = ${recipeState.value?.portionCount}")
-
         val updatedState = recipeState.value?.copy(
             portionCount = progress
         )
 
-        Log.i("!!!info", "Updating portionCount to = $progress")
         _recipeState.value = updatedState
-        Log.i("!!!info", "seekBar_4 ViewModel recipeState = ${recipeState.value}")
     }
 
     private fun getFavorites(): MutableSet<String> {
@@ -118,5 +97,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val portionCount: Int = 1,
         val isFavorite: Boolean = false,
         val recipeImage: Drawable? = null,
+        val isError: Boolean = false,
     )
 }
