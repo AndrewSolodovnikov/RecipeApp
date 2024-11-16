@@ -19,15 +19,21 @@ class RecipesRepository {
     fun getCategorySync(): List<Category>? {
         return try {
             val response = service.getCategories().execute()
-            if (response.isSuccessful) response.body() else null
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                Log.e("!!!error", "Response category ${response.isSuccessful}")
+                Log.e("!!!error", "Response body ${response.body()}")
+                null
+            }
         } catch (e: IOException) {
-            Log.e("Error", "Ошибка сети ${e.message}")
+            Log.e("!!!error", "Ошибка сети ${e.message}")
             null
         } catch (e: HttpException) {
-            Log.e("Error", "Ошибка сервера ${e.message}")
+            Log.e("!!!error", "Ошибка сервера ${e.message}")
             null
         } catch (e: Exception) {
-            Log.e("Error", "Неизвестная ошибка ${e.message}")
+            Log.e("!!!error", "Неизвестная ошибка ${e.message}")
             e.printStackTrace()
             null
         }
@@ -36,7 +42,13 @@ class RecipesRepository {
     fun getRecipesByCategoryIdSync(id: Int): List<Recipe>? {
         return try {
             val response = service.getRecipesByCategoryId(id).execute()
-            if (response.isSuccessful) response.body() else null
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                Log.e("!!!error", "Response recipe by category id ${response.isSuccessful}")
+                Log.e("!!!error", "Response body ${response.body()}")
+                null
+            }
         } catch (e: IOException) {
             Log.e("Error", "Ошибка сети ${e.message}")
             null
@@ -53,7 +65,13 @@ class RecipesRepository {
     fun getCategoryByIdSync(id: Int): Category? {
         return try {
             val response = service.getCategoryById(id).execute()
-            if (response.isSuccessful) response.body() else null
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                Log.e("!!!error", "Response category by id ${response.isSuccessful}")
+                Log.e("!!!error", "Response body ${response.body()}")
+                null
+            }
         } catch (e: IOException) {
             Log.e("Error", "Ошибка сети ${e.message}")
             null
@@ -69,15 +87,21 @@ class RecipesRepository {
     fun getRecipeByIdSync(id: Int): Recipe? {
         return try {
             val response = service.getRecipeById(id).execute()
-            if (response.isSuccessful) response.body() else null
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                Log.e("!!!error", "Response recipe by id ${response.isSuccessful}")
+                Log.e("!!!error", "Response body ${response.body()}")
+                null
+            }
         } catch (e: IOException) {
-            Log.e("Error", "Ошибка сети", e)
+            Log.e("!!!Error", "Ошибка сети", e)
             null
         } catch (e: HttpException) {
-            Log.e("Error", "Ошибка сервера", e)
+            Log.e("!!!Error", "Ошибка сервера", e)
             null
         } catch (e: Exception) {
-            Log.e("Error", "Неизвестная ошибка", e)
+            Log.e("!!!Error", "Неизвестная ошибка", e)
             e.printStackTrace()
             null
         }
@@ -87,7 +111,13 @@ class RecipesRepository {
         return try {
             val stringIds = setIds.joinToString(",")
             val response = service.getRecipesById(stringIds).execute()
-            if (response.isSuccessful) response.body() else null
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                Log.e("!!!error", "Response recipe by ids ${response.isSuccessful}")
+                Log.e("!!!error", "Response body ${response.body()}")
+                null
+            }
         } catch (e: IOException) {
             Log.e("Error", "Ошибка сети ${e.message}")
             null
