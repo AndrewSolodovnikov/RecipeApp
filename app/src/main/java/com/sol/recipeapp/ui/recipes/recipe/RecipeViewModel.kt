@@ -34,7 +34,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                         _recipeState.value?.copy(
                             recipe = recipe,
                             isFavorite = getFavorites().contains(recipeId.toString()),
-                            recipeImageUrl = recipe.imageUrl
+                            recipeImageUrl = recipe.imageUrl,
                             isError = false,
                         )
                     )
