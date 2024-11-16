@@ -29,9 +29,6 @@ class RecipesRepository {
         } catch (e: IOException) {
             Log.e("!!!error", "Ошибка сети ${e.message}")
             null
-        } catch (e: HttpException) {
-            Log.e("!!!error", "Ошибка сервера ${e.message}")
-            null
         } catch (e: Exception) {
             Log.e("!!!error", "Неизвестная ошибка ${e.message}")
             e.printStackTrace()
@@ -50,13 +47,10 @@ class RecipesRepository {
                 null
             }
         } catch (e: IOException) {
-            Log.e("Error", "Ошибка сети ${e.message}")
-            null
-        } catch (e: HttpException) {
-            Log.e("Error", "Ошибка сервера ${e.message}")
+            Log.e("!!!error", "Ошибка сети ${e.message}")
             null
         } catch (e: Exception) {
-            Log.e("Error", "Неизвестная ошибка ${e.message}")
+            Log.e("!!!error", "Неизвестная ошибка ${e.message}")
             e.printStackTrace()
             null
         }
@@ -73,10 +67,7 @@ class RecipesRepository {
                 null
             }
         } catch (e: IOException) {
-            Log.e("Error", "Ошибка сети ${e.message}")
-            null
-        } catch (e: HttpException) {
-            Log.e("Error", "Ошибка сервера ${e.message}")
+            Log.e("!!!error", "Ошибка сети ${e.message}")
             null
         } catch (e: Exception) {
             e.printStackTrace()
@@ -95,13 +86,10 @@ class RecipesRepository {
                 null
             }
         } catch (e: IOException) {
-            Log.e("!!!Error", "Ошибка сети", e)
-            null
-        } catch (e: HttpException) {
-            Log.e("!!!Error", "Ошибка сервера", e)
+            Log.e("!!!error", "Ошибка сети", e)
             null
         } catch (e: Exception) {
-            Log.e("!!!Error", "Неизвестная ошибка", e)
+            Log.e("!!!error", "Неизвестная ошибка", e)
             e.printStackTrace()
             null
         }
@@ -119,10 +107,7 @@ class RecipesRepository {
                 null
             }
         } catch (e: IOException) {
-            Log.e("Error", "Ошибка сети ${e.message}")
-            null
-        } catch (e: HttpException) {
-            Log.e("Error", "Ошибка сервера ${e.message}")
+            Log.e("!!!error", "Ошибка сети ${e.message}")
             null
         } catch (e: Exception) {
             e.printStackTrace()
