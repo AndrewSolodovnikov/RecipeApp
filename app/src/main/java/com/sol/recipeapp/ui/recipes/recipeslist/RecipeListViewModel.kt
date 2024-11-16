@@ -1,12 +1,11 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.sol.recipeapp.IMAGE_CATEGORY_URL
 import com.sol.recipeapp.BASE_URL
+import com.sol.recipeapp.IMAGE_CATEGORY_URL
 import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.data.RecipesRepository
@@ -22,25 +21,10 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
 
     fun loadRecipes(categoryId: Int) {
         executorService.submit {
-            try {
-                val recipesList = repository.recipesByCategoryIdSync(categoryId) ?: emptyList()
-                val category = repository.categoryByIdSync(categoryId)
-                /*
-                try {
-                    val inputStream: InputStream? = category?.imageUrl.let {
-                        category?.imageUrl?.let { image ->
-                            application.assets?.open(image)
-                        }
-                    }
-                    drawable = Drawable.createFromStream(inputStream, null)
-                } catch (e: Exception) {
-                    Log.e("MyLogError", "Image $drawable not found")
-                }
+            val recipesList = repository.getRecipesByCategoryIdSync(categoryId)
+            val category = repository.getCategoryByIdSync(categoryId)
 
-                Log.i("!!!info", "img $drawable")
-
-                 */
-
+            if (recipesList != null) {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
                         dataSet = recipesList,
@@ -48,9 +32,7 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
                         categoryImageUrl = BASE_URL + IMAGE_CATEGORY_URL + category?.imageUrl
                     )
                 )
-            } catch (e: Exception) {
-                e.printStackTrace()
-                Log.e("!!!e", "load recipe", e)
+            } else {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
                         dataSet = null

@@ -68,6 +68,7 @@ class RecipesListAdapter(private var dataSet: List<Recipe>) :
     }
 
     fun updateRecipes(newRecipes: List<Recipe>) {
+        Log.i("!!!fav", "updateRecipes $newRecipes")
         dataSet = newRecipes
         notifyDataSetChanged()
     }

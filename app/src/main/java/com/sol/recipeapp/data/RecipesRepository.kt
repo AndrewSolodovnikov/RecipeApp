@@ -1,5 +1,6 @@
 package com.sol.recipeapp.data
 
+import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.RETROFIT_MEDIA_TYPE
@@ -10,53 +11,101 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import java.io.IOException
 
 class RecipesRepository {
 
     fun getCategorySync(): List<Category>? {
         return try {
-                val response = service.getCategories().execute()
-                if (response.isSuccessful) response.body() else null
+            val response = service.getCategories().execute()
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                Log.e("!!!error", "Response category ${response.isSuccessful}")
+                Log.e("!!!error", "Response body ${response.body()}")
+                null
+            }
+        } catch (e: IOException) {
+            Log.e("!!!error", "Ошибка сети ${e.message}")
+            null
+        } catch (e: Exception) {
+            Log.e("!!!error", "Неизвестная ошибка ${e.message}")
+            e.printStackTrace()
+            null
+        }
+    }
+
+    fun getRecipesByCategoryIdSync(id: Int): List<Recipe>? {
+        return try {
+            val response = service.getRecipesByCategoryId(id).execute()
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                Log.e("!!!error", "Response recipe by category id ${response.isSuccessful}")
+                Log.e("!!!error", "Response body ${response.body()}")
+                null
+            }
+        } catch (e: IOException) {
+            Log.e("!!!error", "Ошибка сети ${e.message}")
+            null
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
     }
 
-    fun recipesByCategoryIdSync(id: Int): List<Recipe>? {
+    fun getCategoryByIdSync(id: Int): Category? {
         return try {
-                val response = service.getRecipesByCategoryId(id).execute()
-                if (response.isSuccessful) response.body() else null
+            val response = service.getCategoryById(id).execute()
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                Log.e("!!!error", "Response category by id ${response.isSuccessful}")
+                Log.e("!!!error", "Response body ${response.body()}")
+                null
+            }
+        } catch (e: IOException) {
+            Log.e("!!!error", "Ошибка сети ${e.message}")
+            null
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
     }
 
-    fun categoryByIdSync(id: Int): Category? {
+    fun getRecipeByIdSync(id: Int): Recipe? {
         return try {
-                val response = service.getCategoryById(id).execute()
-                if (response.isSuccessful) response.body() else null
+            val response = service.getRecipeById(id).execute()
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                Log.e("!!!error", "Response recipe by id ${response.isSuccessful}")
+                Log.e("!!!error", "Response body ${response.body()}")
+                null
+            }
+        } catch (e: IOException) {
+            Log.e("!!!error", "Ошибка сети", e)
+            null
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
     }
 
-    fun recipeByIdSync(id: Int): Recipe? {
+    fun getRecipesByIdsSync(setIds: Set<Int>): List<Recipe>? {
         return try {
-                val response = service.getRecipeById(id).execute()
-                if (response.isSuccessful) response.body() else null
-        } catch (e: Exception) {
-            e.printStackTrace()
+            val stringIds = setIds.joinToString(",")
+            val response = service.getRecipesById(stringIds).execute()
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                Log.e("!!!error", "Response recipe by ids ${response.isSuccessful}")
+                Log.e("!!!error", "Response body ${response.body()}")
+                null
+            }
+        } catch (e: IOException) {
+            Log.e("!!!error", "Ошибка сети ${e.message}")
             null
-        }
-    }
-
-    fun recipesByIdSync(id: String): List<Recipe>? {
-        return try {
-                val response = service.getRecipesById(id).execute()
-                if (response.isSuccessful) response.body() else null
         } catch (e: Exception) {
             e.printStackTrace()
             null

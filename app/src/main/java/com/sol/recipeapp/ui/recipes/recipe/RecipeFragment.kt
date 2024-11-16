@@ -52,27 +52,29 @@ class RecipeFragment : Fragment() {
         binding.rvMethod.adapter = methodAdapter
 
         viewModel.recipeState.observe(viewLifecycleOwner) { state ->
-            val recipe = state.recipe
-            if (recipe != null) {
-                binding.tvRecipesHeaderTitle.text = recipe.title
+            if (!state.isError) {
+                val recipe = state.recipe
+                recipe?.let {
+                    binding.tvRecipesHeaderTitle.text = recipe.title
 
-                ingredientsAdapter.updateIngredientsList(recipe.ingredients)
-                methodAdapter.updateMethodList(recipe.method)
+                    ingredientsAdapter.updateIngredientsList(recipe.ingredients)
+                    methodAdapter.updateMethodList(recipe.method)
 
-                val updatedIngredients = recipe.ingredients.map { ingredient ->
-                    val newQuantity = try {
-                        BigDecimal(ingredient.quantity).multiply(BigDecimal(state.portionCount))
-                    } catch (e: NumberFormatException) {
-                        BigDecimal.ZERO
+                    val updatedIngredients = recipe.ingredients.map { ingredient ->
+                        val newQuantity = try {
+                            BigDecimal(ingredient.quantity).multiply(BigDecimal(state.portionCount))
+                        } catch (e: NumberFormatException) {
+                            BigDecimal.ZERO
+                        }
+                        ingredient.copy(quantity = newQuantity.toString())
                     }
-                    ingredient.copy(quantity = newQuantity.toString())
+                    ingredientsAdapter.updateIngredientsList(updatedIngredients)
                 }
-                ingredientsAdapter.updateIngredientsList(updatedIngredients)
-
             } else {
                 val errorData = getString(R.string.error_retrofit_data)
                 Toast.makeText(requireContext(), errorData, Toast.LENGTH_LONG).show()
             }
+
 
             binding.tvNumberOfServings.text = state?.portionCount.toString()
             binding.seekbarRecipe.progress = state?.portionCount ?: 1

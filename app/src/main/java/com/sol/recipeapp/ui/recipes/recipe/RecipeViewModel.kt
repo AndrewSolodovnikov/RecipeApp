@@ -3,6 +3,7 @@ package com.sol.recipeapp.ui.recipes.recipe
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,23 +28,22 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun loadRecipe(recipeId: Int) {
         executorService.submit {
-            try {
-                val recipe = service.recipeByIdSync(recipeId)
-                if (recipe != null) {
-                    _recipeState.postValue(
+            val recipe = service.getRecipeByIdSync(recipeId)
+            if (recipe != null) {
+                _recipeState.postValue(
                         _recipeState.value?.copy(
                             recipe = recipe,
                             isFavorite = getFavorites().contains(recipeId.toString()),
                             recipeImageUrl = recipe.imageUrl
+                            isError = false,
                         )
                     )
-                }
 
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } else {
                 _recipeState.postValue(
                     _recipeState.value?.copy(
-                        recipe = null
+                        recipe = null,
+                        isError = true,
                     )
                 )
             }
@@ -52,16 +52,11 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun updatePortionCount(progress: Int) {
-        Log.i("!!!info", "seekBar_1 ViewModel seekBar progress = $progress")
-        Log.i("!!!info", "Current portionCount before update = ${recipeState.value?.portionCount}")
-
         val updatedState = recipeState.value?.copy(
             portionCount = progress
         )
 
-        Log.i("!!!info", "Updating portionCount to = $progress")
         _recipeState.value = updatedState
-        Log.i("!!!info", "seekBar_4 ViewModel recipeState = ${recipeState.value}")
     }
 
     private fun getFavorites(): MutableSet<String> {
@@ -103,5 +98,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val portionCount: Int = 1,
         val isFavorite: Boolean = false,
         val recipeImageUrl: String = "",
+        val isError: Boolean = false,
     )
 }
