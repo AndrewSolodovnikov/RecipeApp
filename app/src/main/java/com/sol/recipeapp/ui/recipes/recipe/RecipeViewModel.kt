@@ -32,7 +32,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
                         _recipeState.value?.copy(
                             recipe = recipe,
                             isFavorite = getFavorites().contains(recipeId.toString()),
-                            recipeImageUrl = recipe.imageUrl,
                             isError = false,
                         )
                     )
@@ -95,7 +94,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val recipe: Recipe? = null,
         val portionCount: Int = 1,
         val isFavorite: Boolean = false,
-        val recipeImageUrl: String = "",
         val isError: Boolean = false,
     )
 }

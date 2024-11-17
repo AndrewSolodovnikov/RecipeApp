@@ -79,9 +79,8 @@ class RecipeFragment : Fragment() {
             binding.tvNumberOfServings.text = state?.portionCount.toString()
             binding.seekbarRecipe.progress = state?.portionCount ?: 1
 
-            //binding.ivRecipesHeaderImage.setImageDrawable(state?.recipeImageUrl)
             val imageView: ImageView = binding.ivRecipesHeaderImage
-            val imageUrl = "$BASE_URL$IMAGE_CATEGORY_URL${state.recipeImageUrl}"
+            val imageUrl = "$BASE_URL$IMAGE_CATEGORY_URL${state.recipe?.imageUrl}"
             Log.i("!!!img", "image url $imageUrl")
             Glide.with(this)
                 .load(imageUrl)
