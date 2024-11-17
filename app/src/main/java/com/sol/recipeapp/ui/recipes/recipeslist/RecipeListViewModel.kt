@@ -1,6 +1,7 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,18 +21,37 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
 
     fun loadRecipes(categoryId: Int) {
         executorService.submit {
+            val category = repository.getCategoryByIdSync(categoryId)
             val recipesList = repository.getRecipesByCategoryIdSync(categoryId)
 
-            if (recipesList != null) {
+            Log.i("!!!cat", "title vm $category")
+            if (recipesList != null && category != null) {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
+                        category = category,
                         recipeList = recipesList,
                     )
                 )
-            } else {
+            } else if (recipesList != null) {
+                _recipeListState.postValue(
+                    _recipeListState.value?.copy(
+                        recipeList = recipesList,
+                        category = null,
+                    )
+                )
+            } else if (category != null) {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
                         recipeList = null,
+                        category = category,
+                    )
+                )
+            }
+            else {
+                _recipeListState.postValue(
+                    _recipeListState.value?.copy(
+                        recipeList = null,
+                        category = null
                     )
                 )
             }
@@ -40,5 +60,6 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
 
     data class RecipeListState(
         val recipeList: List<Recipe>? = emptyList(),
+        val category: Category? = null,
     )
 }

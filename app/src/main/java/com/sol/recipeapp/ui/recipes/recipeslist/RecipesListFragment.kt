@@ -1,6 +1,7 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,9 +50,10 @@ class RecipesListFragment : Fragment() {
         })
 
         viewModel.recipeListState.observe(viewLifecycleOwner) { state ->
-            binding.tvRecipesListHeaderTitle.text = category.title
+            binding.tvRecipesListHeaderTitle.text = state.category?.title
+            Log.i("!!!cat", "title ${state.category}")
 
-            val imageUrl = "$BASE_URL$IMAGE_CATEGORY_URL${category.imageUrl}"
+            val imageUrl = "$BASE_URL$IMAGE_CATEGORY_URL${state.category?.imageUrl}"
             val imageView: ImageView = binding.ivRecipesListHeaderImage
             Glide.with(this)
                 .load(imageUrl)
