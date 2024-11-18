@@ -5,12 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Category
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.data.RecipesRepository
 import kotlinx.coroutines.launch
-import java.util.concurrent.ExecutorService
 
 class RecipeListViewModel(private val application: Application) : AndroidViewModel(application) {
     private val _recipeListState = MutableLiveData(RecipeListState())
