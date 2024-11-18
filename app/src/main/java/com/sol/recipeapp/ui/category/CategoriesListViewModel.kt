@@ -5,18 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Category
 import com.sol.recipeapp.data.RecipesRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.concurrent.ExecutorService
 
 class CategoriesListViewModel(application: Application) : AndroidViewModel(application) {
-    private val executorService: ExecutorService by lazy {
-        (application as MyApplication).executorService
-    }
     private val repository = RecipesRepository()
 
     private val _categoriesListState = MutableLiveData(CategoriesListState())

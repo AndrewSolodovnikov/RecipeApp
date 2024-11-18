@@ -9,17 +9,12 @@ import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Category
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.data.RecipesRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.util.concurrent.ExecutorService
 
 class RecipeListViewModel(private val application: Application) : AndroidViewModel(application) {
     private val _recipeListState = MutableLiveData(RecipeListState())
     val recipeListState: LiveData<RecipeListState> = _recipeListState
-    private val executorService: ExecutorService by lazy {
-        (application as MyApplication).executorService
-    }
     private val repository = RecipesRepository()
 
     suspend fun loadRecipes(categoryId: Int) {
