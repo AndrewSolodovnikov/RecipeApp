@@ -10,21 +10,22 @@
 
     <TextView
         android:id="@+id/tvItemCookingIngredientDescription"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="@style/CookingItemIngredient"
+        app:layout_constraintEnd_toStartOf="@+id/tvItemCookingIngredientQuantity"
         app:layout_constraintStart_toStartOf="@+id/CookingIngredients"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Подсолнечное масло" />
+        tools:text="Подсолнечное масло свежего отжима" />
 
     <TextView
         android:id="@+id/tvItemCookingIngredientQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_quarter"
         android:textAppearance="@style/CookingItemIngredient"
         app:layout_constraintEnd_toStartOf="@+id/tvItemCookingIngredientDescriptionUnitOfMeasure"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="@dimen/margin_quarter"
         tools:text="2" />
 
     <TextView
@@ -40,10 +41,11 @@
         android:id="@+id/divider_ingredient"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="@dimen/margin_half"
         android:background="@color/divider_color"
-        android:layout_marginVertical="@dimen/margin_half"
-        app:layout_constraintTop_toBottomOf="@+id/tvItemCookingIngredientDescriptionUnitOfMeasure"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tvItemCookingIngredientDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 package com.sol.recipeapp.ui.recipes.favorites
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,6 +48,7 @@ class FavoritesFragment : Fragment() {
             } else {
                 binding.tvFavoriteEmpty.visibility = View.GONE
                 binding.rvFavorites.visibility = View.VISIBLE
+                Log.i("!!!fav", "dataSet in fragment ${state.dataSet}")
                 if (state.dataSet != null) {
                     state.dataSet.let { recipeListAdapter.updateRecipes(it) }
                 } else {

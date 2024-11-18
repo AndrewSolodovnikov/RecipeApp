@@ -2,6 +2,7 @@ package com.sol.recipeapp.ui.recipes.favorites
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -28,15 +29,24 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
     fun loadFavoritesRecipes() {
         executorService.submit {
             val favoriteIds = getFavorites()?.mapNotNull { it.toIntOrNull() }?.toSet()
-            val favoriteRecipes = favoriteIds?.let { repository.getRecipesByIdsSync(it) }
-            if (favoriteRecipes != null) {
-                _favoritesState.postValue(
-                    _favoritesState.value?.copy(dataSet = favoriteRecipes)
-                )
-            } else {
-                _favoritesState.postValue(
-                    _favoritesState.value?.copy(dataSet = null)
-                )
+            Log.i("!!!fav", "favoriteIds $favoriteIds")
+            favoriteIds?.let {
+                if (favoriteIds.isNotEmpty()) {
+                    val favoriteRecipes = repository.getRecipesByIdsSync(it)
+                    if (favoriteRecipes != null) {
+                        _favoritesState.postValue(
+                            _favoritesState.value?.copy(dataSet = favoriteRecipes)
+                        )
+                    } else {
+                        _favoritesState.postValue(
+                            _favoritesState.value?.copy(dataSet = null)
+                        )
+                    }
+                } else {
+                    _favoritesState.postValue(
+                        _favoritesState.value?.copy(dataSet = emptyList())
+                    )
+                }
             }
         }
     }

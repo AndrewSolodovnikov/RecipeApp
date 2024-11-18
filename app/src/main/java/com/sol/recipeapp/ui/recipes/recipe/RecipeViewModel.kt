@@ -2,7 +2,6 @@ package com.sol.recipeapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
-import android.graphics.drawable.Drawable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -31,9 +30,8 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             if (recipe != null) {
                 _recipeState.postValue(
                         _recipeState.value?.copy(
-                            recipe = service.getRecipeByIdSync(recipeId),
+                            recipe = recipe,
                             isFavorite = getFavorites().contains(recipeId.toString()),
-                            //recipeImage = drawable,
                             isError = false,
                         )
                     )
@@ -96,7 +94,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val recipe: Recipe? = null,
         val portionCount: Int = 1,
         val isFavorite: Boolean = false,
-        val recipeImage: Drawable? = null,
         val isError: Boolean = false,
     )
 }

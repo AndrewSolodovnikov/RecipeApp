@@ -2,7 +2,7 @@ package com.sol.recipeapp.data
 
 import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.sol.recipeapp.RETROFIT_BASE_URL
+import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.RETROFIT_MEDIA_TYPE
 import com.sol.recipeapp.data.RetrofitInstance.service
 import kotlinx.serialization.json.Json
@@ -10,7 +10,6 @@ import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.HttpException
 import retrofit2.Retrofit
 import java.io.IOException
 
@@ -50,7 +49,6 @@ class RecipesRepository {
             Log.e("!!!error", "Ошибка сети ${e.message}")
             null
         } catch (e: Exception) {
-            Log.e("!!!error", "Неизвестная ошибка ${e.message}")
             e.printStackTrace()
             null
         }
@@ -89,7 +87,6 @@ class RecipesRepository {
             Log.e("!!!error", "Ошибка сети", e)
             null
         } catch (e: Exception) {
-            Log.e("!!!error", "Неизвестная ошибка", e)
             e.printStackTrace()
             null
         }
@@ -114,6 +111,7 @@ class RecipesRepository {
             null
         }
     }
+
 }
 
 private fun createOkHttpClient(): OkHttpClient {
@@ -129,7 +127,7 @@ private fun createOkHttpClient(): OkHttpClient {
 object RetrofitInstance {
     private val converterType: MediaType = RETROFIT_MEDIA_TYPE.toMediaType()
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(RETROFIT_BASE_URL)
+        .baseUrl(BASE_URL)
         .client(createOkHttpClient())
         .addConverterFactory(Json.asConverterFactory(converterType))
         .build()
