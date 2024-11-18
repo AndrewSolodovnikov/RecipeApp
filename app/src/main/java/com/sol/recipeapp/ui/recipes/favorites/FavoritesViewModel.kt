@@ -6,10 +6,14 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
 import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.data.RecipesRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
     private val _favoritesState = MutableLiveData(FavoritesState())
@@ -26,8 +30,8 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         return sharedPref.getStringSet(ARG_FAVORITES_SHARED_PREF, HashSet())?.toMutableSet()
     }
 
-    fun loadFavoritesRecipes() {
-        executorService.submit {
+    suspend fun loadFavoritesRecipes() {
+        viewModelScope.launch {
             val favoriteIds = getFavorites()?.mapNotNull { it.toIntOrNull() }?.toSet()
             Log.i("!!!fav", "favoriteIds $favoriteIds")
             favoriteIds?.let {

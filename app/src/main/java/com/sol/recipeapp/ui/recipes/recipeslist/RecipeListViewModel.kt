@@ -1,14 +1,17 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Category
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.data.RecipesRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.ExecutorService
 
 class RecipeListViewModel(private val application: Application) : AndroidViewModel(application) {
@@ -19,12 +22,11 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
     }
     private val repository = RecipesRepository()
 
-    fun loadRecipes(categoryId: Int) {
-        executorService.submit {
+    suspend fun loadRecipes(categoryId: Int) {
+        viewModelScope.launch {
             val category = repository.getCategoryByIdSync(categoryId)
             val recipesList = repository.getRecipesByCategoryIdSync(categoryId)
 
-            Log.i("!!!cat", "title vm $category")
             if (recipesList != null && category != null) {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
@@ -36,22 +38,20 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
                         recipeList = recipesList,
-                        category = null,
+                        isError = true,
                     )
                 )
             } else if (category != null) {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
-                        recipeList = null,
                         category = category,
+                        isError = true,
                     )
                 )
-            }
-            else {
+            } else {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
-                        recipeList = null,
-                        category = null
+                        isError = true,
                     )
                 )
             }
@@ -61,5 +61,6 @@ class RecipeListViewModel(private val application: Application) : AndroidViewMod
     data class RecipeListState(
         val recipeList: List<Recipe>? = emptyList(),
         val category: Category? = null,
+        val isError: Boolean = false,
     )
 }

@@ -4,9 +4,13 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Category
 import com.sol.recipeapp.data.RecipesRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.ExecutorService
 
 class CategoriesListViewModel(application: Application) : AndroidViewModel(application) {
@@ -18,8 +22,8 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     private val _categoriesListState = MutableLiveData(CategoriesListState())
     val categoriesListState: LiveData<CategoriesListState> = _categoriesListState
 
-    init {
-        executorService.submit {
+    suspend fun loadCategory() {
+        viewModelScope.launch {
             val dataSet = repository.getCategorySync()
             if (dataSet != null) {
                 _categoriesListState.postValue(

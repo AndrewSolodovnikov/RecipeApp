@@ -5,10 +5,14 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
 import com.sol.recipeapp.com.sol.recipeapp.MyApplication
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.data.RecipesRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.concurrent.ExecutorService
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
@@ -24,8 +28,8 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
-    fun loadRecipe(recipeId: Int) {
-        executorService.submit {
+    suspend fun loadRecipe(recipeId: Int) {
+        viewModelScope.launch {
             val recipe = service.getRecipeByIdSync(recipeId)
             if (recipe != null) {
                 _recipeState.postValue(

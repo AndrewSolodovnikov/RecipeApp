@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.sol.recipeapp.R
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentFavoritesBinding
 import com.sol.recipeapp.ui.recipes.recipeslist.RecipesListAdapter
+import kotlinx.coroutines.launch
 
 class FavoritesFragment : Fragment() {
     private val binding by lazy { FragmentFavoritesBinding.inflate(layoutInflater) }
@@ -33,7 +35,10 @@ class FavoritesFragment : Fragment() {
 
     private fun initUI() {
         binding.rvFavorites.adapter = recipeListAdapter
-        viewModel.loadFavoritesRecipes()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.loadFavoritesRecipes()
+        }
 
         recipeListAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
             override fun onItemClick(recipe: Recipe) {

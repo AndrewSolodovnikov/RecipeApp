@@ -5,6 +5,8 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.RETROFIT_MEDIA_TYPE
 import com.sol.recipeapp.data.RetrofitInstance.service
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
@@ -15,15 +17,17 @@ import java.io.IOException
 
 class RecipesRepository {
 
-    fun getCategorySync(): List<Category>? {
+    suspend fun getCategorySync(): List<Category>? {
         return try {
-            val response = service.getCategories().execute()
-            if (response.isSuccessful) {
-                response.body()
-            } else {
-                Log.e("!!!error", "Response category ${response.isSuccessful}")
-                Log.e("!!!error", "Response body ${response.body()}")
-                null
+            withContext(Dispatchers.IO) {
+                val response = service.getCategories().execute()
+                if (response.isSuccessful) {
+                    response.body()
+                } else {
+                    Log.e("!!!error", "Response category ${response.isSuccessful}")
+                    Log.e("!!!error", "Response body ${response.body()}")
+                    null
+                }
             }
         } catch (e: IOException) {
             Log.e("!!!error", "Ошибка сети ${e.message}")
@@ -35,15 +39,17 @@ class RecipesRepository {
         }
     }
 
-    fun getRecipesByCategoryIdSync(id: Int): List<Recipe>? {
+    suspend fun getRecipesByCategoryIdSync(id: Int): List<Recipe>? {
         return try {
-            val response = service.getRecipesByCategoryId(id).execute()
-            if (response.isSuccessful) {
-                response.body()
-            } else {
-                Log.e("!!!error", "Response recipe by category id ${response.isSuccessful}")
-                Log.e("!!!error", "Response body ${response.body()}")
-                null
+            withContext(Dispatchers.IO) {
+                val response = service.getRecipesByCategoryId(id).execute()
+                if (response.isSuccessful) {
+                    response.body()
+                } else {
+                    Log.e("!!!error", "Response recipe by category id ${response.isSuccessful}")
+                    Log.e("!!!error", "Response body ${response.body()}")
+                    null
+                }
             }
         } catch (e: IOException) {
             Log.e("!!!error", "Ошибка сети ${e.message}")
@@ -54,15 +60,17 @@ class RecipesRepository {
         }
     }
 
-    fun getCategoryByIdSync(id: Int): Category? {
+    suspend fun getCategoryByIdSync(id: Int): Category? {
         return try {
-            val response = service.getCategoryById(id).execute()
-            if (response.isSuccessful) {
-                response.body()
-            } else {
-                Log.e("!!!error", "Response category by id ${response.isSuccessful}")
-                Log.e("!!!error", "Response body ${response.body()}")
-                null
+            withContext(Dispatchers.IO) {
+                val response = service.getCategoryById(id).execute()
+                if (response.isSuccessful) {
+                    response.body()
+                } else {
+                    Log.e("!!!error", "Response category by id ${response.isSuccessful}")
+                    Log.e("!!!error", "Response body ${response.body()}")
+                    null
+                }
             }
         } catch (e: IOException) {
             Log.e("!!!error", "Ошибка сети ${e.message}")
@@ -73,15 +81,17 @@ class RecipesRepository {
         }
     }
 
-    fun getRecipeByIdSync(id: Int): Recipe? {
+    suspend fun getRecipeByIdSync(id: Int): Recipe? {
         return try {
-            val response = service.getRecipeById(id).execute()
-            if (response.isSuccessful) {
-                response.body()
-            } else {
-                Log.e("!!!error", "Response recipe by id ${response.isSuccessful}")
-                Log.e("!!!error", "Response body ${response.body()}")
-                null
+            withContext(Dispatchers.IO) {
+                val response = service.getRecipeById(id).execute()
+                if (response.isSuccessful) {
+                    response.body()
+                } else {
+                    Log.e("!!!error", "Response recipe by id ${response.isSuccessful}")
+                    Log.e("!!!error", "Response body ${response.body()}")
+                    null
+                }
             }
         } catch (e: IOException) {
             Log.e("!!!error", "Ошибка сети", e)
@@ -92,16 +102,18 @@ class RecipesRepository {
         }
     }
 
-    fun getRecipesByIdsSync(setIds: Set<Int>): List<Recipe>? {
+    suspend fun getRecipesByIdsSync(setIds: Set<Int>): List<Recipe>? {
         return try {
-            val stringIds = setIds.joinToString(",")
-            val response = service.getRecipesById(stringIds).execute()
-            if (response.isSuccessful) {
-                response.body()
-            } else {
-                Log.e("!!!error", "Response recipe by ids ${response.isSuccessful}")
-                Log.e("!!!error", "Response body ${response.body()}")
-                null
+            withContext(Dispatchers.IO) {
+                val stringIds = setIds.joinToString(",")
+                val response = service.getRecipesById(stringIds).execute()
+                if (response.isSuccessful) {
+                    response.body()
+                } else {
+                    Log.e("!!!error", "Response recipe by ids ${response.isSuccessful}")
+                    Log.e("!!!error", "Response body ${response.body()}")
+                    null
+                }
             }
         } catch (e: IOException) {
             Log.e("!!!error", "Ошибка сети ${e.message}")
