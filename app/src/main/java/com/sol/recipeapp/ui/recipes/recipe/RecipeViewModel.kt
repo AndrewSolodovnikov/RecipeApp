@@ -23,17 +23,17 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
-    suspend fun loadRecipe(recipeId: Int) {
+    fun loadRecipe(recipeId: Int) {
         viewModelScope.launch {
             val recipe = service.getRecipeByIdSync(recipeId)
             if (recipe != null) {
                 _recipeState.postValue(
-                        _recipeState.value?.copy(
-                            recipe = recipe,
-                            isFavorite = getFavorites().contains(recipeId.toString()),
-                            isError = false,
-                        )
+                    _recipeState.value?.copy(
+                        recipe = recipe,
+                        isFavorite = getFavorites().contains(recipeId.toString()),
+                        isError = false,
                     )
+                )
 
             } else {
                 _recipeState.postValue(

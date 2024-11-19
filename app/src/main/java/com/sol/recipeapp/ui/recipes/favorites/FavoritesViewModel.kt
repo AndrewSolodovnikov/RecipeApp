@@ -24,7 +24,7 @@ class FavoritesViewModel(application: Application) : AndroidViewModel(applicatio
         return sharedPref.getStringSet(ARG_FAVORITES_SHARED_PREF, HashSet())?.toMutableSet()
     }
 
-    suspend fun loadFavoritesRecipes() {
+    fun loadFavoritesRecipes() {
         viewModelScope.launch {
             val favoriteIds = getFavorites()?.mapNotNull { it.toIntOrNull() }?.toSet()
             Log.i("!!!fav", "favoriteIds $favoriteIds")

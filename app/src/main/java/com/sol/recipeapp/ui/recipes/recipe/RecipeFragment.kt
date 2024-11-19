@@ -10,14 +10,12 @@ import android.widget.SeekBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.IMAGE_CATEGORY_URL
 import com.sol.recipeapp.R
-import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
-import kotlinx.coroutines.launch
 import java.math.BigDecimal
 
 class RecipeFragment : Fragment() {
@@ -48,9 +46,7 @@ class RecipeFragment : Fragment() {
         }
 
         recipeId = args.recipe.id
-        viewLifecycleOwner.lifecycleScope.launch {
-            recipeId?.let { viewModel.loadRecipe(it) }
-        }
+        recipeId?.let { viewModel.loadRecipe(it) }
 
         binding.rvIngredients.adapter = ingredientsAdapter
         binding.rvMethod.adapter = methodAdapter

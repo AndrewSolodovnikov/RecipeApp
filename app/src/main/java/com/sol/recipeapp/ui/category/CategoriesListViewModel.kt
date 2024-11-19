@@ -15,7 +15,7 @@ class CategoriesListViewModel(application: Application) : AndroidViewModel(appli
     private val _categoriesListState = MutableLiveData(CategoriesListState())
     val categoriesListState: LiveData<CategoriesListState> = _categoriesListState
 
-    suspend fun loadCategory() {
+    fun loadCategory() {
         viewModelScope.launch {
             val dataSet = repository.getCategorySync()
             if (dataSet != null) {
