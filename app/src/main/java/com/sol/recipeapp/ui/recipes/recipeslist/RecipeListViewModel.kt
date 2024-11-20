@@ -20,15 +20,34 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
             val category = repository.getCategoryByIdSync(categoryId)
             val recipesList = repository.getRecipesByCategoryIdSync(categoryId)
 
-            _recipeListState.value = _recipeListState.value?.copy(
-                category = category,
-                recipeList = recipesList
-            )
+            if (category != null && recipesList != null) {
+                _recipeListState.postValue(
+                    _recipeListState.value?.copy(
+                        category = category,
+                        recipeList = recipesList,
+                    )
+                )
+            } else if (category != null) {
+                _recipeListState.postValue(
+                    _recipeListState.value?.copy(
+                        category = category,
+                        isError = true,
+                    )
+                )
+            } else if (recipesList != null) {
+                _recipeListState.postValue(
+                    _recipeListState.value?.copy(
+                        recipeList = recipesList,
+                        isError = true,
+                    )
+                )
+            }
         }
     }
 
     data class RecipeListState(
         val recipeList: List<Recipe>? = emptyList(),
         val category: Category? = null,
+        val isError: Boolean = false,
     )
 }

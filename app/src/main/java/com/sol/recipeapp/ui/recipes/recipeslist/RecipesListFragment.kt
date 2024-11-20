@@ -62,9 +62,12 @@ class RecipesListFragment : Fragment() {
                 if (state.recipeList.isNotEmpty()) {
                     customAdapter.updateRecipes(state.recipeList)
                 }
-            } else {
-                val errorData = getString(R.string.error_retrofit_data)
-                Toast.makeText(requireContext(), errorData, Toast.LENGTH_LONG).show()
+            } else if (state.isError) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.error_retrofit_data),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
