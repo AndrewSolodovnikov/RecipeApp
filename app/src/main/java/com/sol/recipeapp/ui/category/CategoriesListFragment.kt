@@ -30,6 +30,7 @@ class CategoriesListFragment : Fragment() {
     private fun initUI() {
         val customAdapter = CategoriesListAdapter(emptyList())
         binding.rvCategory.adapter = customAdapter
+        viewModel.loadCategory()
 
         customAdapter.setOnItemClickListener(object : CategoriesListAdapter.OnItemClickListener {
             override fun onItemClick(categoryId: Int) {
@@ -46,7 +47,8 @@ class CategoriesListFragment : Fragment() {
             }
 
             if (state.navigateToCategory == null) {
-                customAdapter.setOnItemClickListener(object : CategoriesListAdapter.OnItemClickListener {
+                customAdapter.setOnItemClickListener(object :
+                    CategoriesListAdapter.OnItemClickListener {
                     override fun onItemClick(categoryId: Int) {
                         viewModel.openRecipesByCategoryId(categoryId)
                     }

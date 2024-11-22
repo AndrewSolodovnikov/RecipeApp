@@ -12,9 +12,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.IMAGE_CATEGORY_URL
 import com.sol.recipeapp.R
-import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
 import java.math.BigDecimal
 
@@ -36,9 +36,6 @@ class RecipeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recipeId = args.recipe.id
-        recipeId?.let { viewModel.loadRecipe(it) }
-
         initUI()
         initSeekBar()
     }
@@ -47,6 +44,9 @@ class RecipeFragment : Fragment() {
         binding.btnFavorite.setOnClickListener {
             viewModel.onFavoritesClicked()
         }
+
+        recipeId = args.recipe.id
+        recipeId?.let { viewModel.loadRecipe(it) }
 
         binding.rvIngredients.adapter = ingredientsAdapter
         binding.rvMethod.adapter = methodAdapter
