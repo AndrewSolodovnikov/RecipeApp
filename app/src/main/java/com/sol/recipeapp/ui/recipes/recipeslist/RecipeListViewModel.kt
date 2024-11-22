@@ -1,6 +1,7 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,25 +21,18 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
             val category = repository.getCategoryByIdSync(categoryId)
             val recipesList = repository.getRecipesByCategoryIdSync(categoryId)
 
-            if (category != null && recipesList != null) {
+            if (category != null || recipesList != null) {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
                         category = category,
                         recipeList = recipesList,
+                        isError = category == null || recipesList == null,
                     )
                 )
-            } else if (category != null) {
+            } else {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
-                        category = category,
-                        isError = true,
-                    )
-                )
-            } else if (recipesList != null) {
-                _recipeListState.postValue(
-                    _recipeListState.value?.copy(
-                        recipeList = recipesList,
-                        isError = true,
+                        isError = true
                     )
                 )
             }

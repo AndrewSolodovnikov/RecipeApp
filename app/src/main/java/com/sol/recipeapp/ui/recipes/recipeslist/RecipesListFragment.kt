@@ -58,11 +58,11 @@ class RecipesListFragment : Fragment() {
             val imageView: ImageView = binding.ivRecipesListHeaderImage
             Glide.with(this).load(imageUrl).into(imageView)
 
-            if (state.recipeList != null) {
-                if (state.recipeList.isNotEmpty()) {
-                    customAdapter.updateRecipes(state.recipeList)
-                }
-            } else if (state.isError) {
+            if (!state.recipeList.isNullOrEmpty()) {
+                customAdapter.updateRecipes(state.recipeList)
+            }
+
+            if (state.isError) {
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.error_retrofit_data),
