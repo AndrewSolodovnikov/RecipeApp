@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.safeargs)
     alias(libs.plugins.serialization)
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -58,9 +59,14 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.navigation.dynamic.features.fragment)
     implementation(libs.navigation.testing)
+
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
     implementation (libs.retrofit)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation(libs.glide)
+
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }
