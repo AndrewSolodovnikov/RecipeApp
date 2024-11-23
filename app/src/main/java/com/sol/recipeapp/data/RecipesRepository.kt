@@ -1,5 +1,6 @@
 package com.sol.recipeapp.data
 
+import android.content.Context
 import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sol.recipeapp.BASE_URL
@@ -17,8 +18,25 @@ import retrofit2.Retrofit
 import java.io.IOException
 
 class RecipesRepository(
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+    context: Context
 ) {
+    private val database: AppDatabase = AppDatabase.getDatabase(context)
+    private val categoriesDao: CategoriesDao = database.categoriesDao()
+
+    suspend fun getCategoriesFromCache(): List<Category> {
+        return withContext(ioDispatcher) {
+            categoriesDao.getCategories()
+        }
+    }
+
+    suspend fun insertCategoriesFromCache(categories: List<Category>?) {
+        if (categories != null) {
+            withContext(ioDispatcher) {
+                categoriesDao.insertCategories(categories)
+            }
+        }
+    }
 
     suspend fun getCategorySync(): List<Category>? {
         return withContext(ioDispatcher) {

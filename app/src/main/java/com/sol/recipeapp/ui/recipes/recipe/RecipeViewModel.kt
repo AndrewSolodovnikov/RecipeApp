@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeState = MutableLiveData(RecipeState())
     val recipeState: LiveData<RecipeState> = _recipeState
-    private val service = RecipesRepository()
+    private val service = RecipesRepository(context = application)
 
     private val sharedPref by lazy {
         application.getSharedPreferences(

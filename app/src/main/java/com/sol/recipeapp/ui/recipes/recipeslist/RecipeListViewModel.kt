@@ -1,7 +1,7 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
 import android.app.Application
-import android.util.Log
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,25 +14,32 @@ import kotlinx.coroutines.launch
 class RecipeListViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeListState = MutableLiveData(RecipeListState())
     val recipeListState: LiveData<RecipeListState> = _recipeListState
-    private val repository = RecipesRepository()
+    private val repository = RecipesRepository(context = application)
 
     fun loadRecipes(categoryId: Int) {
         viewModelScope.launch {
             val category = repository.getCategoryByIdSync(categoryId)
             val recipesList = repository.getRecipesByCategoryIdSync(categoryId)
 
-            if (category != null || recipesList != null) {
+            if (category != null && recipesList != null) {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
                         category = category,
                         recipeList = recipesList,
-                        isError = category == null || recipesList == null,
                     )
                 )
-            } else {
+            } else if (category != null) {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
-                        isError = true
+                        category = category,
+                        isError = true,
+                    )
+                )
+            } else if (recipesList != null) {
+                _recipeListState.postValue(
+                    _recipeListState.value?.copy(
+                        recipeList = recipesList,
+                        isError = true,
                     )
                 )
             }
