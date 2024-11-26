@@ -1,7 +1,7 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
 import android.app.Application
-import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,37 +18,38 @@ class RecipeListViewModel(application: Application) : AndroidViewModel(applicati
 
     fun loadRecipes(categoryId: Int) {
         viewModelScope.launch {
+            val recipesList = repository.getRecipesFromCacheByCategoryId(categoryId)
             val category = repository.getCategoryByIdSync(categoryId)
-            val recipesList = repository.getRecipesByCategoryIdSync(categoryId)
 
-            if (category != null && recipesList != null) {
+            Log.i("!!!db", "db recipe $recipesList")
+
+            if (recipesList.isNotEmpty()) {
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
                         category = category,
                         recipeList = recipesList,
+                        isError = category == null
                     )
                 )
-            } else if (category != null) {
+            } else {
+                val recipesList = repository.getRecipesByCategoryIdSync(categoryId)
+                Log.i("!!!db", "Running Retrofit")
+                Log.i("!!!db", "Retrofit recipeList $recipesList")
+                repository.insertRecipesFromCache(recipesList?.map { it.copy(categoryId = categoryId) })
                 _recipeListState.postValue(
                     _recipeListState.value?.copy(
                         category = category,
-                        isError = true,
-                    )
-                )
-            } else if (recipesList != null) {
-                _recipeListState.postValue(
-                    _recipeListState.value?.copy(
                         recipeList = recipesList,
-                        isError = true,
+                        isError = category == null || recipesList == null
                     )
                 )
             }
         }
     }
-
-    data class RecipeListState(
-        val recipeList: List<Recipe>? = emptyList(),
-        val category: Category? = null,
-        val isError: Boolean = false,
-    )
 }
+
+data class RecipeListState(
+    val recipeList: List<Recipe>? = emptyList(),
+    val category: Category? = null,
+    val isError: Boolean = false,
+)

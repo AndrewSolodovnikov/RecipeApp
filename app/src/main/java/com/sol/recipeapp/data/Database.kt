@@ -4,11 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
-@Database(entities = [Category::class], version = 1)
+@Database(entities = [Category::class, Recipe::class], version = 1)
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun categoriesDao(): CategoriesDao
+    abstract fun recipesDao(): RecipesDao
 
     companion object {
         @Volatile
@@ -19,7 +22,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "categories_database"
+                    "app_database"
                 ).build()
                 INSTANCE = instance
                 instance

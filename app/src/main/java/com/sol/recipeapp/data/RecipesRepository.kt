@@ -21,8 +21,11 @@ class RecipesRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
     context: Context
 ) {
-    private val database: AppDatabase = AppDatabase.getDatabase(context)
-    private val categoriesDao: CategoriesDao = database.categoriesDao()
+    private val categoriesDatabase: AppDatabase = AppDatabase.getDatabase(context)
+    private val categoriesDao: CategoriesDao = categoriesDatabase.categoriesDao()
+
+    private val recipesDatabase: AppDatabase = AppDatabase.getDatabase(context)
+    private val recipesDao: RecipesDao = recipesDatabase.recipesDao()
 
     suspend fun getCategoriesFromCache(): List<Category> {
         return withContext(ioDispatcher) {
@@ -34,6 +37,20 @@ class RecipesRepository(
         if (categories != null) {
             withContext(ioDispatcher) {
                 categoriesDao.insertCategories(categories)
+            }
+        }
+    }
+
+    suspend fun getRecipesFromCacheByCategoryId(categoryId: Int): List<Recipe> {
+        return withContext(ioDispatcher) {
+            recipesDao.getRecipesByCategoryId(categoryId)
+        }
+    }
+
+    suspend fun insertRecipesFromCache(recipes: List<Recipe>?) {
+        if (recipes != null) {
+            withContext(ioDispatcher) {
+                recipesDao.insertRecipes(recipes)
             }
         }
     }
