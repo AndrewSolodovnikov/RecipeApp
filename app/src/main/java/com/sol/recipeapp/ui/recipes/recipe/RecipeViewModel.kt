@@ -2,6 +2,7 @@ package com.sol.recipeapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +24,15 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         )
     }
 
+    fun loadRecipe(recipeArgs: Recipe) {
+        val isFavorite: Boolean = getFavorites().contains(recipeArgs.id.toString())
+        _recipeState.value = _recipeState.value?.copy(
+            recipe = recipeArgs,
+            isFavorite = isFavorite,
+        )
+    }
+
+            /*
     fun loadRecipe(recipeId: Int) {
         viewModelScope.launch {
             val recipe = service.getRecipeByIdSync(recipeId)
@@ -46,6 +56,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         }
 
     }
+    */
 
     fun updatePortionCount(progress: Int) {
         val updatedState = recipeState.value?.copy(
@@ -93,6 +104,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val recipe: Recipe? = null,
         val portionCount: Int = 1,
         val isFavorite: Boolean = false,
-        val isError: Boolean = false,
+        //val isError: Boolean = false,
     )
 }
