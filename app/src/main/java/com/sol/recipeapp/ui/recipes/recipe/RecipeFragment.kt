@@ -14,7 +14,6 @@ import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.IMAGE_CATEGORY_URL
 import com.sol.recipeapp.R
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
-import java.math.BigDecimal
 
 class RecipeFragment : Fragment() {
     private val viewModel: RecipeViewModel by viewModels()
@@ -55,16 +54,7 @@ class RecipeFragment : Fragment() {
 
                 ingredientsAdapter.updateIngredientsList(recipe.ingredients)
                 methodAdapter.updateMethodList(recipe.method)
-
-                val updatedIngredients = recipe.ingredients.map { ingredient ->
-                    val newQuantity = try {
-                        BigDecimal(ingredient.quantity).multiply(BigDecimal(state.portionCount))
-                    } catch (e: NumberFormatException) {
-                        BigDecimal.ZERO
-                    }
-                    ingredient.copy(quantity = newQuantity.toString())
-                }
-                ingredientsAdapter.updateIngredientsList(updatedIngredients)
+                ingredientsAdapter.updatePortionCount(state.portionCount)
             }
 
             binding.tvNumberOfServings.text = state?.portionCount.toString()

@@ -2,20 +2,15 @@ package com.sol.recipeapp.ui.recipes.recipe
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
 import com.sol.recipeapp.data.Recipe
-import com.sol.recipeapp.data.RecipesRepository
-import kotlinx.coroutines.launch
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeState = MutableLiveData(RecipeState())
     val recipeState: LiveData<RecipeState> = _recipeState
-    private val service = RecipesRepository(context = application)
 
     private val sharedPref by lazy {
         application.getSharedPreferences(
@@ -31,32 +26,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             isFavorite = isFavorite,
         )
     }
-
-            /*
-    fun loadRecipe(recipeId: Int) {
-        viewModelScope.launch {
-            val recipe = service.getRecipeByIdSync(recipeId)
-            if (recipe != null) {
-                _recipeState.postValue(
-                    _recipeState.value?.copy(
-                        recipe = recipe,
-                        isFavorite = getFavorites().contains(recipeId.toString()),
-                        isError = false,
-                    )
-                )
-
-            } else {
-                _recipeState.postValue(
-                    _recipeState.value?.copy(
-                        recipe = null,
-                        isError = true,
-                    )
-                )
-            }
-        }
-
-    }
-    */
 
     fun updatePortionCount(progress: Int) {
         val updatedState = recipeState.value?.copy(
@@ -104,6 +73,5 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val recipe: Recipe? = null,
         val portionCount: Int = 1,
         val isFavorite: Boolean = false,
-        //val isError: Boolean = false,
     )
 }
