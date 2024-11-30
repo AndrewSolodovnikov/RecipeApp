@@ -36,7 +36,10 @@ class RecipesListFragment : Fragment() {
     }
 
     private fun initUI() {
+        val categoryArgs = args.category
         val categoryId = args.category.id
+
+        viewModel.loadCategory(categoryArgs)
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.loadRecipes(categoryId)

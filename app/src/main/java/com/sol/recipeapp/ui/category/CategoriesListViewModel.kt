@@ -10,22 +10,32 @@ import com.sol.recipeapp.data.RecipesRepository
 import kotlinx.coroutines.launch
 
 class CategoriesListViewModel(application: Application) : AndroidViewModel(application) {
-    private val repository = RecipesRepository()
+    private val repository = RecipesRepository(context = application)
 
     private val _categoriesListState = MutableLiveData(CategoriesListState())
     val categoriesListState: LiveData<CategoriesListState> = _categoriesListState
 
     fun loadCategory() {
         viewModelScope.launch {
-            val dataSet = repository.getCategorySync()
-            if (dataSet != null) {
+            val categories: List<Category> = repository.getCategoriesFromCache()
+            if (categories.isNotEmpty()) {
                 _categoriesListState.postValue(
-                    _categoriesListState.value?.copy(dataSet = repository.getCategorySync())
+                    _categoriesListState.value?.copy(
+                        dataSet = categories
+                    )
                 )
             } else {
-                _categoriesListState.postValue(
-                    _categoriesListState.value?.copy(dataSet = null)
-                )
+                val dataSet = repository.getCategorySync()
+                repository.insertCategoriesFromCache(dataSet)
+                if (dataSet != null) {
+                    _categoriesListState.postValue(
+                        _categoriesListState.value?.copy(dataSet = repository.getCategorySync())
+                    )
+                } else {
+                    _categoriesListState.postValue(
+                        _categoriesListState.value?.copy(dataSet = null)
+                    )
+                }
             }
         }
     }

@@ -1,14 +1,17 @@
 package com.sol.recipeapp.data
 
 import android.os.Parcelable
-import com.sol.recipeapp.data.Ingredient
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 
 @Parcelize
 @Serializable
+@Entity
 data class Recipe(
-    val id: Int,
+    @PrimaryKey val id: Int,
+    val categoryId: Int? = -1,
     val title: String,
     val ingredients: List<Ingredient> = emptyList(),
     val method: List<String> = emptyList(),
