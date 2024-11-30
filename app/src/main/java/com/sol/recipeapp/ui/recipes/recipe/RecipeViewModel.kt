@@ -1,30 +1,30 @@
 package com.sol.recipeapp.ui.recipes.recipe
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.sol.recipeapp.ARG_FAVORITES_SHARED_PREF
+import androidx.lifecycle.viewModelScope
+import com.sol.recipeapp.data.AppDatabase
 import com.sol.recipeapp.data.Recipe
+import kotlinx.coroutines.launch
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeState = MutableLiveData(RecipeState())
     val recipeState: LiveData<RecipeState> = _recipeState
 
-    private val sharedPref by lazy {
-        application.getSharedPreferences(
-            ARG_FAVORITES_SHARED_PREF,
-            Context.MODE_PRIVATE
-        )
+    private val dao by lazy {
+        AppDatabase.getDatabase(application).recipesDao()
     }
 
     fun loadRecipe(recipeArgs: Recipe) {
-        val isFavorite: Boolean = getFavorites().contains(recipeArgs.id.toString())
-        _recipeState.value = _recipeState.value?.copy(
-            recipe = recipeArgs,
-            isFavorite = isFavorite,
-        )
+        viewModelScope.launch {
+            val isFavorite = dao.getFavorite(recipeArgs.id) == 1
+            _recipeState.value = _recipeState.value?.copy(
+                recipe = recipeArgs,
+                isFavorite = isFavorite
+            )
+        }
     }
 
     fun updatePortionCount(progress: Int) {
@@ -35,37 +35,19 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         _recipeState.value = updatedState
     }
 
-    private fun getFavorites(): MutableSet<String> {
-        return HashSet(
-            sharedPref
-                .getStringSet(ARG_FAVORITES_SHARED_PREF, HashSet()) ?: mutableSetOf()
-        )
-    }
-
-    fun onFavoritesClicked() {
-        val favorites = getFavorites()
+    fun onFavoriteClicked() {
         val currentState = recipeState.value
+        currentState?.recipe?.let { recipe ->
+            val isFavorite = !(currentState.isFavorite)
 
-        val newState = currentState?.copy(
-            isFavorite = !currentState.isFavorite,
-            portionCount = currentState?.portionCount ?: 1
-        )
-        _recipeState.value = newState
+            viewModelScope.launch {
+                dao.updateFavorite(recipe.id, if (isFavorite) 1 else 0)
 
-        val recipeId = currentState?.recipe?.id.toString()
-        if (favorites.contains(recipeId)) {
-            favorites.remove(recipeId)
-        } else {
-            favorites.add(recipeId)
-        }
 
-        saveFavorites(favorites)
-    }
-
-    private fun saveFavorites(favoriteIds: Set<String>) {
-        with(sharedPref.edit()) {
-            putStringSet(ARG_FAVORITES_SHARED_PREF, favoriteIds)
-            apply()
+                _recipeState.value = currentState.copy(
+                    isFavorite = isFavorite
+                )
+            }
         }
     }
 

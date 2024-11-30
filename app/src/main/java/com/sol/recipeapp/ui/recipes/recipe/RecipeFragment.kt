@@ -38,7 +38,7 @@ class RecipeFragment : Fragment() {
 
     private fun initUI() {
         binding.btnFavorite.setOnClickListener {
-            viewModel.onFavoritesClicked()
+            viewModel.onFavoriteClicked()
         }
 
         val recipeArgs = args.recipe

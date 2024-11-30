@@ -11,9 +11,10 @@ import kotlinx.serialization.Serializable
 @Entity
 data class Recipe(
     @PrimaryKey val id: Int,
-    val categoryId: Int? = -1,
+    val categoryId: Int = -1,
     val title: String,
     val ingredients: List<Ingredient> = emptyList(),
     val method: List<String> = emptyList(),
     val imageUrl: String,
+    val isFavorite: Int = 0,
 ): Parcelable
