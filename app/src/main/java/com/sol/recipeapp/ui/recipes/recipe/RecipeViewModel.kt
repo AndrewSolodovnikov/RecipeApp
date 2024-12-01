@@ -5,21 +5,18 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.sol.recipeapp.data.AppDatabase
+import com.sol.recipeapp.data.FavoritesRepository
 import com.sol.recipeapp.data.Recipe
 import kotlinx.coroutines.launch
 
 class RecipeViewModel(application: Application) : AndroidViewModel(application) {
     private val _recipeState = MutableLiveData(RecipeState())
     val recipeState: LiveData<RecipeState> = _recipeState
-
-    private val dao by lazy {
-        AppDatabase.getDatabase(application).recipesDao()
-    }
+    private val repository = FavoritesRepository(context = application)
 
     fun loadRecipe(recipeArgs: Recipe) {
         viewModelScope.launch {
-            val isFavorite = dao.getFavorite(recipeArgs.id) == 1
+            val isFavorite = repository.getFavoriteFromCache(recipeArgs.id) == 1
             _recipeState.value = _recipeState.value?.copy(
                 recipe = recipeArgs,
                 isFavorite = isFavorite
@@ -31,7 +28,6 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
         val updatedState = recipeState.value?.copy(
             portionCount = progress
         )
-
         _recipeState.value = updatedState
     }
 
@@ -41,8 +37,7 @@ class RecipeViewModel(application: Application) : AndroidViewModel(application) 
             val isFavorite = !(currentState.isFavorite)
 
             viewModelScope.launch {
-                dao.updateFavorite(recipe.id, if (isFavorite) 1 else 0)
-
+                repository.updateFavoriteFromCache(recipe.id, if (isFavorite) 1 else 0)
 
                 _recipeState.value = currentState.copy(
                     isFavorite = isFavorite
