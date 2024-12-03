@@ -7,10 +7,11 @@ import kotlinx.coroutines.withContext
 
 class FavoritesRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
-    context: Context
+    private val favoritesDao: FavoritesDao,
+    //context: Context
 ) {
-    private val recipesDatabase: AppDatabase = AppDatabase.getDatabase(context)
-    private val favoritesDao: FavoritesDao = recipesDatabase.favoritesDao()
+    //private val recipesDatabase: AppDatabase = AppDatabase.getDatabase(context)
+    //private val favoritesDao: FavoritesDao = recipesDatabase.favoritesDao()
 
     suspend fun getFavoriteFromCache(recipeId: Int): Int {
         return withContext(ioDispatcher) {

@@ -7,20 +7,29 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.IMAGE_CATEGORY_URL
 import com.sol.recipeapp.R
+import com.sol.recipeapp.RecipesApplication
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
+import com.sol.recipeapp.di.AppContainer
 
 class RecipeFragment : Fragment() {
-    private val viewModel: RecipeViewModel by viewModels()
+    private lateinit var viewModel: RecipeViewModel
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private val ingredientsAdapter = IngredientsAdapter()
     private val methodAdapter = MethodAdapter()
     private val args: RecipeFragmentArgs by navArgs()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val appContainer: AppContainer =
+            (requireActivity().application as RecipesApplication).appContainer
+        viewModel = appContainer.recipeViewModelFactory.create()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -1,18 +1,18 @@
 package com.sol.recipeapp.ui.recipes.favorites
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sol.recipeapp.data.FavoritesRepository
 import com.sol.recipeapp.data.Recipe
 import kotlinx.coroutines.launch
 
-class FavoritesViewModel(application: Application) : AndroidViewModel(application) {
+class FavoritesViewModel(
+    private val repository: FavoritesRepository
+) : ViewModel() {
     private val _favoritesState = MutableLiveData(FavoritesState())
     val favoritesState: LiveData<FavoritesState> = _favoritesState
-    private val repository = FavoritesRepository(context = application)
 
     fun loadFavoritesRecipes() {
         viewModelScope.launch {

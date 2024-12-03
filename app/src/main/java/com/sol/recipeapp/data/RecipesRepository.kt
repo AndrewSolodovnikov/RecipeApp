@@ -19,13 +19,14 @@ import java.io.IOException
 
 class RecipesRepository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
-    context: Context
+    private val categoriesDao: CategoriesDao,
+    private val recipesDao: RecipesDao,
 ) {
-    private val categoriesDatabase: AppDatabase = AppDatabase.getDatabase(context)
-    private val categoriesDao: CategoriesDao = categoriesDatabase.categoriesDao()
+    //private val categoriesDatabase: AppDatabase = AppDatabase.getDatabase(context)
+    //private val categoriesDao: CategoriesDao = categoriesDatabase.categoriesDao()
 
-    private val recipesDatabase: AppDatabase = AppDatabase.getDatabase(context)
-    private val recipesDao: RecipesDao = recipesDatabase.recipesDao()
+    //private val recipesDatabase: AppDatabase = AppDatabase.getDatabase(context)
+    //private val recipesDao: RecipesDao = recipesDatabase.recipesDao()
 
     suspend fun getCategoriesFromCache(): List<Category> {
         return withContext(ioDispatcher) {

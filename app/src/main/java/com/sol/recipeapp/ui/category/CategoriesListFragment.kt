@@ -6,15 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.sol.recipeapp.R
+import com.sol.recipeapp.RecipesApplication
 import com.sol.recipeapp.databinding.FragmentListCategoriesBinding
+import com.sol.recipeapp.di.AppContainer
 
 class CategoriesListFragment : Fragment() {
     private val binding by lazy { FragmentListCategoriesBinding.inflate(layoutInflater) }
-    private val viewModel: CategoriesListViewModel by viewModels()
+    private lateinit var categoriesListViewModel: CategoriesListViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val appContainer: AppContainer =
+            (requireActivity().application as RecipesApplication).appContainer
+        categoriesListViewModel = appContainer.categoryListViewModelFactory.create()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,15 +38,15 @@ class CategoriesListFragment : Fragment() {
     private fun initUI() {
         val customAdapter = CategoriesListAdapter(emptyList())
         binding.rvCategory.adapter = customAdapter
-        viewModel.loadCategory()
+        categoriesListViewModel.loadCategory()
 
         customAdapter.setOnItemClickListener(object : CategoriesListAdapter.OnItemClickListener {
             override fun onItemClick(categoryId: Int) {
-                viewModel.openRecipesByCategoryId(categoryId)
+                categoriesListViewModel.openRecipesByCategoryId(categoryId)
             }
         })
 
-        viewModel.categoriesListState.observe(viewLifecycleOwner) { state ->
+        categoriesListViewModel.categoriesListState.observe(viewLifecycleOwner) { state ->
             if (state.dataSet != null) {
                 customAdapter.updateData(state.dataSet)
             } else {
@@ -50,7 +58,7 @@ class CategoriesListFragment : Fragment() {
                 customAdapter.setOnItemClickListener(object :
                     CategoriesListAdapter.OnItemClickListener {
                     override fun onItemClick(categoryId: Int) {
-                        viewModel.openRecipesByCategoryId(categoryId)
+                        categoriesListViewModel.openRecipesByCategoryId(categoryId)
                     }
                 })
             } else {
@@ -59,7 +67,7 @@ class CategoriesListFragment : Fragment() {
                     CategoriesListFragmentDirections
                         .actionCategoriesListFragmentToRecipesListFragment(state.navigateToCategory)
                 )
-                viewModel.clearNavigation()
+                categoriesListViewModel.clearNavigation()
             }
         }
     }
