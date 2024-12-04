@@ -1,7 +1,6 @@
 package com.sol.recipeapp.di
 
 import com.sol.recipeapp.data.FavoritesRepository
-import com.sol.recipeapp.data.RecipesRepository
 import com.sol.recipeapp.ui.recipes.recipe.RecipeViewModel
 
 class RecipeViewModelFactory(

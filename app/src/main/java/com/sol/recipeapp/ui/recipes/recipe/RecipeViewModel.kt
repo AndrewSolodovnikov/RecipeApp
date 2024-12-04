@@ -1,13 +1,11 @@
 package com.sol.recipeapp.ui.recipes.recipe
 
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sol.recipeapp.data.FavoritesRepository
 import com.sol.recipeapp.data.Recipe
-import com.sol.recipeapp.data.RecipesRepository
 import kotlinx.coroutines.launch
 
 class RecipeViewModel(

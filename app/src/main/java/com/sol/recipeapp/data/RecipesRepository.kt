@@ -1,6 +1,5 @@
 package com.sol.recipeapp.data
 
-import android.content.Context
 import android.util.Log
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sol.recipeapp.BASE_URL
@@ -22,12 +21,6 @@ class RecipesRepository(
     private val categoriesDao: CategoriesDao,
     private val recipesDao: RecipesDao,
 ) {
-    //private val categoriesDatabase: AppDatabase = AppDatabase.getDatabase(context)
-    //private val categoriesDao: CategoriesDao = categoriesDatabase.categoriesDao()
-
-    //private val recipesDatabase: AppDatabase = AppDatabase.getDatabase(context)
-    //private val recipesDao: RecipesDao = recipesDatabase.recipesDao()
-
     suspend fun getCategoriesFromCache(): List<Category> {
         return withContext(ioDispatcher) {
             categoriesDao.getCategories()
