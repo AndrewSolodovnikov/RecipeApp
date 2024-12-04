@@ -7,17 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.sol.recipeapp.R
+import com.sol.recipeapp.RecipesApplication
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentFavoritesBinding
+import com.sol.recipeapp.di.AppContainer
 import com.sol.recipeapp.ui.recipes.recipeslist.RecipesListAdapter
 
 class FavoritesFragment : Fragment() {
     private val binding by lazy { FragmentFavoritesBinding.inflate(layoutInflater) }
-    private val viewModel: FavoritesViewModel by viewModels()
+    private lateinit var favoritesViewModel: FavoritesViewModel
     private val recipeListAdapter by lazy { RecipesListAdapter(emptyList()) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        val appContainer: AppContainer =
+            (requireActivity().application as RecipesApplication).appContainer
+        favoritesViewModel = appContainer.favoritesViewModelFactory.create()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +42,7 @@ class FavoritesFragment : Fragment() {
 
     private fun initUI() {
         binding.rvFavorites.adapter = recipeListAdapter
-        viewModel.loadFavoritesRecipes()
+        favoritesViewModel.loadFavoritesRecipes()
 
         recipeListAdapter.setOnItemClickListener(object : RecipesListAdapter.OnItemClickListener {
             override fun onItemClick(recipe: Recipe) {
@@ -41,7 +50,7 @@ class FavoritesFragment : Fragment() {
             }
         })
 
-        viewModel.favoritesState.observe(viewLifecycleOwner) { state ->
+        favoritesViewModel.favoritesState.observe(viewLifecycleOwner) { state ->
             if (state.dataSet?.isEmpty() == true) {
                 binding.tvFavoriteEmpty.visibility = View.VISIBLE
                 binding.rvFavorites.visibility = View.GONE

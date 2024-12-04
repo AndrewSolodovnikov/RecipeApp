@@ -1,19 +1,19 @@
 package com.sol.recipeapp.ui.recipes.recipeslist
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sol.recipeapp.data.Category
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.data.RecipesRepository
 import kotlinx.coroutines.launch
 
-class RecipeListViewModel(application: Application) : AndroidViewModel(application) {
+class RecipeListViewModel(
+    private val repository: RecipesRepository
+) : ViewModel() {
     private val _recipeListState = MutableLiveData(RecipeListState())
     val recipeListState: LiveData<RecipeListState> = _recipeListState
-    private val repository = RecipesRepository(context = application)
 
     fun loadRecipes(categoryId: Int) {
         viewModelScope.launch {
