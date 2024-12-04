@@ -15,12 +15,14 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import java.io.IOException
+import javax.inject.Inject
 
-class RecipesRepository(
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
+class RecipesRepository @Inject constructor(
     private val categoriesDao: CategoriesDao,
     private val recipesDao: RecipesDao,
 ) {
+    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+
     suspend fun getCategoriesFromCache(): List<Category> {
         return withContext(ioDispatcher) {
             categoriesDao.getCategories()

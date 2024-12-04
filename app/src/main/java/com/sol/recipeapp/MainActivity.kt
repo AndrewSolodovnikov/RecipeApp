@@ -1,26 +1,16 @@
 package com.sol.recipeapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.sol.recipeapp.data.Category
-import com.sol.recipeapp.data.RecipeApiService
 import com.sol.recipeapp.databinding.ActivityMainBinding
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaType
+import dagger.hilt.android.AndroidEntryPoint
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.create
-import java.net.URL
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val navOptions = NavOptions.Builder()
@@ -31,54 +21,11 @@ class MainActivity : AppCompatActivity() {
         .setPopExitAnim(R.anim.slide_out_right)
         .build()
 
-    private val threadPool: ExecutorService = Executors.newFixedThreadPool(10)
-    private lateinit var categoryObject: List<Category>
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        /*
-        threadPool.execute {
-            val converterType: MediaType = "application/json".toMediaType()
-            val retrofit: Retrofit = Retrofit.Builder()
-                .baseUrl("https://recipes.androidsprint.ru/api/")
-                .addConverterFactory(Json.asConverterFactory(converterType))
-                .build()
-
-            val service: RecipeApiService = retrofit.create(RecipeApiService::class.java)
-        }
-         */
-
-        /*
-        Log.i("!!!info", "Метод onCreate() выполняется на потоке: ${Thread.currentThread().name}")
-
-        threadPool.execute {
-            val client = createOkHttpClient()
-            val body = getJson("https://recipes.androidsprint.ru/api/category", client)
-
-            body?.let {
-                categoryObject = Json.decodeFromString(it)
-                Log.i("!!!info", "kotlinx serialization = $categoryObject")
-            }
-
-            val listIdsCategory: List<Int> = categoryObject.map { it.id }
-            Log.i("!!!info", "List ids category = $listIdsCategory")
-
-            listIdsCategory.forEach { id ->
-                threadPool.execute {
-                    val bodyCategoryRecipe: String? = getJson(
-                        "https://recipes.androidsprint.ru/api/category/$id/recipes", client
-                    )
-                    Log.i("!!!info", "Body category recipes [$id] = $bodyCategoryRecipe")
-                    Log.i("!!!info", "Name running thread = ${Thread.currentThread().name}")
-                }
-            }
-        }
-
-         */
 
         binding.navigationButtonCategory.setOnClickListener {
             findNavController(R.id.nav_host_fragment_container)

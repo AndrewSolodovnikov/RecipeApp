@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,24 +15,16 @@ import com.bumptech.glide.Glide
 import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.IMAGE_CATEGORY_URL
 import com.sol.recipeapp.R
-import com.sol.recipeapp.RecipesApplication
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentRecipesListBinding
-import com.sol.recipeapp.di.AppContainer
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class RecipesListFragment : Fragment() {
     private val binding by lazy { FragmentRecipesListBinding.inflate(layoutInflater) }
-    private lateinit var recipeListviewModel: RecipeListViewModel
+    private val recipeListviewModel: RecipeListViewModel by viewModels()
     private val args: RecipesListFragmentArgs by navArgs()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val appContainer: AppContainer =
-            (requireActivity().application as RecipesApplication).appContainer
-        recipeListviewModel = appContainer.recipeListViewModelFactory.create()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
