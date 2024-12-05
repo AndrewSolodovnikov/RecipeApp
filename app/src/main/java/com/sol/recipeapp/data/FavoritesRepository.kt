@@ -1,14 +1,14 @@
 package com.sol.recipeapp.data
 
+import com.sol.recipeapp.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class FavoritesRepository @Inject constructor(
     private val favoritesDao: FavoritesDao,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
     suspend fun getFavoriteFromCache(recipeId: Int): Int {
         return withContext(ioDispatcher) {

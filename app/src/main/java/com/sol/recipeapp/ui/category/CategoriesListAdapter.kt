@@ -20,7 +20,7 @@ class CategoriesListAdapter(private var dataSet: List<Category>) :
         fun onItemClick(categoryId: Int)
     }
 
-    var itemClickListener: OnItemClickListener? = null
+    private var itemClickListener: OnItemClickListener? = null
 
     fun setOnItemClickListener(listener: OnItemClickListener?) {
         itemClickListener = listener
@@ -50,19 +50,6 @@ class CategoriesListAdapter(private var dataSet: List<Category>) :
             .placeholder(R.drawable.img_placeholder)
             .error(R.drawable.img_error)
             .into(imageView)
-
-        //viewHolder.binding.itemCategoryImage.setImageDrawable(drawable)
-        /*
-        try {
-            val inputStream: InputStream? = viewHolder.itemView.context?.assets?.open(dataSet[position].imageUrl)
-            val drawable = Drawable.createFromStream(inputStream, null)
-            viewHolder.binding.itemCategoryImage.setImageDrawable(drawable)
-        } catch (e: Exception) {
-            Log.e("MyLogError", "Image ${dataSet[position].imageUrl} not found")
-        }
-
-         */
-
     }
 
     override fun getItemCount(): Int {

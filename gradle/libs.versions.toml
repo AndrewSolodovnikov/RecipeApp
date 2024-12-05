@@ -51,10 +51,9 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit2-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerializationConverter" }
 
 [plugins]
+dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "safeargs"}
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization"}
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp"}
-
-

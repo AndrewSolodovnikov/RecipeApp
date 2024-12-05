@@ -5,8 +5,8 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.RETROFIT_MEDIA_TYPE
 import com.sol.recipeapp.data.RetrofitInstance.service
+import com.sol.recipeapp.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType
@@ -20,8 +20,8 @@ import javax.inject.Inject
 class RecipesRepository @Inject constructor(
     private val categoriesDao: CategoriesDao,
     private val recipesDao: RecipesDao,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) {
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
     suspend fun getCategoriesFromCache(): List<Category> {
         return withContext(ioDispatcher) {
