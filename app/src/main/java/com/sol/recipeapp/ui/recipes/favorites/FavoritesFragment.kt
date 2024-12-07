@@ -7,26 +7,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.sol.recipeapp.R
-import com.sol.recipeapp.RecipesApplication
 import com.sol.recipeapp.data.Recipe
 import com.sol.recipeapp.databinding.FragmentFavoritesBinding
-import com.sol.recipeapp.di.AppContainer
 import com.sol.recipeapp.ui.recipes.recipeslist.RecipesListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FavoritesFragment : Fragment() {
     private val binding by lazy { FragmentFavoritesBinding.inflate(layoutInflater) }
-    private lateinit var favoritesViewModel: FavoritesViewModel
+    private val favoritesViewModel: FavoritesViewModel by viewModels()
     private val recipeListAdapter by lazy { RecipesListAdapter(emptyList()) }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val appContainer: AppContainer =
-            (requireActivity().application as RecipesApplication).appContainer
-        favoritesViewModel = appContainer.favoritesViewModelFactory.create()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

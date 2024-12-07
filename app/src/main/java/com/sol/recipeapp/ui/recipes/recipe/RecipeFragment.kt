@@ -7,17 +7,18 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.sol.recipeapp.BASE_URL
 import com.sol.recipeapp.IMAGE_CATEGORY_URL
 import com.sol.recipeapp.R
-import com.sol.recipeapp.RecipesApplication
 import com.sol.recipeapp.databinding.FragmentRecipeBinding
-import com.sol.recipeapp.di.AppContainer
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RecipeFragment : Fragment() {
-    private lateinit var viewModel: RecipeViewModel
+    private val recipeViewModel: RecipeViewModel by viewModels()
     private val binding by lazy { FragmentRecipeBinding.inflate(layoutInflater) }
     private val ingredientsAdapter = IngredientsAdapter()
     private val methodAdapter = MethodAdapter()
@@ -26,9 +27,12 @@ class RecipeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        /*
         val appContainer: AppContainer =
             (requireActivity().application as RecipesApplication).appContainer
         viewModel = appContainer.recipeViewModelFactory.create()
+
+         */
     }
 
     override fun onCreateView(
@@ -47,16 +51,16 @@ class RecipeFragment : Fragment() {
 
     private fun initUI() {
         binding.btnFavorite.setOnClickListener {
-            viewModel.onFavoriteClicked()
+            recipeViewModel.onFavoriteClicked()
         }
 
         val recipeArgs = args.recipe
-        viewModel.loadRecipe(recipeArgs)
+        recipeViewModel.loadRecipe(recipeArgs)
 
         binding.rvIngredients.adapter = ingredientsAdapter
         binding.rvMethod.adapter = methodAdapter
 
-        viewModel.recipeState.observe(viewLifecycleOwner) { state ->
+        recipeViewModel.recipeState.observe(viewLifecycleOwner) { state ->
             val recipe = state.recipe
             recipe?.let {
                 binding.tvRecipesHeaderTitle.text = recipe.title
@@ -89,7 +93,7 @@ class RecipeFragment : Fragment() {
     private fun initSeekBar() {
         binding.seekbarRecipe.setOnSeekBarChangeListener(
             PortionSeekBarListener { progress ->
-                viewModel.updatePortionCount(progress)
+                recipeViewModel.updatePortionCount(progress)
             }
         )
     }
